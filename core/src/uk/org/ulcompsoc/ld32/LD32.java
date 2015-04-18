@@ -81,7 +81,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(Position.fromPolar(map.radius + 5.0f, 0.0f));
 		paddle.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER))));
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
-		paddle.add(new SphericalBound(64f));
+		paddle.add(new SphericalBound(20));
 		paddle.add(new Scalable(0.25f));
 		paddle.add(new Paddle());
 
@@ -113,9 +113,11 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
 		engine.addSystem(new DoomedSystem(100000));
 
+		engine.addSystem(new SphericalCollisionSystem(2,new Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, map.radius) ));
+
 		//engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
-		//engine.addSystem(new AtomMovementSystem(new Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, map.radius), 2));
+		engine.addSystem(new AtomMovementSystem(new Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, map.radius), 2));
 	}
 
 	@Override
@@ -175,7 +177,7 @@ public class LD32 extends ApplicationAdapter {
 		Renderable r = new Renderable(Color.CYAN, 10.0f);
 
 		e.add(r);
-		e.add(new SphericalBound(10.0f));
+		e.add(new SphericalBound(50.0f));
 		e.add(new Velocity(1f,1f));
 		e.add(new Atom());
 

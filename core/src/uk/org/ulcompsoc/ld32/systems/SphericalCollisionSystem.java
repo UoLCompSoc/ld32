@@ -2,9 +2,9 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.ArrayList;
 
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.SphericalBound;
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector2;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.ComponentMapper;
@@ -24,13 +24,15 @@ public class SphericalCollisionSystem extends EntitySystem {
 	private ComponentMapper<Position> posMapper = null;
 	private ComponentMapper<Renderable> renderMapper = null;
 	private ComponentMapper<SphericalBound> boundMapper = null;
+	private Circle                      outerBorder	= null;
 
-	public SphericalCollisionSystem(int priority) {
+	public SphericalCollisionSystem(int priority, Circle outerBorder) {
 		super(priority);
 
 		posMapper = Mappers.positionMapper;
 		renderMapper = Mappers.renderableMapper;
 		boundMapper = Mappers.sphericalBoundsMapper;
+		this.outerBorder = outerBorder;
 	}
 
 	@Override
@@ -77,8 +79,31 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 				// Collision
 				if (oneCircle.overlaps(otherCircle)) {
-					System.out.println("COLLSION DETECTED");
-					Mappers.atomMapper.get(entities.get(i));
+
+					Atom atom = Mappers.atomMapper.get(entities.get(j));
+
+					if(atom != null) {
+						System.out.println("atom found");
+
+						Position p = Mappers.positionMapper.get(entities.get(j));
+						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
+
+						if(p.getY() > outerBorder.radius) {
+							v.y = -v.y;
+
+							System.out.println("test");
+						} else if(p.getX() > outerBorder.radius /2) {
+							v.x = -v.x;
+							System.out.println("test2");
+						} else if(p.getY() < -outerBorder.radius/2) {
+							v.y = -v.y;
+							System.out.println("reached2");
+						} else if(p.getX() < -outerBorder.radius /2) {
+							v.x = -v.x;
+						}
+
+
+					}
 				}
 			}
 		}
