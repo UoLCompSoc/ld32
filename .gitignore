@@ -64,3 +64,5 @@ build/
 .DS_Store
 core/src/uk/org/ulcompsoc/ld32/components/Health.java
 core/src/uk/org/ulcompsoc/ld32/components/DamageRange.java
+core/src/uk/org/ulcompsoc/ld32/components/DropChance.java
+core/src/uk/org/ulcompsoc/ld32/components/Item.java
