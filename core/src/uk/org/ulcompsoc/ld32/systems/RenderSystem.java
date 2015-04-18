@@ -25,7 +25,7 @@ public class RenderSystem extends IteratingSystem {
 	@Override
 	public void update(float deltaTime) {
 		renderer.setProjectionMatrix(camera.combined);
-		renderer.begin(ShapeType.Line);
+		renderer.begin(ShapeType.Filled);
 
 		super.update(deltaTime);
 
@@ -37,8 +37,8 @@ public class RenderSystem extends IteratingSystem {
 		final Position p = Mappers.positionMapper.get(entity);
 		final Renderable r = Mappers.renderableMapper.get(entity);
 
-		final float w = 128.0f;
-		final float h = 32.0f;
+		final float w = 5.0f;
+		final float h = 5.0f;
 
 		renderer.setColor(r.color);
 		renderer.rect(p.position.x - (w / 2.0f), p.position.y - (h / 2.0f), w, h);
