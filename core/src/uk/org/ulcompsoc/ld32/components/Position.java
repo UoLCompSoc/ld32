@@ -29,6 +29,18 @@ public class Position extends Component {
 		return position.y;
 	}
 
+	public void setX(float x) {
+		position.x = x;
+
+		setPolar((float) Math.sqrt(position.x*position.x + position.y*position.y), (float) Math.atan2(position.y, position.x));
+	}
+
+	public void setY(float y) {
+		position.y = y;
+
+		setPolar((float) Math.sqrt(position.x*position.x + position.y*position.y), (float) Math.atan2(position.y, position.x));
+	}
+
 	public Position translatePolarDistance(float r) {
 		this.r += r;
 		isPolarDirty = true;
