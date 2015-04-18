@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 /**
  * Created by Samy Narrainen on 18/04/2015.
  */
-public class AudioManager extends Thread implements Disposable {
+public class AudioManager implements Disposable {
 	private static final float DEFAULT_VOLUME = 0.25f;
 	// Will only work with the queue if the AudioManager is active.
 	private static final boolean ACTIVE = true;
@@ -88,26 +88,20 @@ public class AudioManager extends Thread implements Disposable {
 		playing.remove(loadedAudio.get(key));
 	}
 
-	@Override
 	public void run() {
-		try {
-			while (ACTIVE) {
-				if (playing.isEmpty() || playing.peek().isPlaying()) {
-					Thread.sleep(50);
-				} else {
-					// It's done
-					playing.remove(); // README used to pause here, but this
-					                  // could conflict new methods
 
-					// play the next
-					if (!playing.isEmpty()) {
-						(playing.peek()).play();
-					}
-				}
+		if (playing.isEmpty() || playing.peek().isPlaying()) {
+			System.out.println("IS EMPTY INTERL");
+		} else {
+			// It's done
+			playing.remove(); // README used to pause here, but this
+			                  // could conflict new methods
 
+			System.out.println("IS DOING INTERL");
+			// play the next
+			if (!playing.isEmpty()) {
+				(playing.peek()).play();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

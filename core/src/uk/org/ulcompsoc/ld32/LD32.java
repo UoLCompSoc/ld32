@@ -113,6 +113,8 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
 		engine.addSystem(new DoomedSystem(100000));
 
+		engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
+
 		//engine.addSystem(new AtomMovementSystem(new Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, map.radius), 2));
 	}
 
@@ -146,13 +148,12 @@ public class LD32 extends ApplicationAdapter {
 		}
 	}
 
-	public void audioTest() {
+	public AudioManager audioTest() {
 		HashMap<String, String> files = new HashMap<String, String>();
 		files.put("drop", "data/drop.mp3");
 		files.put("woosh", "data/woosh.mp3");
 
 		AudioManager x = new AudioManager(files);
-		x.start();
 
 		x.queue("drop");
 		x.queue("drop");
@@ -163,7 +164,8 @@ public class LD32 extends ApplicationAdapter {
 		x.queue("drop");
 		x.clear("woosh");
 
-		x.dispose();
+
+		return x;
 	}
 
 	public Entity makeAtom() {
