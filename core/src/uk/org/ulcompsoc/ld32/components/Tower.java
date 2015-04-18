@@ -1,9 +1,12 @@
 package uk.org.ulcompsoc.ld32.components;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.components.Upgrade.UpgradeType;
 
 import com.badlogic.ashley.core.Component;
 
@@ -21,6 +24,10 @@ public class Tower extends Component {
 	public int greenBalls;
 
 	public List<RingSegment> listOfPointsToScan;
+	private Upgrade red;
+	private Upgrade blue;
+	private Upgrade green;
+	private Set<Upgrade> combinations;
 
 	public Tower() {
 		this.range = Tower.DFLT_RANGE;
@@ -30,8 +37,52 @@ public class Tower extends Component {
 		this.redBalls = 0;
 		this.blueBalls = 0;
 		this.greenBalls = 0;
-
+		
+		red = null;
+		blue = null;
+		green = null;
+		
+		combinations = new HashSet<Upgrade>();
 		listOfPointsToScan = new ArrayList<RingSegment>();
 	}
+	
+	// set the upgrade of the blue component
+	public boolean setBlueUpgrade() {
+		if(blueBalls < 5) {
+			return false;
+		}
+		blueBalls = blueBalls -5;
+		
+		if(blue == null) {
+			blue = new Upgrade(UpgradeType.DAMAGE_PLUS);
+			return true;
+		}
+		
+		switch(blue.getUpgradeType()) {
+			case DAMAGE_PLUS: {
+				blue = new Upgrade(Upgrade.UpgradeType.SNIPER);
+				
+			/*	if(red.getUpgradeType() == Upgrade.UpgradeType.BALL_NUMBER_PLUS_1) {
+					combinations.add(new Upgrade(Upgrade.UpgradeType.BALL_CHARGE));
+				} */
+				break;
+			}
+			
+			case SNIPER: {
+				blue = new Upgrade(UpgradeType.MORTAR);
+				break;
+			}
+			
+		/*	case MORTAR: {
+				blue = new Upgrade(UpgradeType.DOUBLE_SHOT);
+				break;
+			} */
+			
+			default: return false;
+		}
+		return true;
+	}
+	
+	
 	
 }
