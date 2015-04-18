@@ -13,3 +13,6 @@ Themes:
 Ball has interactions with world objects, positive and negative
 
 "It's Tower Defense, but with an optional extra real-time reaction element"
+
+Tower sprites: [tower.zip](http://sgtcodfish.com/static/tower.zip).
+
