@@ -8,16 +8,18 @@ import com.badlogic.ashley.core.Component;
 public abstract class Upgrade extends Component{
 	
 	public static enum UpgradeRoute {
-		RED, GREEN, BLUE, REDGREEN, REDBLUE, GREENBLUE, ASCENDED;
+		RED, GREEN, BLUE, ASCENDED, //single
+		REDGREEN, REDBLUE, REDRED, GREENBLUE, BLUEBLUE, GREENGREEN, //double  
+		REDGREENBLUE;
 	}
 	
-	public float dmg;
-	public float time;
-	public float drops;
-	public float costs;
-	public int simultanousFire;
-	public int stage;
-	public UpgradeRoute type;
+	protected float dmg;
+	protected float time;
+	protected float drops;
+	protected float costs;
+	protected int simultanousFire;
+	protected int stage;
+	protected UpgradeRoute type;
 	
 	public Upgrade(){
 		
@@ -57,5 +59,9 @@ public abstract class Upgrade extends Component{
 	
 	public int getStage() {
 		return stage;
+	}
+	
+	public UpgradeRoute getType() {
+		return type;
 	}
 }

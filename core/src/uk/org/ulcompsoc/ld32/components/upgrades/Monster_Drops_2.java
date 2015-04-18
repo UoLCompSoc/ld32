@@ -10,5 +10,6 @@ public class Monster_Drops_2 extends Upgrade {
 		this.costs = 0.95f;
 		this.simultanousFire = 0;
 		this.stage = 2;
+		this.type = UpgradeRoute.GREEN;
 	}
 }
