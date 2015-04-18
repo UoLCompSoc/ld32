@@ -39,7 +39,7 @@ public class CircleMap {
 			for (int segmentIndex = 0; segmentIndex < segmentCount; ++segmentIndex) {
 				currentRing[segmentIndex] = new RingSegment(ringRadius - ringHeight / 2.0f, segmentIndex * segmentSize,
 				        segmentSize);
-
+				setEuclideanCoordinates(currentRing[segmentIndex]);
 				if (segmentIndex != 0) {
 					currentRing[segmentIndex].previous = currentRing[segmentIndex - 1];
 				} else if (i != 0) {
@@ -61,6 +61,18 @@ public class CircleMap {
 				}
 			}
 		}
+	}
+	private void setEuclideanCoordinates(RingSegment segment){
+		float x1 = (float) (segment.middleR*Math.cos(segment.startPhi+segment.widthInRadians));
+		float y1 = (float) (segment.middleR*Math.sin(segment.startPhi+segment.widthInRadians));
+		float x2 = (float) (segment.middleR*Math.cos(segment.startPhi));
+		float y2 = (float) (segment.middleR*Math.sin(segment.startPhi));
+		
+		segment.euclideanPositions[0] = x1;
+		segment.euclideanPositions[1] = y1;
+		segment.euclideanPositions[2] = x2;
+		segment.euclideanPositions[3] = y2;
+		
 	}
 
 	public RingSegment getFirstSegment() {

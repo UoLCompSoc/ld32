@@ -47,19 +47,6 @@ public class AtomMovementSystem extends IteratingSystem {
         p.setX(p.getX() + v.x);
         p.setY(p.getY() + v.y);
 
-        if(p.getY() > outerBorder.radius) {
-            v.y = -v.y;
-
-            System.out.println("test");
-        } else if(p.getX() > outerBorder.radius /2) {
-            v.x = -v.x;
-            System.out.println("test2");
-        } else if(p.getY() < -outerBorder.radius/2) {
-            v.y = -v.y;
-            System.out.println("reached2");
-        } else if(p.getX() < -outerBorder.radius /2) {
-            v.x = -v.x;
-        }
 
 
     }
