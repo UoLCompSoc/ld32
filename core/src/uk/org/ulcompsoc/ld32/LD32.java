@@ -3,6 +3,7 @@ package uk.org.ulcompsoc.ld32;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
+import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Engine;
@@ -13,6 +14,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+
+import java.util.HashMap;
 
 public class LD32 extends ApplicationAdapter {
 	private final Engine engine;
@@ -45,6 +48,8 @@ public class LD32 extends ApplicationAdapter {
 		}
 
 		engine.addSystem(new RenderSystem(10000, camera));
+
+		audioTest();
 	}
 
 	@Override
@@ -67,5 +72,23 @@ public class LD32 extends ApplicationAdapter {
 
 		camera.update();
 		engine.update(deltaTime);
+	}
+
+
+	public void audioTest() {
+		HashMap<String, String> files = new HashMap<String, String>();
+		files.put("drop", "data/drop.mp3");
+
+		AudioManager x = new AudioManager(files);
+		x.start();
+
+
+		x.queue("drop");
+		x.queue("drop");
+		x.queue("drop");
+		x.queue("drop");
+		x.queue("drop");
+
+
 	}
 }
