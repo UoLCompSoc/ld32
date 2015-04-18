@@ -16,8 +16,8 @@ public class AudioManager extends Thread {
     //Will only work with the queue if the AudioManager is active.
     private static final boolean ACTIVE = true;
 	//Hashmap allows us to play audio given the audio name, more meaningful
-	private HashMap<String, Music> loadedAudio = new HashMap<>();
-	private Queue<Music> playing = new LinkedList<>();
+	private HashMap<String, Music> loadedAudio = new HashMap<String,Music>();
+	private Queue<Music> playing = new LinkedList<Music>();
 
 
 	public AudioManager(HashMap<String, String> files) {
