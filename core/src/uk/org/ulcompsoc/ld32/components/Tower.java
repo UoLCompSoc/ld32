@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.upgrade.Upgrade;
+import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade;
 
 import com.badlogic.ashley.core.Component;
 
@@ -23,7 +23,7 @@ public class Tower extends Component {
 	public int blueBalls; // heeeeeeeyooooo :D
 	public int greenBalls;
 
-	public List<RingSegment> listOfPointsToScan;
+/*	public List<RingSegment> listOfPointsToScan;
 	private Upgrade red;
 	private Upgrade blue;
 	private Upgrade green;
@@ -125,5 +125,5 @@ public class Tower extends Component {
 		// Upgrade.getAllUpgradesForStage(redGreenStage, true) {
 		// if(redGreenCombos.)
 		// }
-	}
+	} */
 }
