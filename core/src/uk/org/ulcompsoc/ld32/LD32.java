@@ -17,6 +17,8 @@ import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
+import uk.org.ulcompsoc.ld32.util.TextureManager;
+import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -28,11 +30,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class LD32 extends ApplicationAdapter {
 	private final Engine engine;
 	private final OrthographicCamera camera;
+
+	private final TextureManager textureManager;
 
 	private final Entity paddle = new Entity();
 
@@ -41,13 +46,10 @@ public class LD32 extends ApplicationAdapter {
 	private final CircleMap map;
 	private final Entity mapEntity = new Entity();
 
-	
 	private final Entity tower = new Entity();
-
 
 	private ShapeRenderer shapeRenderer = null;
 	private Batch spriteBatch = null;
-
 
 	public LD32() {
 		super();
@@ -55,6 +57,7 @@ public class LD32 extends ApplicationAdapter {
 		this.engine = new Engine();
 		this.camera = new OrthographicCamera();
 		this.map = new CircleMap(120.0f, 5);
+		this.textureManager = new TextureManager();
 	}
 
 	@Override
@@ -67,6 +70,7 @@ public class LD32 extends ApplicationAdapter {
 
 		this.shapeRenderer = new ShapeRenderer();
 		this.spriteBatch = new SpriteBatch();
+		this.textureManager.load();
 
 		paddle.add(Position.fromPolar(map.radius + 5.0f, 0.0f));
 		paddle.add(new Renderable(Color.YELLOW, 64.0f));
@@ -78,9 +82,9 @@ public class LD32 extends ApplicationAdapter {
 		enemy.add(new Renderable(Color.BLUE, 32.0f));
 		enemy.add(new PathFollower(firstSegment));
 		engine.addEntity(enemy);
-		
+
 		tower.add(Position.fromPolar(map.radius, LDUtil.PI));
-		tower.add(new Renderable(Color.BLACK, 10.0f));
+		tower.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER))));
 		tower.add(new Tower());
 		tower.add(new Upgradable());
 		engine.addEntity(tower);
@@ -107,6 +111,25 @@ public class LD32 extends ApplicationAdapter {
 		engine.update(deltaTime);
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		engine.removeAllEntities();
+
+		textureManager.dispose();
+
+		if (shapeRenderer != null) {
+			shapeRenderer.dispose();
+			shapeRenderer = null;
+		}
+
+		if (spriteBatch != null) {
+			spriteBatch.dispose();
+			spriteBatch = null;
+		}
+	}
+
 	public void audioTest() {
 		HashMap<String, String> files = new HashMap<String, String>();
 		files.put("drop", "data/drop.mp3");
@@ -123,5 +146,7 @@ public class LD32 extends ApplicationAdapter {
 		x.queue("drop");
 		x.queue("drop");
 		x.clear("woosh");
+
+		x.dispose();
 	}
 }

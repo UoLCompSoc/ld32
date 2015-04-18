@@ -6,12 +6,12 @@ import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * Created by Samy Narrainen on 18/04/2015.
  */
-public class AudioManager extends Thread {
-
+public class AudioManager extends Thread implements Disposable {
 	private static final float DEFAULT_VOLUME = 0.25f;
 	// Will only work with the queue if the AudioManager is active.
 	private static final boolean ACTIVE = true;
@@ -97,7 +97,7 @@ public class AudioManager extends Thread {
 				} else {
 					// It's done
 					playing.remove(); // README used to pause here, but this
-									  // could conflict new methods
+					                  // could conflict new methods
 
 					// play the next
 					if (!playing.isEmpty()) {
@@ -111,4 +111,13 @@ public class AudioManager extends Thread {
 		}
 	}
 
+	@Override
+	public void dispose() {
+		for (final Music music : loadedAudio.values()) {
+			music.dispose();
+		}
+
+		loadedAudio.clear();
+		playing.clear();
+	}
 }
