@@ -62,3 +62,5 @@ build/
 
 ## OS Specific
 .DS_Store
+core/src/uk/org/ulcompsoc/ld32/components/Health.java
+core/src/uk/org/ulcompsoc/ld32/components/DamageRange.java
