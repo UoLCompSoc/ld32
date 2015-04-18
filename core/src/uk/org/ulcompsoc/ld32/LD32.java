@@ -75,6 +75,7 @@ public class LD32 extends ApplicationAdapter {
 	public void audioTest() {
 		HashMap<String, String> files = new HashMap<String, String>();
 		files.put("drop", "data/drop.mp3");
+		files.put("woosh", "data/woosh.mp3");
 
 		AudioManager x = new AudioManager(files);
 		x.start();
@@ -82,7 +83,10 @@ public class LD32 extends ApplicationAdapter {
 		x.queue("drop");
 		x.queue("drop");
 		x.queue("drop");
+		//x.loop("woosh");
+		x.queue("woosh");
 		x.queue("drop");
 		x.queue("drop");
+		x.clear("woosh");
 	}
 }
