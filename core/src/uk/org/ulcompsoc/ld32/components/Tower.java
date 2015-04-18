@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.Upgrade.UpgradeType;
+import uk.org.ulcompsoc.ld32.components.upgrade.Upgrade;
+import uk.org.ulcompsoc.ld32.components.upgrade.Upgrade.UpgradeType;
 
 import com.badlogic.ashley.core.Component;
 
@@ -68,10 +69,10 @@ public class Tower extends Component {
 				break;
 			}
 			
-		/*	case MORTAR: {
+			case MORTAR: {
 				blue = new Upgrade(UpgradeType.DOUBLE_SHOT);
 				break;
-			} */
+			}
 			
 			default: return false;
 		}
@@ -102,18 +103,25 @@ public class Tower extends Component {
 		return false;
 	}
 	
-/*	public void updateCombos() {
-		int redStage = red.getStage();
-		int blueStage = blue.getStage();
-		int greenStage = green.getStage();
+	public void updateCombos() {
+		int redStage = red.stage;
+		int blueStage = blue.stage;
+		int greenStage = green.stage;
 		
 		Upgrade.UpgradeType[] blueRedCombs = {Upgrade.UpgradeType.BALL_CHARGE, 
-				Upgrade.UpgradeType.BALL_EFFECT, Upgrade.UpgradeType.BALL_DAMAGE_ENEMIES};
+				Upgrade.UpgradeType.BALL_EFFECT_PLUS, Upgrade.UpgradeType.BALL_DAMAGES_ENEMIES};
 		
-		Upgrade.UpgradeType redGreenCombos = {Upgrade.UpgradeType.BALL_GIVE_DROPS, 
+		Upgrade.UpgradeType[] redGreenCombos = {Upgrade.UpgradeType.BALLS_GIVE_DROPS_3, 
 				Upgrade.UpgradeType.BALL_SPLITS, Upgrade.UpgradeType.ALL_IN_AOE};
-		Upgrade.UpgradeType blueGreenCombos = {Upgrade.UpgradeType.DOUBLE_SHOT, Upgrade.UpgradeType.QUICK_TOWER};
 		
+		Upgrade.UpgradeType[] blueGreenCombos = {Upgrade.UpgradeType.DOUBLE_SHOT, Upgrade.UpgradeType.QUICK_TOWER};
 		
-	} */
+		int blueRedStage = Math.min(redStage, blueStage);
+		int redGreenStage = Math.min(redStage, greenStage);
+		int blueGreenStage = Math.min(blueStage, greenStage);
+			
+		for(Upgrade.UpgradeType ut : Upgrade.getAllUpgradesForStage(redGreenStage, true) {
+			if(redGreenCombos.)
+		}
+	}
 }

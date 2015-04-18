@@ -1,4 +1,4 @@
-package uk.org.ulcompsoc.ld32.components;
+package uk.org.ulcompsoc.ld32.components.upgrade;
 
 import com.badlogic.ashley.core.Component;
 
