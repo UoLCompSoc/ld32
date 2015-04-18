@@ -2,7 +2,7 @@ package uk.org.ulcompsoc.ld32.components.upgrades;
 
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 
-public class Damage_Plus {
+public class Damage_Plus extends Upgrade{
 	
 	public final float dmg;
 	public final float time;
