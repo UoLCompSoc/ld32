@@ -1,43 +1,47 @@
 package uk.org.ulcompsoc.ld32.components;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.ashley.core.Component;
 
 public class Upgrade extends Component{
 
 	
 	public float dmgMultiplier, timeDelayFiringMultiplier, dropsMultiplier, costMultiplier; 
-	int numberOfFiresToIncreaseBy, stage;
+	public int numberOfFiresToIncreaseBy, stage;
+	public boolean partOfCombo;
 	public static enum UpgradeType {
 
-		DAMAGE_PLUS(1.1f, 1.0f,1.0f,1.0f, 0, 1), 
-		SNIPER(1.2f, 0.8f, 1.0f, 1.0f, 0, 2),
-		MORTAR(1.3f, 0.7f, 1.0f, 1.0f, 0, 3), // pure blue
+		DAMAGE_PLUS(1.1f, 1.0f,1.0f,1.0f, 0, 1, false), 
+		SNIPER(1.2f, 0.8f, 1.0f, 1.0f, 0, 2, false),
+		MORTAR(1.3f, 0.7f, 1.0f, 1.0f, 0, 3, false), // pure blue
 		
-		BALL_DAMAGES_ENEMIES(1.15f, 0.9f, 1.0f, 1.0f, 1, 3),
-		DOUBLE_SHOT(1.15f, 0.8f, 1.1f, 0.8f, 0, 3),
-		BALL_EFFECT_PLUS(1.1f, 1.1f, 1.0f, 1.0f, 0, 3),
-		ALL_IN_AOE(1.05f, 1.05f, 1.05f, 0.95f, 1, 3),
-		BALLS_GIVE_DROPS_3(1.05f, 1f, 1f,1f, 1, 3),
-		BALL_SPLITS(1f, 1.05f, 1.1f,0.90f, 1, 3),
-		FIRE_DELAY(1.1f, 1f, 1.1f, 0.9f, 0, 3),
+		BALL_DAMAGES_ENEMIES(1.15f, 0.9f, 1.0f, 1.0f, 1, 3, true),
+		DOUBLE_SHOT(1.15f, 0.8f, 1.1f, 0.8f, 0, 3, true),
+		BALL_EFFECT_PLUS(1.1f, 1.1f, 1.0f, 1.0f, 0, 3, true),
+		ALL_IN_AOE(1.05f, 1.05f, 1.05f, 0.95f, 1, 3, true),
+		BALLS_GIVE_DROPS_3(1.05f, 1f, 1f,1f, 1, 3, true),
+		BALL_SPLITS(1f, 1.05f, 1.1f,0.90f, 1, 3, true),
+		FIRE_DELAY(1.1f, 1f, 1.1f, 0.9f, 0, 3, true),
 		
-		BALL_CHARGE(1.1f, 1.0f, 1.0f, 1.0f, 0, 2),
-		QUICK_TOWER(1.1f, 1.4f, 1.0f, 1.0f, 0, 2),
-		BALLS_GIVE_DROPS_2(1.0f, 1.0f, 1.2f, 0.8f, 0, 2),
+		BALL_CHARGE(1.1f, 1.0f, 1.0f, 1.0f, 0, 2, true),
+		QUICK_TOWER(1.1f, 1.4f, 1.0f, 1.0f, 0, 2, true),
+		BALLS_GIVE_DROPS_2(1.0f, 1.0f, 1.2f, 0.8f, 0, 2, true),
 		
 		
-		BALL_NUMBER_PLUS_1(1.0f, 1.0f, 1.0f, 1.0f, 1, 1), 
-		BALL_NUMBER_PLUS_2(1.0f, 1.0f, 1.0f, 1.0f, 1, 2), 
-		BALL_NUMBER_PLUS_3(1.0f, 1.0f, 1.0f, 1.0f, 1, 3),
+		BALL_NUMBER_PLUS_1(1.0f, 1.0f, 1.0f, 1.0f, 1, 1, false), 
+		BALL_NUMBER_PLUS_2(1.0f, 1.0f, 1.0f, 1.0f, 1, 2, false), 
+		BALL_NUMBER_PLUS_3(1.0f, 1.0f, 1.0f, 1.0f, 1, 3, false),
 
 		// pure red - since there are three stages of the number of Balls I
 		// thought its worth keeping it that way
 
-		MONSTER_DROPS_1(1.0f, 1.0f, 1.1f, 1.0f, 0, 1),
-		MONSTER_DROPS_2(1.0f, 1.0f, 1.1f, 1.0f, 0, 2),
-		UPGRADE_COSTS(1.0f, 1.0f, 1.0f, 0.9f, 0, 3), // pure green
+		MONSTER_DROPS_1(1.0f, 1.0f, 1.1f, 1.0f, 0, 1, false),
+		MONSTER_DROPS_2(1.0f, 1.0f, 1.1f, 1.0f, 0, 2, false),
+		UPGRADE_COSTS(1.0f, 1.0f, 1.0f, 0.9f, 0, 3, false), // pure green
 		
-		ASCENDED_TOWER_UPGRADE(2.0f, 2.0f, 2.0f, 2.0f, 0, 4);
+		ASCENDED_TOWER_UPGRADE(2.0f, 2.0f, 2.0f, 2.0f, 0, 4, false);
 		
 		public final float dmg;
 		public final float time;
@@ -47,12 +51,14 @@ public class Upgrade extends Component{
 		public int numberOfSimoultaniousMissiles; // this should be addedto the number of missles fired simoultaiounsly 
 		
 		public int stage;
-		UpgradeType(float _dmg, float _time, float _drops, float _costs, int _number, int _stage){
+		public boolean comb;
+		UpgradeType(float _dmg, float _time, float _drops, float _costs, int _number, int _stage, boolean _comb){
 			this.dmg = _dmg;
 			this.time = _time;
 			this.drops = _drops;
 			this.costs = _costs;
 			this.stage = _stage;
+			this.comb = _comb;
 		}
 	}
 	
@@ -70,12 +76,30 @@ public class Upgrade extends Component{
 		this.dropsMultiplier = upgradeType.drops;
 		this.timeDelayFiringMultiplier = upgradeType.time;
 		this.numberOfFiresToIncreaseBy = upgradeType.numberOfSimoultaniousMissiles;
-		this.upgradetype = upgradeType;
+		this.upgradetype = upgradeType; // this line may be deleted
 		this.stage = upgradeType.stage;
+		this.partOfCombo = upgradeType.comb;
 		
 	}
 	
 	public UpgradeType getUpgradeType(){
 		return this.upgradetype;
 	}
+	public static List<Upgrade.UpgradeType> UpgradesAtAndLowerThan(int level){
+		List<Upgrade.UpgradeType> toReturn = new ArrayList<Upgrade.UpgradeType>();
+		for(UpgradeType ut : UpgradeType.values()){
+			if(ut.stage<=level){
+				toReturn.add(ut);
+			}
+		}
+		return toReturn;
+	}
+/*	public static List<Upgrade.UpgradeType> getUpgradesForStage(int stage, boolean combOnly){
+		List<Upgrade.UpgradeType> toReturn = new ArrayList<Upgrade.UpgradeType>();
+		for(UpgradeType ut: UpgradeType.values()){
+			
+		}
+	}*/
+
+	
 }
