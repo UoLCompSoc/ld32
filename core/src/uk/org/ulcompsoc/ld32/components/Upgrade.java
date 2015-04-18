@@ -28,7 +28,7 @@ public class Upgrade extends Component {
 		public float drops;
 		public float costs;
 
-		public int numberOfSimoultaniousMissiles; // this should be addedto the number of missles fired simoultaiounsly 
+		public int numberOfSimoultaniousMissiles; // this should be added to the number of missiles fired simoultaiounsly 
 		
 		UpgradeType(float _dmg, float _time, float _drops, float _costs, int number){
 			this.dmg = _dmg;
