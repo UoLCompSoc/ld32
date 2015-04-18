@@ -98,9 +98,11 @@ public class Tower extends Component {
 			
 			default: return false;
 		}
+		
+		return false;
 	}
 	
-	public void updateCombos() {
+/*	public void updateCombos() {
 		int redStage = red.getStage();
 		int blueStage = blue.getStage();
 		int greenStage = green.getStage();
@@ -113,5 +115,5 @@ public class Tower extends Component {
 		Upgrade.UpgradeType blueGreenCombos = {Upgrade.UpgradeType.DOUBLE_SHOT, Upgrade.UpgradeType.QUICK_TOWER};
 		
 		
-	}
+	} */
 }
