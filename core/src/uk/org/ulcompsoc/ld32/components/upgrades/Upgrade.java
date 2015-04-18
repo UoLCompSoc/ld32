@@ -8,7 +8,7 @@ import com.badlogic.ashley.core.Component;
 public abstract class Upgrade extends Component{
 	
 	public static enum UpgradeRoute {
-		RED, GREEN, BLUE, REDGREEN, REDBLUE, GREENBLUE, ASCENDED;
+		RED, GREEN, BLUE, REDGREEN, REDBLUE, GREENBLUE, ASCENDED, REDGREENBLUE;
 	}
 	
 	private float dmg;
