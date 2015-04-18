@@ -2,6 +2,7 @@ package uk.org.ulcompsoc.ld32;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.physics.box2d.Shape;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
@@ -93,6 +94,8 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Scalable(0.25f));
 		engine.addEntity(tower);
 
+		engine.addEntity(makeAtom());
+
 		mapEntity.add(Position.fromEuclidean(0.0f, 0.0f));
 		mapEntity.add(new MapRenderable(map));
 		engine.addEntity(mapEntity);
@@ -153,4 +156,19 @@ public class LD32 extends ApplicationAdapter {
 
 		x.dispose();
 	}
+
+	public Entity makeAtom() {
+		Entity e = new Entity();
+
+		e.add(Position.fromEuclidean(2.0f, 2.0f));
+		Renderable r = new Renderable(Color.CYAN, 10.0f);
+
+		e.add(r);
+		e.add(new SphericalBound(10.0f));
+		e.add(new Atom());
+
+		return e;
+	}
+
+
 }
