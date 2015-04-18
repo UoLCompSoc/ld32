@@ -1,5 +1,7 @@
 package uk.org.ulcompsoc.ld32;
 
+import java.util.HashMap;
+
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
@@ -8,6 +10,7 @@ import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
+import uk.org.ulcompsoc.ld32.util.AudioManager;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -55,6 +58,7 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new MapRenderSystem(10000, camera));
 		engine.addSystem(new RenderSystem(20000, camera));
 		engine.addSystem(new DoomedSystem(100000));
+		audioTest();
 	}
 
 	@Override
@@ -66,5 +70,19 @@ public class LD32 extends ApplicationAdapter {
 
 		camera.update();
 		engine.update(deltaTime);
+	}
+
+	public void audioTest() {
+		HashMap<String, String> files = new HashMap<String, String>();
+		files.put("drop", "data/drop.mp3");
+
+		AudioManager x = new AudioManager(files);
+		x.start();
+
+		x.queue("drop");
+		x.queue("drop");
+		x.queue("drop");
+		x.queue("drop");
+		x.queue("drop");
 	}
 }

@@ -33,4 +33,5 @@ public class Tower extends Component {
 
 		listOfPointsToScan = new ArrayList<RingSegment>();
 	}
+	
 }
