@@ -9,6 +9,6 @@ public class Ball_Damages_Enemies extends Upgrade{
 		this.simultanousFire = 0;
 		this.stage = 3;
 		this.time = 1.1f;
-		this.type = UpgradeRoute.BLUEBLUERED;
+		this.type = UpgradeRoute.REDBLUE;
 	}
 }
