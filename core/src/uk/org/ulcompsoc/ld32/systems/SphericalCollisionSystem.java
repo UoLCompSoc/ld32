@@ -108,4 +108,5 @@ public class SphericalCollisionSystem extends EntitySystem {
 			}
 		}
 	}
+
 }

@@ -79,11 +79,14 @@ public class LD32 extends ApplicationAdapter {
 		this.textureManager.load();
 
 		paddle.add(Position.fromPolar(map.radius + 5.0f, 0.0f));
-		paddle.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER))));
+		Renderable paddleRenderable = new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER)));
+		paddle.add(paddleRenderable);
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
-		paddle.add(new SphericalBound(20));
+		paddle.add(new SphericalBound(paddleRenderable.region.getRegionWidth()));
 		paddle.add(new Scalable(0.25f));
 		paddle.add(new Paddle());
+
+		//r.region.getRegionHeight()
 
 		engine.addEntity(paddle);
 
@@ -177,7 +180,7 @@ public class LD32 extends ApplicationAdapter {
 		Renderable r = new Renderable(Color.CYAN, 10.0f);
 
 		e.add(r);
-		e.add(new SphericalBound(50.0f));
+		e.add(new SphericalBound(10.0f));
 		e.add(new Velocity(1f,1f));
 		e.add(new Atom());
 
