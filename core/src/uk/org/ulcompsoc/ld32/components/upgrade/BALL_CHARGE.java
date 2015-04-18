@@ -7,6 +7,7 @@ public class Ball_Charge extends Upgradable {
 	public final float drops;
 	public final float costs;
 	public final int simultanousFire;
+	public final int stage;
 	
 	public Ball_Charge() {
 		super();
