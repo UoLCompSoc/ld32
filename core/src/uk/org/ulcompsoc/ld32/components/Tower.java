@@ -52,7 +52,6 @@ public class Tower extends Component {
 			return false;
 		}
 		blueBalls = blueBalls -5;
-		
 		if(blue == null) {
 			blue = new Upgrade(UpgradeType.DAMAGE_PLUS);
 			return true;
@@ -61,10 +60,6 @@ public class Tower extends Component {
 		switch(blue.getUpgradeType()) {
 			case DAMAGE_PLUS: {
 				blue = new Upgrade(Upgrade.UpgradeType.SNIPER);
-				
-			/*	if(red.getUpgradeType() == Upgrade.UpgradeType.BALL_NUMBER_PLUS_1) {
-					combinations.add(new Upgrade(Upgrade.UpgradeType.BALL_CHARGE));
-				} */
 				break;
 			}
 			
@@ -83,6 +78,42 @@ public class Tower extends Component {
 		return true;
 	}
 	
+	public boolean setRedUpgrade() {
+		if(redBalls < 5) {
+			return false;
+		}
+		
+		redBalls = redBalls -5;
+		
+		if(red == null) {
+			red = new Upgrade(Upgrade.UpgradeType.BALL_NUMBER_PLUS_1);
+			return true;
+		}
+		
+		switch(red.getUpgradeType()) {
+			case BALL_NUMBER_PLUS_1: {
+				red = new Upgrade(Upgrade.UpgradeType.BALL_NUMBER_PLUS_2);
+				break;
+			}
+			
+			default: return false;
+		}
+		
+		return false;
+	}
 	
-	
+/*	public void updateCombos() {
+		int redStage = red.getStage();
+		int blueStage = blue.getStage();
+		int greenStage = green.getStage();
+		
+		Upgrade.UpgradeType[] blueRedCombs = {Upgrade.UpgradeType.BALL_CHARGE, 
+				Upgrade.UpgradeType.BALL_EFFECT, Upgrade.UpgradeType.BALL_DAMAGE_ENEMIES};
+		
+		Upgrade.UpgradeType redGreenCombos = {Upgrade.UpgradeType.BALL_GIVE_DROPS, 
+				Upgrade.UpgradeType.BALL_SPLITS, Upgrade.UpgradeType.ALL_IN_AOE};
+		Upgrade.UpgradeType blueGreenCombos = {Upgrade.UpgradeType.DOUBLE_SHOT, Upgrade.UpgradeType.QUICK_TOWER};
+		
+		
+	} */
 }

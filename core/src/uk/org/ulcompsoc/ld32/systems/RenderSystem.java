@@ -41,6 +41,6 @@ public class RenderSystem extends IteratingSystem {
 		final float h = 5.0f;
 
 		renderer.setColor(r.color);
-		renderer.rect(p.position.x - (w / 2.0f), p.position.y - (h / 2.0f), w, h);
+		renderer.rect(p.getX() - (w / 2.0f), p.getY() - (h / 2.0f), w, h);
 	}
 }
