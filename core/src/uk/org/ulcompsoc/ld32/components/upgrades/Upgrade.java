@@ -9,8 +9,8 @@ public abstract class Upgrade extends Component{
 	
 	public static enum UpgradeRoute {
 		RED, GREEN, BLUE, ASCENDED, //single
-		REDGREEN, REDBLUE, REDRED, GREENBLUE, BLUEBLUE, GREENGREEN, //double  
-		REDGREENBLUE;
+		REDGREEN, REDBLUE, GREENBLUE, //double  
+		REDGREENBLUE; //triple
 	}
 	
 	protected float dmg;
