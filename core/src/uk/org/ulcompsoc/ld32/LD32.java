@@ -23,6 +23,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class LD32 extends ApplicationAdapter {
 	private final Engine engine;
@@ -34,6 +37,9 @@ public class LD32 extends ApplicationAdapter {
 
 	private final CircleMap map;
 	private final Entity mapEntity = new Entity();
+
+	private ShapeRenderer shapeRenderer = null;
+	private Batch spriteBatch = null;
 
 	public LD32() {
 		super();
@@ -50,6 +56,9 @@ public class LD32 extends ApplicationAdapter {
 		// Gdx.graphics.getHeight() / 2.0f, 0.0f);
 		this.camera.position.set(0.0f, 0.0f, 0.0f);
 		this.camera.zoom = 0.5f;
+
+		this.shapeRenderer = new ShapeRenderer();
+		this.spriteBatch = new SpriteBatch();
 
 		paddle.add(Position.fromPolar(map.radius + 5.0f, 0.0f));
 		paddle.add(new Renderable(Color.YELLOW, 64.0f));
@@ -68,8 +77,8 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.addSystem(new PaddleInputSystem(1000));
 		engine.addSystem(new PathFollowingSystem(5000));
-		engine.addSystem(new MapRenderSystem(10000, camera));
-		engine.addSystem(new RenderSystem(20000, camera));
+		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
+		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
 		engine.addSystem(new DoomedSystem(100000));
 	}
 
