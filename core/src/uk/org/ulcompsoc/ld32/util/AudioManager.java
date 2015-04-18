@@ -89,24 +89,17 @@ public class AudioManager implements Disposable {
 	}
 
 	public void run() {
-		try {
-			while (ACTIVE) {
-				if (playing.isEmpty() || playing.peek().isPlaying()) {
-					Thread.sleep(50);
-				} else {
-					// It's done
-					playing.remove(); // README used to pause here, but this
-					                  // could conflict new methods
+		if (playing.isEmpty() || playing.peek().isPlaying()) {
 
-					// play the next
-					if (!playing.isEmpty()) {
-						(playing.peek()).play();
-					}
-				}
+		} else {
+			// It's done
+			playing.remove(); // README used to pause here, but this
+			                  // could conflict new methods
 
+			// play the next
+			if (!playing.isEmpty()) {
+				(playing.peek()).play();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
