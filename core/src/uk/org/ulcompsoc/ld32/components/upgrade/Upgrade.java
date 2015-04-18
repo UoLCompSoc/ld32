@@ -1,12 +1,15 @@
-package uk.org.ulcompsoc.ld32.components;
+package uk.org.ulcompsoc.ld32.components.upgrade;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.ashley.core.Component;
 
-public class Upgrade extends Component{
-
+public abstract class Upgrade extends Component{
+	
+	public static enum UpgradeRoute {
+		RED, GREEN, BLUE, REDGREEN, REDBLUE, GREENBLUE;
+	}
 	
 	public float dmgMultiplier, timeDelayFiringMultiplier, dropsMultiplier, costMultiplier; 
 	public int numberOfFiresToIncreaseBy, stage;

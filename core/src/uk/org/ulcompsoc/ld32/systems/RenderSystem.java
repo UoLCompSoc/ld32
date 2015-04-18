@@ -1,5 +1,6 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
@@ -12,11 +13,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.graphics.Color;
 
 public class RenderSystem extends IteratingSystem {
 	private final Batch batch;
 	private final ShapeRenderer renderer;
 	private final OrthographicCamera camera;
+	private final Color POSITIVE_HEALTH_COLOR = Color.GREEN;
+	private final Color NEGATIVE_HEALTH_COLOR = Color.RED;
+	private final float HEALTH_HEIGHT_POSITION_MODIFIER = 4.0f;
 
 	@SuppressWarnings("unchecked")
 	public RenderSystem(int priority, final Batch batch, final ShapeRenderer renderer, final OrthographicCamera camera) {
@@ -42,6 +47,7 @@ public class RenderSystem extends IteratingSystem {
 	protected void processEntity(Entity entity, float deltaTime) {
 		final Position p = Mappers.positionMapper.get(entity);
 		final Renderable r = Mappers.renderableMapper.get(entity);
+		final Killable k = Mappers.killableMapper.get(entity);
 
 		switch (r.type) {
 		case SHAPE: {
@@ -50,6 +56,11 @@ public class RenderSystem extends IteratingSystem {
 			renderer.setColor(r.color);
 			renderer.rect(p.getX() - (r.size / 2.0f), p.getY() - (r.size / 2.0f), r.size, r.size);
 			renderer.end();
+
+			if(k != null) {
+				drawHealthBar(p, k, r.size);
+			}
+
 			break;
 		}
 
@@ -62,11 +73,47 @@ public class RenderSystem extends IteratingSystem {
 			} else {
 				batch.draw(r.region, p.getX(), p.getY());
 			}
+
+			if(k != null) {
+				drawHealthBar(p, k, r.region.getRegionWidth());
+			}
+
+
 			break;
 		}
 
 		default:
 			break;
 		}
+
+
+
+	}
+
+
+	/**
+	 * Draws a health bar above a position based on the radius of the
+	 * entity. Drawing appropriate regions for remaining health.
+	 * @param p, position of the entity
+	 * @param k, for health information
+	 * @param radius, how big is the entity?
+	 */
+	private void drawHealthBar(Position p, Killable k, float radius) {
+		renderer.begin(ShapeType.Filled);
+		//Draw the positive health
+		renderer.setColor(POSITIVE_HEALTH_COLOR);
+		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius, radius / 4.0f);
+
+		//Draw the negative health
+		renderer.setColor(NEGATIVE_HEALTH_COLOR);
+
+		float remaningHealth = k.health / k.originalHealth;
+
+		//If there's no difference, default to 0
+		if(remaningHealth == 1) remaningHealth = 0;
+
+		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius*remaningHealth, radius / HEALTH_HEIGHT_POSITION_MODIFIER);
+
+		renderer.end();
 	}
 }
