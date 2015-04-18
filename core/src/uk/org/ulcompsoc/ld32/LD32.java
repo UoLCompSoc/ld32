@@ -147,7 +147,6 @@ public class LD32 extends ApplicationAdapter {
 		files.put("woosh", "data/woosh.mp3");
 
 		AudioManager x = new AudioManager(files);
-		x.start();
 
 		x.queue("drop");
 		x.queue("drop");

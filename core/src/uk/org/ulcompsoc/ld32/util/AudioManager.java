@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 /**
  * Created by Samy Narrainen on 18/04/2015.
  */
-public class AudioManager extends Thread implements Disposable {
+public class AudioManager implements Disposable {
 	private static final float DEFAULT_VOLUME = 0.25f;
 	// Will only work with the queue if the AudioManager is active.
 	private static final boolean ACTIVE = true;
@@ -88,7 +88,6 @@ public class AudioManager extends Thread implements Disposable {
 		playing.remove(loadedAudio.get(key));
 	}
 
-	@Override
 	public void run() {
 		try {
 			while (ACTIVE) {
