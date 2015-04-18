@@ -11,13 +11,13 @@ public abstract class Upgrade extends Component{
 		RED, GREEN, BLUE, REDGREEN, REDBLUE, GREENBLUE, ASCENDED, REDGREENBLUE;
 	}
 	
-	private float dmg;
-	private float time;
-	private float drops;
-	private float costs;
-	private int simultanousFire;
-	private int stage;
-	private UpgradeRoute type;
+	protected float dmg;
+	protected float time;
+	protected float drops;
+	protected float costs;
+	protected int simultanousFire;
+	protected int stage;
+	protected UpgradeRoute type;
 	
 	public Upgrade(){
 		
