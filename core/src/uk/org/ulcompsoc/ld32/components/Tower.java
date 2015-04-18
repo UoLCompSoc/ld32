@@ -58,7 +58,7 @@ public class Tower extends Component {
 			return true;
 		}
 
-		switch (blue.getStage()) {
+//		switch (blue.getStage()) {
 		 //	case DAMAGE_PLUS: {
 		// // blue = new Upgrade(Upgrade.UpgradeType.SNIPER);
 		// break;
@@ -105,7 +105,7 @@ public class Tower extends Component {
 		return false;
 	}
 
-	public void updateCombos() {
+/*	public void updateCombos() {
 		// int redStage = red.stage;
 		// int blueStage = blue.stage;
 		// int greenStage = green.stage;
