@@ -12,12 +12,15 @@ import com.badlogic.gdx.audio.Music;
  */
 public class AudioManager extends Thread {
 
-	private static final float DEFAULT_VOLUME = 0.25f;
+	private static final float      DEFAULT_VOLUME  = 0.25f;
     //Will only work with the queue if the AudioManager is active.
-    private static final boolean ACTIVE = true;
+    private static final boolean    ACTIVE          = true;
+
+
 	//Hashmap allows us to play audio given the audio name, more meaningful
-	private HashMap<String, Music> loadedAudio = new HashMap<String,Music>();
-	private Queue<Music> playing = new LinkedList<Music>();
+	private HashMap<String, Music>  loadedAudio     = new HashMap<>();
+	private Queue<Music>            playing         = new LinkedList<>();
+
 
 
 	public AudioManager(HashMap<String, String> files) {
