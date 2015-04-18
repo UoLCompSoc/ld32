@@ -17,22 +17,24 @@ public class CircleMap {
 	}
 
 	private void generate() {
+		final float ringHeight = radius / ringCount;
+
 		for (int i = 0; i < ringCount; ++i) {
 			// percentage decrease of size
 			final float pctage = ((float) i / (float) ringCount);
 			final float sizeModifier = (1.0f - pctage);
 			final int segmentCount = 5;
 
-			final float ringRadius = sizeModifier * radius;
+			// final float ringRadius = sizeModifier * radius;
 			final float segmentSize = (float) Math.PI * 2 / segmentCount;
-			final float ringHeight = radius / ringCount;
 
 			// rings need to be linked together somehow
 
 			rings.add(new Ring(radius * sizeModifier, ringHeight, segmentCount));
 			final RingSegment[] currentRing = rings.get(i).segments;
-			System.out.format("Generated ring, radius = %f, height = %f, segSize = %f\n", ringRadius, ringHeight,
-			        segmentSize);
+			// System.out.format("Generated ring, radius = %f, height = %f, segSize = %f\n",
+			// ringRadius, ringHeight,
+			// segmentSize);
 
 			for (int segmentIndex = 0; segmentIndex < segmentCount; ++segmentIndex) {
 				currentRing[segmentIndex] = new RingSegment(segmentIndex * segmentSize, segmentSize);
