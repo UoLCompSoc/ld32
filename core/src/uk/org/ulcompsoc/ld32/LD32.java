@@ -3,7 +3,14 @@ package uk.org.ulcompsoc.ld32;
 import java.util.HashMap;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.*;
+import uk.org.ulcompsoc.ld32.components.Killable;
+import uk.org.ulcompsoc.ld32.components.MapRenderable;
+import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
+import uk.org.ulcompsoc.ld32.components.PathFollower;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.upgrade.Upgradable;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
