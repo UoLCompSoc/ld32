@@ -2,25 +2,14 @@ package uk.org.ulcompsoc.ld32;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 
-import uk.org.ulcompsoc.ld32.components.Atom;
-import uk.org.ulcompsoc.ld32.components.Killable;
-import uk.org.ulcompsoc.ld32.components.MapRenderable;
-import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
-import uk.org.ulcompsoc.ld32.components.PathFollower;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.Scalable;
-import uk.org.ulcompsoc.ld32.components.SphericalBound;
-import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.*;
 
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
-import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
-import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
-import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
-import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
-import uk.org.ulcompsoc.ld32.systems.RenderSystem;
+import uk.org.ulcompsoc.ld32.systems.*;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -81,6 +70,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(Position.fromPolar(map.radius + 5.0f, 0.0f));
 		paddle.add(new Renderable(Color.YELLOW, 64.0f));
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
+		paddle.add(new SphericalBound(64f));
 		engine.addEntity(paddle);
 
 		final RingSegment firstSegment = map.getFirstSegment();
@@ -108,6 +98,8 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
 		engine.addSystem(new DoomedSystem(100000));
+
+		//engine.addSystem(new AtomMovementSystem(new Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, map.radius), 2));
 	}
 
 	@Override
@@ -168,6 +160,7 @@ public class LD32 extends ApplicationAdapter {
 
 		e.add(r);
 		e.add(new SphericalBound(10.0f));
+		e.add(new Velocity(1f,1f));
 		e.add(new Atom());
 
 		return e;

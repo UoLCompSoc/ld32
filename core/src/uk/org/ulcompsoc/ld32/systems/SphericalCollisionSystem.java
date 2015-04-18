@@ -78,6 +78,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 				// Collision
 				if (oneCircle.overlaps(otherCircle)) {
 					System.out.println("COLLSION DETECTED");
+					Mappers.atomMapper.get(entities.get(i));
 				}
 			}
 		}
