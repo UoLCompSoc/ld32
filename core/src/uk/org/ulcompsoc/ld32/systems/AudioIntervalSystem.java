@@ -23,8 +23,6 @@ public class AudioIntervalSystem extends IntervalSystem {
 
     @Override
     protected void updateInterval() {
-        System.out.println("Updating audio");
-        audioManager.play("drop");
         audioManager.run();
     }
 }

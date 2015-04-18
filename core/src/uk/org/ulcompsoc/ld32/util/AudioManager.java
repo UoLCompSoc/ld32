@@ -89,15 +89,13 @@ public class AudioManager implements Disposable {
 	}
 
 	public void run() {
-
 		if (playing.isEmpty() || playing.peek().isPlaying()) {
-			System.out.println("IS EMPTY INTERL");
+
 		} else {
 			// It's done
 			playing.remove(); // README used to pause here, but this
 			                  // could conflict new methods
 
-			System.out.println("IS DOING INTERL");
 			// play the next
 			if (!playing.isEmpty()) {
 				(playing.peek()).play();

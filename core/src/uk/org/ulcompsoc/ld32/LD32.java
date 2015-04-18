@@ -95,7 +95,7 @@ public class LD32 extends ApplicationAdapter {
 
 		tower.add(Position.fromPolar(map.radius, LDUtil.PI));
 		tower.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER))));
-		tower.add(new Tower());
+		//tower.add(new Tower());
 		tower.add(new Killable(100));
 		tower.add(new Upgradable());
 		tower.add(new Scalable(0.25f));
@@ -113,7 +113,7 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
 		engine.addSystem(new DoomedSystem(100000));
 
-		engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
+		//engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
 		//engine.addSystem(new AtomMovementSystem(new Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, map.radius), 2));
 	}
