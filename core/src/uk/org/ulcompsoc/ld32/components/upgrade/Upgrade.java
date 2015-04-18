@@ -2,8 +2,11 @@ package uk.org.ulcompsoc.ld32.components.upgrade;
 
 import com.badlogic.ashley.core.Component;
 
-public class Upgrade extends Component{
-
+public abstract class Upgrade extends Component{
+	
+	public static enum UpgradeRoute {
+		RED, GREEN, BLUE, REDGREEN, REDBLUE, GREENBLUE;
+	}
 	
 	public float dmgMultiplier, timeDelayFiringMultiplier, dropsMultiplier, costMultiplier; 
 	int numberOfFiresToIncreaseBy, stage;
