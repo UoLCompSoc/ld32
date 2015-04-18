@@ -4,16 +4,17 @@ import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
+import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.graphics.Color;
 
 public class RenderSystem extends IteratingSystem {
 	private final Batch batch;
@@ -36,11 +37,7 @@ public class RenderSystem extends IteratingSystem {
 	public void update(float deltaTime) {
 		batch.setProjectionMatrix(camera.combined);
 
-		batch.begin();
-
 		super.update(deltaTime);
-
-		batch.end();
 	}
 
 	@Override
@@ -57,7 +54,7 @@ public class RenderSystem extends IteratingSystem {
 			renderer.rect(p.getX() - (r.size / 2.0f), p.getY() - (r.size / 2.0f), r.size, r.size);
 			renderer.end();
 
-			if(k != null) {
+			if (k != null) {
 				drawHealthBar(p, k, r.size);
 			}
 
@@ -66,53 +63,59 @@ public class RenderSystem extends IteratingSystem {
 
 		case TEXTURE: {
 			final Rotatable rot = Mappers.rotatableMapper.get(entity);
+			final Scalable sc = Mappers.scalableMapper.get(entity);
+			final float scalingFactor = (sc != null ? sc.scale : 1.0f);
 
+			batch.begin();
 			if (rot != null) {
 				// TODO: impl rotation
-				batch.draw(r.region, p.getX(), p.getY());
+				batch.draw(r.region, p.getX(), p.getY(), r.region.getRegionWidth() * scalingFactor,
+				        r.region.getRegionHeight() * scalingFactor);
 			} else {
-				batch.draw(r.region, p.getX(), p.getY());
+				batch.draw(r.region, p.getX(), p.getY(), r.region.getRegionWidth() * scalingFactor,
+				        r.region.getRegionHeight() * scalingFactor);
 			}
+			batch.end();
 
-			if(k != null) {
+			if (k != null) {
 				drawHealthBar(p, k, r.region.getRegionWidth());
 			}
-
-
 			break;
 		}
 
 		default:
 			break;
 		}
-
-
-
 	}
 
-
 	/**
-	 * Draws a health bar above a position based on the radius of the
-	 * entity. Drawing appropriate regions for remaining health.
-	 * @param p, position of the entity
-	 * @param k, for health information
-	 * @param radius, how big is the entity?
+	 * Draws a health bar above a position based on the radius of the entity.
+	 * Drawing appropriate regions for remaining health.
+	 * 
+	 * @param p
+	 *            , position of the entity
+	 * @param k
+	 *            , for health information
+	 * @param radius
+	 *            , how big is the entity?
 	 */
 	private void drawHealthBar(Position p, Killable k, float radius) {
 		renderer.begin(ShapeType.Filled);
-		//Draw the positive health
+		// Draw the positive health
 		renderer.setColor(POSITIVE_HEALTH_COLOR);
 		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius, radius / 4.0f);
 
-		//Draw the negative health
+		// Draw the negative health
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);
 
 		float remaningHealth = k.health / k.originalHealth;
 
-		//If there's no difference, default to 0
-		if(remaningHealth == 1) remaningHealth = 0;
+		// If there's no difference, default to 0
+		if (remaningHealth == 1)
+			remaningHealth = 0;
 
-		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius*remaningHealth, radius / HEALTH_HEIGHT_POSITION_MODIFIER);
+		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius * remaningHealth, radius
+		        / HEALTH_HEIGHT_POSITION_MODIFIER);
 
 		renderer.end();
 	}

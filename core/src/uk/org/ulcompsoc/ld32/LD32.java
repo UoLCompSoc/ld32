@@ -9,6 +9,7 @@ import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
@@ -89,6 +90,7 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Tower());
 		tower.add(new Killable(100));
 		tower.add(new Upgradable());
+		tower.add(new Scalable(0.25f));
 		engine.addEntity(tower);
 
 		mapEntity.add(Position.fromEuclidean(0.0f, 0.0f));
