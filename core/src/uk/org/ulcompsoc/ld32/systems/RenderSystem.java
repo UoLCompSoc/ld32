@@ -97,6 +97,7 @@ public class RenderSystem extends IteratingSystem {
 
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);
 		float remaningHealth = k.health / k.originalHealth;
+		if(remaningHealth == 1) remaningHealth = 0;
 		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius*remaningHealth, radius / 4.0f);
 
 		renderer.end();
