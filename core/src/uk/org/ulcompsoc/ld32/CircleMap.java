@@ -37,7 +37,7 @@ public class CircleMap {
 			// segmentSize);
 
 			for (int segmentIndex = 0; segmentIndex < segmentCount; ++segmentIndex) {
-				currentRing[segmentIndex] = new RingSegment(ringRadius - ringHeight, segmentIndex * segmentSize,
+				currentRing[segmentIndex] = new RingSegment(ringRadius - ringHeight / 2.0f, segmentIndex * segmentSize,
 				        segmentSize);
 
 				if (segmentIndex != 0) {

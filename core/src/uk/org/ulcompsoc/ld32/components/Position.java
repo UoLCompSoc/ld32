@@ -4,30 +4,66 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 
 public class Position extends Component {
-	public Vector2 position = new Vector2(0.0f, 0.0f);
+	private Vector2 position = new Vector2(0.0f, 0.0f);
+
+	private boolean isPolarDirty = false;
+	private float r = 0.0f;
+	private float phi = 0.0f;
+
+	private void calculateEuclideanFromPolar() {
+		if (isPolarDirty) {
+			position.x = r * (float) Math.cos(phi);
+			position.y = r * (float) Math.sin(phi);
+
+			isPolarDirty = false;
+		}
+	}
+
+	public float getX() {
+		calculateEuclideanFromPolar();
+		return position.x;
+	}
+
+	public float getY() {
+		calculateEuclideanFromPolar();
+		return position.y;
+	}
+
+	public Position translatePolarDistance(float r) {
+		this.r += r;
+		isPolarDirty = true;
+		return this;
+	}
+
+	public Position movePolarAngle(float phi) {
+		this.phi += phi;
+
+		if (this.phi >= (float) Math.PI * 2.0) {
+			this.phi -= Math.PI * 2.0;
+		}
+
+		isPolarDirty = true;
+
+		return this;
+	}
 
 	/**
 	 * @return the value of r, a distance used in polar cooridinates. sqrt is
 	 *         slow, consider using {@link #getRSquared()} if possible.
 	 */
 	public float getR() {
-		return (float) Math.sqrt(getRSquared());
-	}
-
-	/**
-	 * @return r^2, a distance used in polar coordinates. saves a sqrt if you
-	 *         can do comparisons with the squared value.
-	 */
-	public float getRSquared() {
-		return position.x * position.x + position.y * position.y;
+		return r;
 	}
 
 	public float getPhi() {
-		return (float) Math.atan2(position.y, position.x);
+		return phi;
 	}
 
 	public Position setPolar(float r, float phi) {
-		position.set(r * (float) Math.cos(phi), r * (float) Math.sin(phi));
+		this.r = r;
+		this.phi = phi;
+
+		isPolarDirty = true;
 
 		return this;
 	}
