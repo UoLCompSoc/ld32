@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 import uk.org.ulcompsoc.ld32.components.upgrades.*;
 
 
@@ -29,8 +30,9 @@ public class Tower extends Component {
 	private Upgrade blue;
 	private Upgrade green;
 	private Set<Upgrade> combinations;
-
-	public Tower() {
+	private Upgradable upgrades;
+	
+	public Tower(Upgradable ups) {
 		this.range = Tower.DFLT_RANGE;
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
@@ -45,6 +47,7 @@ public class Tower extends Component {
 
 		combinations = new HashSet<Upgrade>();
 		listOfPointsToScan = new ArrayList<RingSegment>();
+		upgrades =ups;
 	}
 
 	// set the upgrade of the blue component
@@ -104,6 +107,10 @@ public class Tower extends Component {
 		int greenStage = green.getStage();
 		int blueStage = blue.getStage();
 		
+		combinations.addAll(upgrades.getUpgradesFor(Math.min(redStage,greenStage), UpgradeRoute.REDGREEN));
+		combinations.addAll(upgrades.getUpgradesFor(Math.min(redStage,blueStage), UpgradeRoute.REDBLUE));
+		combinations.addAll(upgrades.getUpgradesFor(Math.min(greenStage,blueStage), UpgradeRoute.GREENBLUE));
+		combinations.addAll(upgrades.getUpgradesFor(Math.min(redStage,Math.min(blueStage, greenStage)), UpgradeRoute.REDGREENBLUE));
 		
 	}
 }
