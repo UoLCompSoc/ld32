@@ -85,6 +85,9 @@ public class CircleMap {
 		public final float widthInRadians;
 		public final float startPhi;
 
+		// x1, y1, x2, y2
+		public final float[] euclideanPositions = new float[4];
+
 		public RingSegment previous = null, next = null;
 
 		public RingSegment(float middleR, float startPhi, float widthInRadians) {
