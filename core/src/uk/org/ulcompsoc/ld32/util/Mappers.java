@@ -8,6 +8,7 @@ import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
+import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
@@ -33,5 +34,5 @@ public class Mappers {
 	public static final ComponentMapper<SphericalBound> sphericalBoundsMapper = ComponentMapper
 	        .getFor(SphericalBound.class);
 	public static final ComponentMapper<Rotatable> rotatableMapper = ComponentMapper.getFor(Rotatable.class);
-
+	public static final ComponentMapper<Scalable> scalableMapper = ComponentMapper.getFor(Scalable.class);
 }

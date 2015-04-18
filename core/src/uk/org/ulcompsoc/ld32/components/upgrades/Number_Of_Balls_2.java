@@ -2,7 +2,7 @@ package uk.org.ulcompsoc.ld32.components.upgrades;
 
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 
-public class Mortar extends Upgrade {
+public class Number_Of_Balls_2 extends Upgrade {
 	
 	public final float dmg;
 	public final float time;
@@ -12,13 +12,13 @@ public class Mortar extends Upgrade {
 	public final int stage;
 	public UpgradeRoute type;
 	
-	public Mortar() {
-		dmg = 1.3f;
-		time = 0.7f;
+	public Number_Of_Balls_2() {
+		dmg = 1;
+		time = 1f;
 		drops = 1;
 		costs = 1;
-		simultanousFire = 0;
-		stage = 3;
-		type = UpgradeRoute.BLUE;
+		simultanousFire = 2;
+		stage = 2;
+		type = UpgradeRoute.RED;
 	}
 }

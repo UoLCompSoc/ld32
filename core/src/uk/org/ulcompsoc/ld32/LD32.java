@@ -2,9 +2,19 @@ package uk.org.ulcompsoc.ld32;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.physics.box2d.Shape;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.*;
+
+import uk.org.ulcompsoc.ld32.components.Atom;
+import uk.org.ulcompsoc.ld32.components.Killable;
+import uk.org.ulcompsoc.ld32.components.MapRenderable;
+import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
+import uk.org.ulcompsoc.ld32.components.PathFollower;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Scalable;
+import uk.org.ulcompsoc.ld32.components.SphericalBound;
+import uk.org.ulcompsoc.ld32.components.Tower;
+
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
@@ -84,6 +94,7 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Tower());
 		tower.add(new Killable(100));
 		tower.add(new Upgradable());
+		tower.add(new Scalable(0.25f));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());

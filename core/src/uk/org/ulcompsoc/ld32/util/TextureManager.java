@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
 
 public class TextureManager implements Disposable {
-
 	public final List<Texture> textures = new ArrayList<Texture>();
 	public final Map<TextureName, Texture> nameMap = new HashMap<TextureName, Texture>();
 
