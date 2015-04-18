@@ -11,13 +11,13 @@ public abstract class Upgrade extends Component{
 		RED, GREEN, BLUE, REDGREEN, REDBLUE, GREENBLUE, ASCENDED;
 	}
 	
-	public float dmg;
-	public float time;
-	public float drops;
-	public float costs;
-	public int simultanousFire;
-	public int stage;
-	public UpgradeRoute type;
+	private float dmg;
+	private float time;
+	private float drops;
+	private float costs;
+	private int simultanousFire;
+	private int stage;
+	private UpgradeRoute type;
 	
 	public Upgrade(){
 		
@@ -57,5 +57,9 @@ public abstract class Upgrade extends Component{
 	
 	public int getStage() {
 		return stage;
+	}
+	
+	public UpgradeRoute getType() {
+		return type;
 	}
 }
