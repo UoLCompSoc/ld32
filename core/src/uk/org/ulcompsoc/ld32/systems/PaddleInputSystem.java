@@ -46,7 +46,8 @@ public class PaddleInputSystem extends IteratingSystem {
 
 		if (moving) {
 			pil.pressTime += deltaTime;
-			pil.setVelocity(LDUtil.smoothStep(0.0f, PaddleInputListener.MAX_SPEED_TIME, pil.pressTime));
+			pil.setVelocity(LDUtil.smoothStep(0.0f, PaddleInputListener.MAX_SPEED_TIME, pil.pressTime)
+			        * PaddleInputListener.MAX_VELOCITY);
 			p.movePolarAngle(movingDirection * pil.velocity);
 		} else {
 			pil.pressTime = pil.velocity = 0.0f;

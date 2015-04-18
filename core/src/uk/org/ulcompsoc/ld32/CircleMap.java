@@ -82,6 +82,8 @@ public class CircleMap {
 
 	public static class RingSegment {
 		public final float middleR;
+		public final float middlePhi;
+
 		public final float widthInRadians;
 		public final float startPhi;
 
@@ -94,6 +96,7 @@ public class CircleMap {
 			this.middleR = middleR;
 			this.startPhi = startPhi;
 			this.widthInRadians = widthInRadians;
+			this.middlePhi = this.startPhi + this.widthInRadians;
 		}
 	}
 }

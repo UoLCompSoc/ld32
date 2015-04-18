@@ -1,8 +1,8 @@
 package uk.org.ulcompsoc.ld32.systems;
 
-import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Entity;
@@ -10,7 +10,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalIteratingSystem;
 
 public class PathFollowingSystem extends IntervalIteratingSystem {
-	public final static float DEFAULT_INTERVAL = 0.05f;
+	public final static float DEFAULT_INTERVAL = 0.01f;
 	private final float interval;
 
 	@SuppressWarnings("unchecked")
@@ -28,16 +28,12 @@ public class PathFollowingSystem extends IntervalIteratingSystem {
 		pf.timeWaited += interval;
 
 		if (pf.timeWaited >= pf.wanderTime) {
-			pf.timeWaited -= pf.wanderTime;
-
-			if (pf.segment != null) {
-				pf.segment = pf.segment.next;
-			}
-
-			if (pf.segment != null) {
-				p.setPolar(pf.segment.middleR, pf.segment.startPhi + pf.segment.widthInRadians / 2);
-			} else {
-				entity.add(new Doomed());
+			p.setPolar(pf.segment.middleR, pf.segment.next.middlePhi);
+			entity.remove(PathFollower.class);
+		} else {
+			if (pf.isStraightPath()) {
+				p.setPolar(pf.segment.middleR, LDUtil.smoothStep(0.0f, pf.wanderTime, pf.timeWaited)
+				        * pf.segment.next.middlePhi);
 			}
 		}
 	}
