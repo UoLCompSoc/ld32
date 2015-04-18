@@ -52,13 +52,13 @@ public class LD32 extends ApplicationAdapter {
 		this.camera.zoom = 0.5f;
 
 		paddle.add(Position.fromPolar(map.radius + 5.0f, 0.0f));
-		paddle.add(new Renderable(Color.YELLOW));
+		paddle.add(new Renderable(Color.YELLOW, 64.0f));
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
 		engine.addEntity(paddle);
 
 		final RingSegment firstSegment = map.getFirstSegment();
 		enemy.add(Position.fromPolar(firstSegment.middleR, firstSegment.startPhi));
-		enemy.add(new Renderable(Color.BLUE));
+		enemy.add(new Renderable(Color.BLUE, 32.0f));
 		enemy.add(new PathFollower(firstSegment));
 		engine.addEntity(enemy);
 
@@ -95,7 +95,7 @@ public class LD32 extends ApplicationAdapter {
 		x.queue("drop");
 		x.queue("drop");
 		x.queue("drop");
-		//x.loop("woosh");
+		// x.loop("woosh");
 		x.queue("woosh");
 		x.queue("drop");
 		x.queue("drop");
