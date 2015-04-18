@@ -78,7 +78,7 @@ public class RenderSystem extends IteratingSystem {
 			batch.end();
 
 			if (k != null) {
-				drawHealthBar(p, k, r.region.getRegionWidth());
+				drawHealthBar(p, k, r.region.getRegionHeight() * scalingFactor);
 			}
 			break;
 		}
@@ -93,17 +93,22 @@ public class RenderSystem extends IteratingSystem {
 	 * Drawing appropriate regions for remaining health.
 	 * 
 	 * @param p
-	 *            , position of the entity
+	 *            position of the entity
 	 * @param k
-	 *            , for health information
+	 *            for health information
 	 * @param radius
-	 *            , how big is the entity?
+	 *            how big is the entity?
 	 */
 	private void drawHealthBar(Position p, Killable k, float radius) {
+		drawHealthBar(p, k, radius, 1.0f);
+	}
+
+	private void drawHealthBar(Position p, Killable k, float radius, float scale) {
 		renderer.begin(ShapeType.Filled);
+
 		// Draw the positive health
 		renderer.setColor(POSITIVE_HEALTH_COLOR);
-		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius, radius / 4.0f);
+		renderer.rect(p.getX(), p.getY() + radius, radius, radius / 4.0f);
 
 		// Draw the negative health
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);
@@ -114,8 +119,7 @@ public class RenderSystem extends IteratingSystem {
 		if (remaningHealth == 1)
 			remaningHealth = 0;
 
-		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius * remaningHealth, radius
-		        / HEALTH_HEIGHT_POSITION_MODIFIER);
+		renderer.rect(p.getX(), p.getY() + radius, radius * remaningHealth, radius / HEALTH_HEIGHT_POSITION_MODIFIER);
 
 		renderer.end();
 	}
