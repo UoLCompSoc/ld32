@@ -7,7 +7,7 @@ public class CircleMap {
 	public final float radius;
 	public final int ringCount;
 
-	public final List<MapSegment[]> rings = new ArrayList<MapSegment[]>();
+	public final List<Ring> rings = new ArrayList<Ring>();
 
 	public CircleMap(float radius, int ringCount) {
 		this.ringCount = ringCount;
@@ -17,31 +17,55 @@ public class CircleMap {
 	}
 
 	private void generate() {
-		final float biggestCircumference = 2.0f * (float) Math.PI * radius;
-
 		for (int i = 0; i < ringCount; ++i) {
 			// percentage decrease of size
-			final float sizeModifier = (1.0f - ((float) i / (float) ringCount));
+			final float pctage = ((float) i / (float) ringCount);
+			final float sizeModifier = (1.0f - pctage);
 			final int segmentCount = 5;
 
-			final float ringCircumference = sizeModifier * biggestCircumference;
-			final float segmentSize = ringCircumference / segmentCount;
+			final float ringRadius = sizeModifier * radius;
+			final float segmentSize = (float) Math.PI * 2 / segmentCount;
+			final float ringHeight = radius / ringCount;
 
 			// rings need to be linked together somehow
 
-			rings.add(new MapSegment[segmentCount]);
+			rings.add(new Ring(radius * sizeModifier, ringHeight, segmentCount));
+			final RingSegment[] currentRing = rings.get(i).segments;
+			System.out.format("Generated ring, radius = %f, height = %f, segSize = %f\n", ringRadius, ringHeight,
+			        segmentSize);
 
 			for (int segmentIndex = 0; segmentIndex < segmentCount; ++segmentIndex) {
-				rings.get(i)[segmentIndex] = new MapSegment(segmentIndex * segmentSize, segmentSize);
+				currentRing[segmentIndex] = new RingSegment(segmentIndex * segmentSize, segmentSize);
+
+				if (segmentIndex != 0) {
+					currentRing[segmentIndex].previous = currentRing[segmentIndex - 1];
+				} else if (i != 0) {
+					currentRing[segmentIndex].previous = rings.get(i - 1).segments[segmentCount - 1];
+				}
 			}
 		}
 	}
 
-	public static class MapSegment {
+	public static class Ring {
+		public final float radius;
+		public final RingSegment[] segments;
+		public final float height;
+
+		public Ring(float radius, float height, int segmentCount) {
+			this.radius = radius;
+			this.height = height;
+
+			segments = new RingSegment[segmentCount];
+		}
+	}
+
+	public static class RingSegment {
 		public final float widthInRadians;
 		public final float startPhi;
 
-		public MapSegment(float startPhi, float widthInRadians) {
+		public RingSegment previous = null;
+
+		public RingSegment(float startPhi, float widthInRadians) {
 			this.startPhi = startPhi;
 			this.widthInRadians = widthInRadians;
 		}
