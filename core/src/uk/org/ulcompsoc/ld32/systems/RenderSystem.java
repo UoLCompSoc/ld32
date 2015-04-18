@@ -53,6 +53,11 @@ public class RenderSystem extends IteratingSystem {
 			renderer.setColor(r.color);
 			renderer.rect(p.getX() - (r.size / 2.0f), p.getY() - (r.size / 2.0f), r.size, r.size);
 			renderer.end();
+
+			if(k != null) {
+				drawHealthBar(p, r, k, r.size);
+			}
+
 			break;
 		}
 
@@ -65,6 +70,12 @@ public class RenderSystem extends IteratingSystem {
 			} else {
 				batch.draw(r.region, p.getX(), p.getY());
 			}
+
+			if(k != null) {
+				drawHealthBar(p, r, k, r.region.getRegionWidth());
+			}
+
+
 			break;
 		}
 
@@ -72,5 +83,22 @@ public class RenderSystem extends IteratingSystem {
 			break;
 		}
 
+
+
+	}
+
+	private final Color POSITIVE_HEALTH_COLOR = Color.GREEN;
+	private final Color NEGATIVE_HEALTH_COLOR = Color.RED;
+
+	private void drawHealthBar(Position p, Renderable r, Killable k, float radius) {
+		renderer.begin(ShapeType.Filled);
+		renderer.setColor(POSITIVE_HEALTH_COLOR);
+		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius, radius / 4.0f);
+
+		renderer.setColor(NEGATIVE_HEALTH_COLOR);
+		float remaningHealth = k.health / k.originalHealth;
+		renderer.rect(p.getX() - (radius / 2.0f), p.getY() + radius, radius*remaningHealth, radius / 4.0f);
+
+		renderer.end();
 	}
 }

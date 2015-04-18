@@ -3,13 +3,7 @@ package uk.org.ulcompsoc.ld32;
 import java.util.HashMap;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.MapRenderable;
-import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
-import uk.org.ulcompsoc.ld32.components.PathFollower;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.Tower;
-import uk.org.ulcompsoc.ld32.components.Upgradable;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
@@ -82,6 +76,7 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(Position.fromPolar(map.radius, LDUtil.PI));
 		tower.add(new Renderable(Color.BLACK, 10.0f));
 		tower.add(new Tower());
+		tower.add(new Killable(100));
 		tower.add(new Upgradable());
 		engine.addEntity(tower);
 
