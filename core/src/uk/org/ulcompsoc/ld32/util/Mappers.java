@@ -2,6 +2,7 @@ package uk.org.ulcompsoc.ld32.util;
 
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
+import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
@@ -22,4 +23,6 @@ public class Mappers {
 	public static final ComponentMapper<Upgradable> upgradeableMapper = ComponentMapper.getFor(Upgradable.class);
 	public static final ComponentMapper<PathFollower> pathFollowerMapper = ComponentMapper.getFor(PathFollower.class);
 	public static final ComponentMapper<Doomed> doomedMapper = ComponentMapper.getFor(Doomed.class);
+	public static final ComponentMapper<PaddleInputListener> paddleInputListener = ComponentMapper
+	        .getFor(PaddleInputListener.class);
 }
