@@ -10,7 +10,7 @@ import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
-import uk.org.ulcompsoc.ld32.components.upgrade.Upgradable;
+import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 
 import com.badlogic.ashley.core.ComponentMapper;
 
@@ -28,8 +28,10 @@ public class Mappers {
 	public static final ComponentMapper<Doomed> doomedMapper = ComponentMapper.getFor(Doomed.class);
 	public static final ComponentMapper<PaddleInputListener> paddleInputListener = ComponentMapper
 	        .getFor(PaddleInputListener.class);
+
 	public static final ComponentMapper<Killable> killableMapper = ComponentMapper.getFor(Killable.class);
 	public static final ComponentMapper<SphericalBound> sphericalBoundsMapper = ComponentMapper
 	        .getFor(SphericalBound.class);
 	public static final ComponentMapper<Rotatable> rotatableMapper = ComponentMapper.getFor(Rotatable.class);
+
 }
