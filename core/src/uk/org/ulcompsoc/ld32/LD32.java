@@ -6,7 +6,18 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 
-import uk.org.ulcompsoc.ld32.components.*;
+import uk.org.ulcompsoc.ld32.components.Atom;
+import uk.org.ulcompsoc.ld32.components.Killable;
+import uk.org.ulcompsoc.ld32.components.MapRenderable;
+import uk.org.ulcompsoc.ld32.components.Paddle;
+import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
+import uk.org.ulcompsoc.ld32.components.PathFollower;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.Scalable;
+import uk.org.ulcompsoc.ld32.components.SphericalBound;
+import uk.org.ulcompsoc.ld32.components.Tower;
 
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.systems.*;
@@ -68,9 +79,12 @@ public class LD32 extends ApplicationAdapter {
 		this.textureManager.load();
 
 		paddle.add(Position.fromPolar(map.radius + 5.0f, 0.0f));
-		paddle.add(new Renderable(Color.YELLOW, 64.0f));
+		paddle.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER))));
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
 		paddle.add(new SphericalBound(64f));
+		paddle.add(new Scalable(0.25f));
+		paddle.add(new Paddle());
+
 		engine.addEntity(paddle);
 
 		final RingSegment firstSegment = map.getFirstSegment();
@@ -165,6 +179,5 @@ public class LD32 extends ApplicationAdapter {
 
 		return e;
 	}
-
 
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 
 /**
@@ -25,7 +26,7 @@ public class AtomMovementSystem extends IteratingSystem {
 
     @SuppressWarnings("unchecked")
     public AtomMovementSystem(Circle outerBorder, int priority) {
-        this(Family.all(Position.class, Velocity.class, Atom.class).get(), outerBorder, priority);
+        this(Family.all(Position.class, Velocity.class, Atom.class, SphericalBound.class).get(), outerBorder, priority);
     }
 
     protected AtomMovementSystem(Family family, Circle outerBorder, int priority) {
@@ -39,6 +40,26 @@ public class AtomMovementSystem extends IteratingSystem {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
+
+        Position p = posMapper.get(entity);
+        Vector2 v = velMapper.get(entity).velocity;
+
+        p.setX(p.getX() + v.x);
+        p.setY(p.getY() + v.y);
+
+        if(p.getY() > outerBorder.radius) {
+            v.y = -v.y;
+
+            System.out.println("test");
+        } else if(p.getX() > outerBorder.radius /2) {
+            v.x = -v.x;
+            System.out.println("test2");
+        } else if(p.getY() < -outerBorder.radius/2) {
+            v.y = -v.y;
+            System.out.println("reached2");
+        } else if(p.getX() < -outerBorder.radius /2) {
+            v.x = -v.x;
+        }
 
 
     }
