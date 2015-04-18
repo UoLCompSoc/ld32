@@ -8,12 +8,15 @@ import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.Upgradable;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
 import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
+import uk.org.ulcompsoc.ld32.util.LDUtil;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -38,8 +41,13 @@ public class LD32 extends ApplicationAdapter {
 	private final CircleMap map;
 	private final Entity mapEntity = new Entity();
 
+	
+	private final Entity tower = new Entity();
+
+
 	private ShapeRenderer shapeRenderer = null;
 	private Batch spriteBatch = null;
+
 
 	public LD32() {
 		super();
@@ -70,6 +78,12 @@ public class LD32 extends ApplicationAdapter {
 		enemy.add(new Renderable(Color.BLUE, 32.0f));
 		enemy.add(new PathFollower(firstSegment));
 		engine.addEntity(enemy);
+		
+		tower.add(Position.fromPolar(map.radius, LDUtil.PI));
+		tower.add(new Renderable(Color.BLACK, 10.0f));
+		tower.add(new Tower());
+		tower.add(new Upgradable());
+		engine.addEntity(tower);
 
 		mapEntity.add(Position.fromEuclidean(0.0f, 0.0f));
 		mapEntity.add(new MapRenderable(map));
