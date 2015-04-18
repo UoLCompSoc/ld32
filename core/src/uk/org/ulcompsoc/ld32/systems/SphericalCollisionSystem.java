@@ -57,11 +57,11 @@ public class SphericalCollisionSystem extends EntitySystem {
         ArrayList<Circle> bounds = new ArrayList<Circle>();
 
         for(int i = 0; i < entities.size(); i++) {
-            Vector2 pos = posMapper.get(entities.get(i)).position;
+            Position pos = posMapper.get(entities.get(i));
             Renderable r = renderMapper.get(entities.get(i));
             SphericalBound sphere = boundMapper.get(entities.get(i));
 
-            bounds.add(i, new Circle(pos.x, pos.y, sphere.radius));
+            bounds.add(i, new Circle(pos.getX(), pos.getY(), sphere.radius));
         }
 
 
