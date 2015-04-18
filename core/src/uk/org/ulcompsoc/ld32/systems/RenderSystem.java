@@ -65,16 +65,17 @@ public class RenderSystem extends IteratingSystem {
 			final Rotatable rot = Mappers.rotatableMapper.get(entity);
 			final Scalable sc = Mappers.scalableMapper.get(entity);
 			final float scalingFactor = (sc != null ? sc.scale : 1.0f);
+			final float rotation;
+
+			if (Mappers.paddleMapper.has(entity)) {
+				rotation = (float) Math.toDegrees(p.getPhi());
+			} else {
+				rotation = (rot != null ? rot.rotation : 0.0f);
+			}
 
 			batch.begin();
-			if (rot != null) {
-				// TODO: impl rotation
-				batch.draw(r.region, p.getX(), p.getY(), r.region.getRegionWidth() * scalingFactor,
-				        r.region.getRegionHeight() * scalingFactor);
-			} else {
-				batch.draw(r.region, p.getX(), p.getY(), r.region.getRegionWidth() * scalingFactor,
-				        r.region.getRegionHeight() * scalingFactor);
-			}
+			batch.draw(r.region, p.getX(), p.getY(), 0.0f, 0.0f, r.region.getRegionWidth(), r.region.getRegionHeight(),
+			        scalingFactor, scalingFactor, rotation);
 			batch.end();
 
 			if (k != null) {
@@ -100,10 +101,6 @@ public class RenderSystem extends IteratingSystem {
 	 *            how big is the entity?
 	 */
 	private void drawHealthBar(Position p, Killable k, float radius) {
-		drawHealthBar(p, k, radius, 1.0f);
-	}
-
-	private void drawHealthBar(Position p, Killable k, float radius, float scale) {
 		renderer.begin(ShapeType.Filled);
 
 		// Draw the positive health
