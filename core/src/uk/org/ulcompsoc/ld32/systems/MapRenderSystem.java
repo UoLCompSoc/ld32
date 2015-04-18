@@ -14,14 +14,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class MapRenderSystem extends IteratingSystem {
-	private final ShapeRenderer renderer = new ShapeRenderer();
+	private final ShapeRenderer renderer;
 	private final OrthographicCamera camera;
 
 	@SuppressWarnings("unchecked")
-	public MapRenderSystem(int priority, final OrthographicCamera camera) {
+	public MapRenderSystem(int priority, final ShapeRenderer renderer, final OrthographicCamera camera) {
 		super(Family.all(Position.class, MapRenderable.class).get(), priority);
 
 		this.camera = camera;
+		this.renderer = renderer;
 	}
 
 	@Override

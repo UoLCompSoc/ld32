@@ -48,7 +48,7 @@ public class Upgrade extends Component{
 		public final float drops;
 		public final float costs;
 
-		public int numberOfSimoultaniousMissiles; // this should be addedto the number of missles fired simoultaiounsly 
+		public int numberOfSimoultaniousMissiles; // this should be added to the number of missiles fired simoultaiounsly 
 		
 		public int stage;
 		public boolean comb;
