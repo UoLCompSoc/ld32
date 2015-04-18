@@ -25,7 +25,7 @@ public class RenderSystem extends IteratingSystem {
 	@Override
 	public void update(float deltaTime) {
 		renderer.setProjectionMatrix(camera.combined);
-		renderer.begin(ShapeType.Filled);
+		renderer.begin(ShapeType.Line);
 
 		super.update(deltaTime);
 
