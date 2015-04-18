@@ -1,5 +1,6 @@
 package uk.org.ulcompsoc.ld32.util;
 
+
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
@@ -12,6 +13,9 @@ import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.Atom;
+
+
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 
 import com.badlogic.ashley.core.ComponentMapper;
@@ -32,8 +36,10 @@ public class Mappers {
 	        .getFor(SphericalBound.class);
 	public static final ComponentMapper<Rotatable> rotatableMapper = ComponentMapper.getFor(Rotatable.class);
 	public static final ComponentMapper<Scalable> scalableMapper = ComponentMapper.getFor(Scalable.class);
+	public static final ComponentMapper<Atom> atomMapper = ComponentMapper.getFor(Atom.class);
 	public static final ComponentMapper<Paddle> paddleMapper = ComponentMapper.getFor(Paddle.class);
 
 	private Mappers() {
 	}
+
 }
