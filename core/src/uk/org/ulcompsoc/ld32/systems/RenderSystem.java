@@ -105,7 +105,7 @@ public class RenderSystem extends IteratingSystem {
 			if (sc.timeElapsed <= 0.0f) {
 				sc.scale = sc.baseScale;
 			} else {
-				sc.scale = sc.baseScale * (1.0f + LDUtil.normalCurve(0.0f, sc.totalAnimTime, sc.timeElapsed));
+				sc.scale = sc.baseScale * (1.0f + LDUtil.normalCurve(0.0f, sc.totalAnimTime, sc.timeElapsed, true));
 				// System.out.format("Scale = %f, tE = %f, tAT = %f\n",
 				// sc.scale, sc.timeElapsed, sc.totalAnimTime);
 			}
