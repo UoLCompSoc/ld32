@@ -47,7 +47,7 @@ public class PathFollowingSystem extends IntervalIteratingSystem {
 			if (pf.isStraightPath()) {
 				final float newPhi = pf.segment.middlePhi + LDUtil.smoothStep(0.0f, pf.wanderTime, pf.timeWaited)
 				        * Math.abs(pf.segment.next.middlePhi - pf.segment.middlePhi);
-				System.out.println("Phi: " + newPhi);
+				//System.out.println("Phi: " + newPhi);
 				p.setPolar(pf.segment.next.middleR, newPhi);
 			} else {
 				if (pf.timeWaited / pf.wanderTime >= 0.75f) {
