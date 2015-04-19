@@ -1,10 +1,5 @@
 package uk.org.ulcompsoc.ld32.util;
 
-<<<<<<< HEAD
-import uk.org.ulcompsoc.ld32.components.*;
-import uk.org.ulcompsoc.ld32.components.enemies.Enemy;
-import uk.org.ulcompsoc.ld32.components.enemies.Positron;
-=======
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
@@ -16,7 +11,6 @@ import uk.org.ulcompsoc.ld32.components.Paddle;
 import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Positron;
 import uk.org.ulcompsoc.ld32.components.Projectile;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
@@ -24,7 +18,7 @@ import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.Wallet;
->>>>>>> 208cdc0fd765016f1da4e77e8e115b0763da8ba7
+import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 //import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 
