@@ -21,7 +21,7 @@ public class PositionDebugSystem extends IteratingSystem {
 
 	@Override
 	public void update(float deltaTime) {
-		renderer.begin(ShapeType.Point);
+		renderer.begin(ShapeType.Line);
 
 		super.update(deltaTime);
 
@@ -31,6 +31,9 @@ public class PositionDebugSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		final Position p = Mappers.positionMapper.get(entity);
+		final float size = 6.0f;
+
 		renderer.point(p.getX(), p.getY(), 0.0f);
+		renderer.rect(p.getX() - (size / 2), p.getY() - size / 2, size, size);
 	}
 }

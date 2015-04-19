@@ -1,5 +1,7 @@
 package uk.org.ulcompsoc.ld32.components;
 
+import uk.org.ulcompsoc.ld32.util.LDUtil;
+
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 
@@ -69,8 +71,8 @@ public class Position extends Component {
 	public Position movePolarAngle(float phi) {
 		this.phi += phi;
 
-		if (this.phi >= (float) Math.PI * 2.0) {
-			this.phi -= Math.PI * 2.0;
+		if (this.phi >= LDUtil.PI * 2.0) {
+			this.phi -= LDUtil.PI * 2.0;
 		}
 
 		isPolarDirty = true;
