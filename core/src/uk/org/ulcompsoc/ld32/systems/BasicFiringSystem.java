@@ -91,8 +91,9 @@ public class BasicFiringSystem extends IteratingSystem {
 
 					projectile.add(new Projectile(damageComp.getDamageDealt()));
 					projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
-					projectile.add(new Renderable(ammoSprite).setScale(0.5f));
-					projectile.add(new SphericalBound(ammoSprite.getRegionWidth() * 0.5f));
+					Renderable r = new Renderable(ammoSprite).setScale(0.5f);
+					projectile.add(r);
+					projectile.add(new SphericalBound(r.getWidth()));
 
 					float deltaX = (float) ((enemyPos.getR() * Math.cos(enemyPos.getPhi()) - towerPos.getX()));
 					float deltaY = (float) ((enemyPos.getR() * Math.sin(enemyPos.getPhi())) - towerPos.getY());
