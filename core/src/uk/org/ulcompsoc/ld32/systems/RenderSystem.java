@@ -142,8 +142,10 @@ public class RenderSystem extends IteratingSystem {
 		float remaningHealth = k.getHealth() / k.getOrigHealth();
 
 		// If there's no difference, default to 0
-		if (remaningHealth == 1) {
+		if (remaningHealth == 1 && k.getHealth() >= 0) {
 			remaningHealth = 0;
+		} else if(k.getHealth() <= 0) {
+			remaningHealth = 1;
 		}
 
 		renderer.rect(x, y + radiusOfEntity, radiusOfEntity * remaningHealth, radiusOfEntity

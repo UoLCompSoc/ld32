@@ -10,26 +10,19 @@ import com.badlogic.ashley.core.Component;
  * Created by Samy Narrainen on 19/04/2015.
  * Description: Necessary as it provides the BasicFiringSystem a means of detecting enemies.
  */
-public class Enemy extends Component {
+public abstract class Enemy extends Component {
 	
-	Killable killComp;
+	public float speed;
+	public float health;
+	
+	// Can be used to increase game difficulty
+	static float multiplier = 1;
 	
 	public Enemy() {
-		//killable = new Killable();
+	
 	}
 	
-	public Upgrade.UpgradeRoute randomDrop() {
-		Random rand = new Random();
-		int num = rand.nextInt(3);
-		
-		if(num == 0) {
-			return Upgrade.UpgradeRoute.RED;
-		} else if(num == 1) {
-			return Upgrade.UpgradeRoute.GREEN;
-		} else {
-			return Upgrade.UpgradeRoute.BLUE;
-		}
+	public void setMultiplier(float m) {
+		multiplier = m;
 	}
-	
-	
 }

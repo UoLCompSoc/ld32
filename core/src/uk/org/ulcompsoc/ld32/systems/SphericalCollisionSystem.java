@@ -2,10 +2,7 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.ArrayList;
 
-import uk.org.ulcompsoc.ld32.components.Atom;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.SphericalBound;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.ComponentMapper;
@@ -73,11 +70,11 @@ public class SphericalCollisionSystem extends EntitySystem {
 		}
 
 		for (int i = 0; i < bounds.size() - 1; i++) {
-			// Entity one = entities.get(i);
+			Entity one = entities.get(i);
 			Circle oneCircle = bounds.get(i);
 
 			for (int j = i + 1; j < bounds.size(); j++) {
-				// Entity other = entities.get(j);
+				Entity other = entities.get(j);
 				Circle otherCircle = bounds.get(j);
 
 				// Collision
@@ -91,8 +88,8 @@ public class SphericalCollisionSystem extends EntitySystem {
 					if (atom != null) {
 						// System.out.println("atom found");
 
-						Position p = Mappers.positionMapper.get(entities.get(j));
-						Position p2 = Mappers.positionMapper.get(entities.get(i));
+						Position atomPos = Mappers.positionMapper.get(entities.get(j));
+						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
 						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
 
 						// float oneRadius =
@@ -110,6 +107,24 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 						// /if(p.getX() > outerBorder.radius / 2 && p.getY() >
 						// outerBorder.radius / 2) {
+
+						float deltaX = (float) ((paddlePos.getR() * Math.cos(paddlePos.getPhi()) - atomPos.getX()));
+						float deltaY = (float) ((paddlePos.getR() * Math.sin(paddlePos.getPhi())) - atomPos.getY());
+
+						float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0/Math.PI));
+
+						float degrees = (radPrime + 360) % 360;
+
+						//System.out.println(degrees);
+
+						float x = (float) (Math.cos(Math.toRadians(degrees)));
+						float y = (float) (Math.sin(Math.toRadians(degrees)));
+
+						v.x = x;
+						v.y = y;
+
+/*
+
 						if (p.getX() > 0 && p.getY() > 0) {
 							System.out.println("TOP RIGHT");
 							v.y = (float) Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
@@ -130,6 +145,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 							v.y = (float) -Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
 							v.x = (float) -Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
 						}
+						*/
 
 						/*
 						 * 
@@ -148,6 +164,35 @@ public class SphericalCollisionSystem extends EntitySystem {
 						 */
 
 					}
+
+					/**
+					 * PROJECTILE COLLISION
+					 */
+					Projectile projectile = Mappers.projectileMapper.get(entities.get(j));
+
+					if(projectile != null) {
+
+
+						//Check if other is killable
+						Killable isEnemyKillable = Mappers.killableMapper.get(entities.get(i));
+
+						//IT'S KILLABLE!
+						if(isEnemyKillable != null) {
+							isEnemyKillable.removeHealth(projectile.damage);
+
+							//If the enemy has 'death' hp then it's doomed, send it to die
+							if(isEnemyKillable.getHealth() <= 0) {
+								entities.get(i).add(new Doomed());
+								System.out.println("DOOMED");
+							}
+
+
+							engine.removeEntity(entities.get(j));
+
+
+						}
+					}
+
 				}
 			}
 		}

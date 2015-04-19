@@ -5,14 +5,13 @@ import java.util.HashMap;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
-import uk.org.ulcompsoc.ld32.components.Enemy;
-import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
 import uk.org.ulcompsoc.ld32.components.Paddle;
 import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Positron;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
@@ -30,6 +29,7 @@ import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
 import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
 import uk.org.ulcompsoc.ld32.systems.PositionDebugSystem;
+import uk.org.ulcompsoc.ld32.systems.ProjectileLifeTimeSystem;
 import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
 import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
@@ -112,7 +112,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new PaddleInputListener(leftKeys, rightKeys));
 		paddle.add(new SphericalBound(30f));
 		paddle.add(new Scalable(paddleScale));
-		paddle.add(new Enemy());
+		paddle.add(new Positron());
 		paddle.add(new Paddle());
 		paddle.add(new Wallet(1, 0, 0));
 
@@ -132,7 +132,6 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(towerPos);
 		tower.add(towerRen);
 		tower.add(new Tower(new Upgradable()));
-		tower.add(new Killable(100));
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
 		tower.add(new Scalable(towerScale));
@@ -174,9 +173,7 @@ public class LD32 extends ApplicationAdapter {
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
-		/**
-		 * FIRING SYSTEM FOR TOWERS
-		 */
+		engine.addSystem(new ProjectileLifeTimeSystem(8000));
 	}
 
 	@Override
