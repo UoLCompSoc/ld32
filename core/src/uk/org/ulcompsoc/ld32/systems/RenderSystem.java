@@ -58,7 +58,7 @@ public class RenderSystem extends IteratingSystem {
 			renderer.end();
 
 			if (k != null) {
-				drawHealthBar(p.getX() - (r.size / 2.0f), p.getY() - (r.size / 2.0f), k, r.size);
+				drawHealthBar(p.getX() - (r.size / 2.0f), p.getY() - (r.size / 2.0f), k, r);
 			}
 
 			break;
@@ -99,20 +99,20 @@ public class RenderSystem extends IteratingSystem {
 
 		rotationDeg = (float) Math.toDegrees(rotationRad);
 
-		final float xOffset = scalingFactor * region.getRegionWidth() / 2.0f;
-		final float yOffset = scalingFactor * region.getRegionHeight() / 2.0f;
+		final float xOffset = region.getRegionWidth() / 2.0f;
+		final float yOffset = region.getRegionHeight() / 2.0f;
 
 		final float x = p.getX() - xOffset;
 		final float y = p.getY() - yOffset;
 
 		batch.begin();
 		batch.setProjectionMatrix(camera.combined);
-		batch.draw(region, x, y, 0.0f, 0.0f, region.getRegionWidth(), region.getRegionHeight(), scalingFactor,
-		        scalingFactor, 0.0f);
+		batch.draw(region, x, y, region.getRegionWidth() / 2.0f, region.getRegionHeight() / 2.0f,
+		        region.getRegionWidth(), region.getRegionHeight(), scalingFactor, scalingFactor, rotationDeg);
 		batch.end();
 
 		if (k != null) {
-			drawHealthBar(x, y, k, region.getRegionHeight() * scalingFactor);
+			drawHealthBar(p.getX(), p.getY(), k, r);
 		}
 	}
 
@@ -124,15 +124,18 @@ public class RenderSystem extends IteratingSystem {
 	 *            position of the entity
 	 * @param k
 	 *            for health information
-	 * @param radiusOfEntity
-	 *            how big is the entity?
+	 * @param entityRenderable
+	 *            the renderable of the entity whose healthbar this is
 	 */
-	private void drawHealthBar(float x, float y, Killable k, float radiusOfEntity) {
+	private void drawHealthBar(float x, float y, Killable k, Renderable entityRenderable) {
 		renderer.begin(ShapeType.Filled);
+
+		x -= entityRenderable.getWidth() / 2.0f;
+		y += entityRenderable.getHeight() / 1.9f;
 
 		// Draw the positive health
 		renderer.setColor(POSITIVE_HEALTH_COLOR);
-		renderer.rect(x, y + radiusOfEntity, radiusOfEntity, radiusOfEntity / 4.0f);
+		renderer.rect(x, y, entityRenderable.getWidth(), entityRenderable.getHeight() / 4.0f);
 
 		// Draw the negative health
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);
@@ -146,7 +149,7 @@ public class RenderSystem extends IteratingSystem {
 			remaningHealth = 1;
 		}
 
-		renderer.rect(x, y + radiusOfEntity, radiusOfEntity * remaningHealth, radiusOfEntity
+		renderer.rect(x, y, entityRenderable.getWidth() * remaningHealth, entityRenderable.getHeight()
 		        / HEALTH_HEIGHT_POSITION_MODIFIER);
 
 		renderer.end();
