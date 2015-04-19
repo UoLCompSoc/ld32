@@ -37,14 +37,17 @@ public class CircleMap {
 			// segmentSize);
 
 			for (int segmentIndex = 0; segmentIndex < segmentCount; ++segmentIndex) {
-				currentRing[segmentIndex] = new RingSegment(ringRadius - ringHeight / 2.0f, segmentIndex * segmentSize,
-				        segmentSize);
-				setEuclideanCoordinates(currentRing[segmentIndex]);
+				final RingSegment newSegment = new RingSegment(ringRadius - ringHeight / 2.0f, segmentIndex
+				        * segmentSize, segmentSize);
+
+				setEuclideanCoordinates(newSegment);
 				if (segmentIndex != 0) {
-					currentRing[segmentIndex].previous = currentRing[segmentIndex - 1];
+					newSegment.previous = currentRing[segmentIndex - 1];
 				} else if (i != 0) {
-					currentRing[segmentIndex].previous = rings.get(i - 1).segments[segmentCount - 1];
+					newSegment.previous = rings.get(i - 1).segments[segmentCount - 1];
 				}
+
+				currentRing[segmentIndex] = newSegment;
 			}
 		}
 
@@ -55,6 +58,7 @@ public class CircleMap {
 				if (segmentIndex == ring.segments.length - 1) {
 					if (ringIndex != rings.size() - 1) {
 						ring.segments[segmentIndex].next = rings.get(ringIndex + 1).segments[0];
+						ring.segments[segmentIndex].isTrivialTransition = false;
 					}
 				} else {
 					ring.segments[segmentIndex].next = ring.segments[segmentIndex + 1];
@@ -62,17 +66,18 @@ public class CircleMap {
 			}
 		}
 	}
-	private void setEuclideanCoordinates(RingSegment segment){
-		float x1 = (float) (segment.middleR*Math.cos(segment.startPhi+segment.widthInRadians));
-		float y1 = (float) (segment.middleR*Math.sin(segment.startPhi+segment.widthInRadians));
-		float x2 = (float) (segment.middleR*Math.cos(segment.startPhi));
-		float y2 = (float) (segment.middleR*Math.sin(segment.startPhi));
-		
+
+	private void setEuclideanCoordinates(RingSegment segment) {
+		float x1 = (float) (segment.middleR * Math.cos(segment.startPhi + segment.widthInRadians));
+		float y1 = (float) (segment.middleR * Math.sin(segment.startPhi + segment.widthInRadians));
+		float x2 = (float) (segment.middleR * Math.cos(segment.startPhi));
+		float y2 = (float) (segment.middleR * Math.sin(segment.startPhi));
+
 		segment.euclideanPositions[0] = x1;
 		segment.euclideanPositions[1] = y1;
 		segment.euclideanPositions[2] = x2;
 		segment.euclideanPositions[3] = y2;
-		
+
 	}
 
 	public RingSegment getFirstSegment() {
@@ -99,16 +104,23 @@ public class CircleMap {
 		public final float widthInRadians;
 		public final float startPhi;
 
+		public boolean isTrivialTransition;
+
 		// x1, y1, x2, y2
 		public final float[] euclideanPositions = new float[4];
 
 		public RingSegment previous = null, next = null;
 
 		public RingSegment(float middleR, float startPhi, float widthInRadians) {
+			this(middleR, startPhi, widthInRadians, true);
+		}
+
+		public RingSegment(float middleR, float startPhi, float widthInRadians, boolean isTrivialTransition) {
 			this.middleR = middleR;
 			this.startPhi = startPhi;
 			this.widthInRadians = widthInRadians;
-			this.middlePhi = this.startPhi + this.widthInRadians;
+			this.middlePhi = this.startPhi + this.widthInRadians / 2.0f;
+			this.isTrivialTransition = isTrivialTransition;
 		}
 	}
 }
