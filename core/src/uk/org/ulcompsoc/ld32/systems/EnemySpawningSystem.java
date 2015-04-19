@@ -54,6 +54,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 		entity.add(new PathFollower(firstSegment).continueToNull().killWhenDone());
 		entity.add(new Renderable(img));
 		entity.add(new Enemy());
+		entity.add(new Killable(5)); //TODO GIVE PROPER HEALTH
 		entity.add(new SphericalBound(5f));
 		entity.add(new Scalable(0.25f));
 

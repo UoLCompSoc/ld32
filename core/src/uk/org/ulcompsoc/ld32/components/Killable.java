@@ -30,6 +30,14 @@ public class Killable extends Component {
     public void setHealth(float h) {
     	health = h;
     }
+
+    public void removeHealth(float h) {
+        health -= h;
+        if(health < 0) {
+            health = 0;
+        }
+
+    }
     
     public void addHealth(float h) {
     	health = health + h;

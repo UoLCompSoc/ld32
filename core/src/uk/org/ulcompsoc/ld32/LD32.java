@@ -118,7 +118,6 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(towerPos);
 		tower.add(towerRen);
 		tower.add(new Tower(new Upgradable()));
-		tower.add(new Killable(100));
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
 		tower.add(new Scalable(towerScale));
