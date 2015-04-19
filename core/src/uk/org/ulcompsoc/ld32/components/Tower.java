@@ -16,10 +16,12 @@ public class Tower extends Component {
 	private static final float DFLT_RANGE = 10.0f; // starting range
 	private static final float DFLT_FIRE_DELAY = 0.5f; // default fire delay
 	private static final float DFLT_MONSTER_DROP_RATE = 0.1f;
+	private static final float DFLT_DMG = 3.0f;
 
 	public float range;
 	public float fireDelay;
 	public float dropRate;
+	public float damage;
 
 	public int redBalls;
 	public int blueBalls; // heeeeeeeyooooo :D
@@ -143,6 +145,13 @@ public class Tower extends Component {
 		
 		if(ascended == null && Math.min(redStage, Math.min(greenStage, blueStage)) >= 4) {
 			ascended = new Ascended();
+		}
+	}
+	private void updateTowersStats(){
+		if(!combinations.isEmpty()){
+			for(Upgrade t : combinations){
+				
+			}
 		}
 	}
 }
