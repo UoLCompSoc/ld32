@@ -14,7 +14,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 
 public class Tower extends Component {
-	private static final float DFLT_RANGE = 10.0f; // starting range
+	private static final float DFLT_RANGE = 100.0f; // starting range
 	private static final float DFLT_FIRE_DELAY = 0.5f; // default fire delay
 	private static final float DFLT_MONSTER_DROP_RATE = 0.1f; //the chance for a monster to drop currency
 	private static final float DFLT_DMG = 3.0f; // base damge of the tower
