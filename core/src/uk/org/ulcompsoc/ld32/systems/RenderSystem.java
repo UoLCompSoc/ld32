@@ -56,7 +56,7 @@ public class RenderSystem extends IteratingSystem {
 			renderer.end();
 
 			if (k != null) {
-				drawHealthBar(p, k, r.size);
+				drawHealthBar(p.getX() - (r.size / 2.0f), p.getY() - (r.size / 2.0f), k, r.size);
 			}
 
 			break;
@@ -94,13 +94,17 @@ public class RenderSystem extends IteratingSystem {
 		final float xOffset = scalingFactor * region.getRegionWidth() / 2.0f;
 		final float yOffset = scalingFactor * region.getRegionHeight() / 2.0f;
 
+		final float x = p.getX() - xOffset;
+		final float y = p.getY() - yOffset;
+
 		batch.begin();
-		batch.draw(region, p.getX() - xOffset, p.getY() - yOffset, 0.0f, 0.0f, region.getRegionWidth(),
-		        region.getRegionHeight(), scalingFactor, scalingFactor, 0.0f);
+		batch.setProjectionMatrix(camera.combined);
+		batch.draw(region, x, y, 0.0f, 0.0f, region.getRegionWidth(), region.getRegionHeight(), scalingFactor,
+		        scalingFactor, 0.0f);
 		batch.end();
 
 		if (k != null) {
-			drawHealthBar(p, k, region.getRegionHeight() * scalingFactor);
+			drawHealthBar(x, y, k, region.getRegionHeight() * scalingFactor);
 		}
 	}
 
@@ -115,12 +119,12 @@ public class RenderSystem extends IteratingSystem {
 	 * @param radius
 	 *            how big is the entity?
 	 */
-	private void drawHealthBar(Position p, Killable k, float radius) {
+	private void drawHealthBar(float x, float y, Killable k, float radius) {
 		renderer.begin(ShapeType.Filled);
 
 		// Draw the positive health
 		renderer.setColor(POSITIVE_HEALTH_COLOR);
-		renderer.rect(p.getX(), p.getY() + radius, radius, radius / 4.0f);
+		renderer.rect(x, y + radius, radius, radius / 4.0f);
 
 		// Draw the negative health
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);
@@ -132,7 +136,7 @@ public class RenderSystem extends IteratingSystem {
 			remaningHealth = 0;
 		}
 
-		renderer.rect(p.getX(), p.getY() + radius, radius * remaningHealth, radius / HEALTH_HEIGHT_POSITION_MODIFIER);
+		renderer.rect(x, y + radius, radius * remaningHealth, radius / HEALTH_HEIGHT_POSITION_MODIFIER);
 
 		renderer.end();
 	}
