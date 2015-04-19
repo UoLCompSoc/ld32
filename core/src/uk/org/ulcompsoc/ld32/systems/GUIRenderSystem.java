@@ -44,7 +44,7 @@ public class GUIRenderSystem extends IteratingSystem {
 		int bluecount = wallet.blue;
 		int greencount = wallet.green;
 
-		final float scale = 0.75f;
+		final float scale = 0.68f;
 		final float w = frame.getRegionWidth() * scale;
 		final float h = frame.getRegionHeight() * scale;
 
