@@ -53,7 +53,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 		entity.add(Position.fromPolar(firstSegment.middleR, firstSegment.middlePhi));
 		entity.add(new PathFollower(firstSegment).continueToNull().killWhenDone());
 		entity.add(new Renderable(img));
-		entity.add(new Enemy());
+		entity.add(new Positron());
 		entity.add(new SphericalBound(5f));
 		entity.add(new Scalable(0.25f));
 

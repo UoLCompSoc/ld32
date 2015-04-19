@@ -13,6 +13,7 @@ import uk.org.ulcompsoc.ld32.components.Paddle;
 import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Positron;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
@@ -110,7 +111,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new PaddleInputListener(leftKeys, rightKeys));
 		paddle.add(new SphericalBound(30f));
 		paddle.add(new Scalable(paddleScale));
-		paddle.add(new Enemy());
+		paddle.add(new Positron());
 		paddle.add(new Paddle());
 
 		engine.addEntity(paddle);
@@ -129,7 +130,6 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(towerPos);
 		tower.add(towerRen);
 		tower.add(new Tower(new Upgradable()));
-		tower.add(new Killable(100));
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
 		tower.add(new Scalable(towerScale));
