@@ -2,10 +2,7 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.ArrayList;
 
-import uk.org.ulcompsoc.ld32.components.Atom;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.SphericalBound;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.ComponentMapper;
@@ -73,11 +70,11 @@ public class SphericalCollisionSystem extends EntitySystem {
 		}
 
 		for (int i = 0; i < bounds.size() - 1; i++) {
-			// Entity one = entities.get(i);
+			Entity one = entities.get(i);
 			Circle oneCircle = bounds.get(i);
 
 			for (int j = i + 1; j < bounds.size(); j++) {
-				// Entity other = entities.get(j);
+				Entity other = entities.get(j);
 				Circle otherCircle = bounds.get(j);
 
 				// Collision
@@ -148,6 +145,27 @@ public class SphericalCollisionSystem extends EntitySystem {
 						 */
 
 					}
+
+					/**
+					 * PROJECTILE COLLISION
+					 */
+					Projectile projectile = Mappers.projectileMapper.get(entities.get(j));
+
+					if(projectile != null) {
+						System.out.println("HIT");
+
+						//Check if other is killable
+						Killable isEnemyKillable = Mappers.killableMapper.get(entities.get(i));
+
+						//IT'S KILLABLE!
+						if(isEnemyKillable != null) {
+							isEnemyKillable.removeHealth(projectile.damage);
+
+							System.out.println("TRUE");
+							engine.removeEntity(entities.get(j));
+						}
+					}
+
 				}
 			}
 		}

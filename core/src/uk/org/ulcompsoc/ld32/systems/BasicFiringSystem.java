@@ -81,33 +81,23 @@ public class BasicFiringSystem extends IteratingSystem {
                     projectile.add(new SphericalBound(2.0f));
 
 
-                    float senBeta = (float) (enemyPos.getX() / Math.sqrt(Math.pow(enemyPos.getX(),2)+ Math.pow(enemyPos.getY(),2)));
-                    float cosBeta =  (float) (enemyPos.getY() / Math.sqrt(Math.pow(enemyPos.getX(),2)+ Math.pow(enemyPos.getY(),2)));
+                    float deltaX = (float) ((enemyPos.getR() * Math.cos(enemyPos.getPhi()) - towerPos.getX()));
+                    float deltaY = (float) ((enemyPos.getR() * Math.sin(enemyPos.getPhi())) - towerPos.getY());
 
-
-                    float deltaX = enemyPos.getX();
-                    float deltaY = enemyPos.getY();
-
-                    float newY = enemyPos.getX() * senBeta - enemyPos.getY() * (cosBeta + 1);
-
-                    float core = (float) (deltaX / Math.sqrt((deltaX * senBeta) - (deltaY * (cosBeta+1))));
-                    float core2 = (float) (deltaY / Math.sqrt((deltaX * senBeta) - (deltaY * (cosBeta+1))));
-
-
-                    float rad1 =(float) Math.atan(deltaX);
-
-                    float deg1 = (float) (rad1 * (180 / Math.PI));
-
-                    float rad2 =(float) Math.atan(deltaY);
-
-                    float deg2 = (float) (rad2 * (180 / Math.PI));
+                    //System.out.println("original x = " + enemyPos.getX() + " ## new x = " + deltaX);
 
 
                     float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0/Math.PI));
 
-                    System.out.println(radPrime);
+                    float degrees = (radPrime + 360) % 360;
 
-                    projectile.add(new Velocity((float) (Math.cos(radPrime) + 1f), (float) (Math.sin(radPrime)) +1f));
+                    //System.out.println(degrees);
+
+                    float x = (float) (Math.cos(Math.toRadians(degrees)));
+                    float y = (float) (Math.sin(Math.toRadians(degrees)));
+                    //System.out.println("x: " + x + "####" + "y: " + y);
+
+                    projectile.add(new Velocity(x, y));
 
                     engine.addEntity(projectile);
 
