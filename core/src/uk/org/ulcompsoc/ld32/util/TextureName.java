@@ -12,19 +12,21 @@ public enum TextureName {
 	BALL_R("upgrade_balls/red.png"), //
 	BALL_B("upgrade_balls/blue.png"), //
 	BALL_G("upgrade_balls/green.png"),
-	
-	ZERO("numbers/0.png"),
-	ONE("numbers/1.png"),
-	TWO("numbers/2.png"),
-	THREE("numbers/3.png"),
-	FOUR("numbers/4.png"),
-	FIVE("numbers/5.png"),
-	SIX("numbers/6.png"),
-	SEVEN("numbers/7.png"),
-	EIGHT("numbers/8.png"),
-	NINE("numbers/9.png"),
-	
-	FRAME_1("GUI/frame.png");
+
+	ZERO("numbers/0.png"), //
+	ONE("numbers/1.png"), //
+	TWO("numbers/2.png"), //
+	THREE("numbers/3.png"), //
+	FOUR("numbers/4.png"), //
+	FIVE("numbers/5.png"), //
+	SIX("numbers/6.png"), //
+	SEVEN("numbers/7.png"), //
+	EIGHT("numbers/8.png"), //
+	NINE("numbers/9.png"), //
+
+	FRAME_1("GUI/frame.png"), //
+
+	AMMO("ammo.png");//
 
 	public final String assetName;
 
