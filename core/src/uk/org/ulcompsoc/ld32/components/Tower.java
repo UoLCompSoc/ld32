@@ -24,7 +24,10 @@ public class Tower extends Component {
 	public float dropRate;
 	public float damage;
 	public float missleCount;
-
+	
+	//attributes assosiated with firing
+	private float elapsedTime;
+	
 	public int redBalls;
 	public int blueBalls; // heeeeeeeyooooo :D
 	public int greenBalls;
@@ -51,6 +54,8 @@ public class Tower extends Component {
 		red = null;
 		blue = null;
 		green = null;
+		
+		this.elapsedTime = 0;
 
 		combinations = new HashSet<Upgrade>();
 		listOfPointsToScan = new ArrayList<RingSegment>();
@@ -162,5 +167,19 @@ public class Tower extends Component {
 				this.missleCount+=t.getSimoultaniousFire();
 			}
 		}
+	}
+	
+	public void TimePassed(float deltaTime){
+		this.elapsedTime+=deltaTime;
+	}
+	public Boolean isReadyToFire(){
+		if(this.elapsedTime>=fireDelay){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public void shotHasBeenFired(){
+		this.elapsedTime=0;
 	}
 }
