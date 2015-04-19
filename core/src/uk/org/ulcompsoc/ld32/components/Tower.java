@@ -48,6 +48,7 @@ public class Tower extends Component {
 		this.damage = Tower.DFLT_DMG;
 		this.missleCount = Tower.DFLT_MISSLE_COUNT;
 
+
 		this.redBalls = 0;
 		this.blueBalls = 0;
 		this.greenBalls = 0;
@@ -167,6 +168,7 @@ public class Tower extends Component {
 				this.dropRate*=t.getDrops();
 				this.fireDelay*=t.getTimeDelay();
 				this.missleCount+=t.getSimultaneousFire();
+
 
 			}
 		}
