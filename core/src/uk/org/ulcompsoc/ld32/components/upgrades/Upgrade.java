@@ -75,7 +75,7 @@ public abstract class Upgrade extends Component{
 	public float getDrops(){
 		return this.drops;
 	}
-	public int getSimoultaniousFire(){
+	public int getSimultaneousFire(){
 		return this.simultanousFire;
 	}
 	public float getTimeDelay(){

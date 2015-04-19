@@ -3,25 +3,9 @@ package uk.org.ulcompsoc.ld32;
 import java.util.HashMap;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.Atom;
-import uk.org.ulcompsoc.ld32.components.Killable;
-import uk.org.ulcompsoc.ld32.components.MapRenderable;
-import uk.org.ulcompsoc.ld32.components.Paddle;
-import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
-import uk.org.ulcompsoc.ld32.components.PathFollower;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.Scalable;
-import uk.org.ulcompsoc.ld32.components.SphericalBound;
-import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
-import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
-import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
-import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
-import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
-import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
-import uk.org.ulcompsoc.ld32.systems.RenderSystem;
-import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
+import uk.org.ulcompsoc.ld32.systems.*;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -89,6 +73,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(paddlePosition);
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
 		paddle.add(new SphericalBound(30f));
+		paddle.add(new Enemy()); //FIXME JUST TESTING
 		paddle.add(new Scalable(paddleScale));
 
 		paddle.add(new Paddle());
@@ -99,11 +84,12 @@ public class LD32 extends ApplicationAdapter {
 		enemy.add(Position.fromPolar(firstSegment.middleR, firstSegment.middlePhi));
 		enemy.add(new Renderable(Color.BLUE, 16.0f));
 		enemy.add(new PathFollower(firstSegment).continueToNull());
+		enemy.add(new Enemy());
 		engine.addEntity(enemy);
 
 		tower.add(Position.fromPolar(map.radius, LDUtil.PI));
 		tower.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER))));
-		// tower.add(new Tower());
+		tower.add(new Tower(new Upgradable()));
 		tower.add(new Killable(100));
 		tower.add(new Upgradable());
 		tower.add(new Scalable(0.25f));
@@ -133,6 +119,12 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.addSystem(new AtomMovementSystem(new Circle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2,
 		        map.radius), 2));
+
+		/**
+		 * FIRING SYSTEM FOR TOWERS
+		 */
+		engine.addSystem(new BasicFiringSystem(2));
+		engine.addSystem(new ProjectileMovementSystem(2));
 	}
 
 	@Override
