@@ -39,8 +39,8 @@ public class Tower extends Component {
 	private Upgrade ascended;
 	private Set<Upgrade> combinations;
 	private Upgradable upgrades;
-	private Killable killComp;
-	private Damage damageComp;
+	private ComponentMapper<Damage> damageComp;
+	private ComponentMapper<Killable> killComp;
 	
 	public Tower(Upgradable ups) {
 		this.range = Tower.DFLT_RANGE;
@@ -50,18 +50,18 @@ public class Tower extends Component {
 		this.redBalls = 0;
 		this.blueBalls = 0;
 		this.greenBalls = 0;
+		this.elapsedTime = 0;
 
 		red = null;
 		blue = null;
 		green = null;
-		
-		this.elapsedTime = 0;
 
 		combinations = new HashSet<Upgrade>();
 		listOfPointsToScan = new ArrayList<RingSegment>();
 		upgrades =ups;
-		killComp = new Killable();
-		damageComp = new Damage(Tower.DFLT_DMG);
+		
+		killComp = ComponentMapper.getFor(Killable.class);
+		damageComp = ComponentMapper.getFor(Damage.class);
 	}
 
 	// set the upgrade of the blue component
