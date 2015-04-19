@@ -19,6 +19,8 @@ public class PathFollower extends Component {
 	public boolean continueToNull = false;
 	public boolean continueOnce = false;
 
+	public boolean shouldKillWhenDone = false;
+
 	public PathFollower(final RingSegment segment) {
 		this(segment, DEFAULT_WANDER_TIME);
 	}
@@ -87,5 +89,14 @@ public class PathFollower extends Component {
 
 	public boolean isStraightPath() {
 		return straightPath;
+	}
+
+	public boolean shouldKillWhenDone() {
+		return shouldKillWhenDone;
+	}
+
+	public PathFollower killWhenDone() {
+		shouldKillWhenDone = true;
+		return this;
 	}
 }

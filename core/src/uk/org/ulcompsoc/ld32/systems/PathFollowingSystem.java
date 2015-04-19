@@ -1,6 +1,7 @@
 package uk.org.ulcompsoc.ld32.systems;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
@@ -42,9 +43,17 @@ public class PathFollowingSystem extends IntervalIteratingSystem {
 				}
 			}
 
+			if (pf.shouldKillWhenDone()) {
+				entity.add(new Doomed());
+			}
+
 			entity.remove(PathFollower.class);
 		} else {
 			if (pf.segment.next == null) {
+				if (pf.shouldKillWhenDone()) {
+					entity.add(new Doomed());
+				}
+
 				entity.remove(PathFollower.class);
 				return;
 			}

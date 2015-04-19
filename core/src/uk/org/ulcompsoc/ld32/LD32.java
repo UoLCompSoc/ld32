@@ -3,9 +3,29 @@ package uk.org.ulcompsoc.ld32;
 import java.util.HashMap;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.*;
+import uk.org.ulcompsoc.ld32.components.Atom;
+import uk.org.ulcompsoc.ld32.components.Killable;
+import uk.org.ulcompsoc.ld32.components.MapRenderable;
+import uk.org.ulcompsoc.ld32.components.Paddle;
+import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
+import uk.org.ulcompsoc.ld32.components.PathFollower;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Scalable;
+import uk.org.ulcompsoc.ld32.components.SphericalBound;
+import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
-import uk.org.ulcompsoc.ld32.systems.*;
+import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
+import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
+import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
+import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
+import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
+import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
+import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
+import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
+import uk.org.ulcompsoc.ld32.systems.RenderSystem;
+import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -19,6 +39,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -42,6 +64,8 @@ public class LD32 extends ApplicationAdapter {
 
 	private ShapeRenderer shapeRenderer = null;
 	private Batch spriteBatch = null;
+
+	private Animation ballAnimation = null;
 
 	public LD32() {
 		super();
@@ -73,7 +97,6 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(paddlePosition);
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
 		paddle.add(new SphericalBound(30f));
-		paddle.add(new Enemy()); //FIXME JUST TESTING
 		paddle.add(new Scalable(paddleScale));
 
 		paddle.add(new Paddle());
@@ -83,9 +106,9 @@ public class LD32 extends ApplicationAdapter {
 		final RingSegment firstSegment = map.getFirstSegment();
 		enemy.add(Position.fromPolar(firstSegment.middleR, firstSegment.middlePhi));
 		enemy.add(new Renderable(Color.BLUE, 16.0f));
-		enemy.add(new PathFollower(firstSegment).continueToNull());
-		enemy.add(new Enemy());
-		engine.addEntity(enemy);
+		enemy.add(new PathFollower(firstSegment).continueToNull().killWhenDone());
+		// enemy.add(new Enemy());
+		// engine.addEntity(enemy);
 
 		tower.add(Position.fromPolar(map.radius, LDUtil.PI));
 		tower.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER))));
@@ -101,6 +124,7 @@ public class LD32 extends ApplicationAdapter {
 		mapEntity.add(new MapRenderable(map));
 		engine.addEntity(mapEntity);
 
+		engine.addSystem(new EnemySpawningSystem(500, 5.0f, map));
 		engine.addSystem(new PaddleInputSystem(1000));
 		engine.addSystem(new PathFollowingSystem(5000));
 		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
@@ -177,12 +201,19 @@ public class LD32 extends ApplicationAdapter {
 	}
 
 	public Entity makeAtom() {
+		if (ballAnimation == null) {
+			final TextureRegion[] regions = TextureRegion.split(textureManager.nameMap.get(TextureName.BALL_ANIM), 64,
+			        64)[0];
+
+			ballAnimation = new Animation(0.15f, regions);
+			ballAnimation.setPlayMode(PlayMode.LOOP);
+		}
+
 		Entity e = new Entity();
 
 		e.add(Position.fromEuclidean(2.0f, 2.0f));
-		Renderable r = new Renderable(Color.CYAN, 10.0f);
-
-		e.add(r);
+		e.add(new Renderable(ballAnimation));
+		e.add(new Scalable(0.5f));
 		e.add(new SphericalBound(10.0f));
 		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());

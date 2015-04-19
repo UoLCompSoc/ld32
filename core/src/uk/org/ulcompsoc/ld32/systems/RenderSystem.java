@@ -13,6 +13,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
@@ -61,31 +62,42 @@ public class RenderSystem extends IteratingSystem {
 			break;
 		}
 
-		case TEXTURE: {
-			final Rotatable rot = Mappers.rotatableMapper.get(entity);
-			final Scalable sc = Mappers.scalableMapper.get(entity);
-			final float scalingFactor = (sc != null ? sc.scale : 1.0f);
-			final float rotation;
+		case STATIC_TEXTURE: {
+			drawFrame(entity, p, r, k, r.region);
+			break;
+		}
 
-			if (Mappers.paddleMapper.has(entity)) {
-				rotation = (float) Math.toDegrees(p.getPhi());
-			} else {
-				rotation = (rot != null ? rot.rotation : 0.0f);
-			}
-
-			batch.begin();
-			batch.draw(r.region, p.getX(), p.getY(), 0.0f, 0.0f, r.region.getRegionWidth(), r.region.getRegionHeight(),
-			        scalingFactor, scalingFactor, rotation);
-			batch.end();
-
-			if (k != null) {
-				drawHealthBar(p, k, r.region.getRegionHeight() * scalingFactor);
-			}
+		case ANIMATED_TEXTURE: {
+			r.animTime += deltaTime;
+			drawFrame(entity, p, r, k, r.animation.getKeyFrame(r.animTime));
 			break;
 		}
 
 		default:
 			break;
+		}
+	}
+
+	private void drawFrame(final Entity entity, final Position p, final Renderable r, final Killable k,
+	        final TextureRegion region) {
+		final Rotatable rot = Mappers.rotatableMapper.get(entity);
+		final Scalable sc = Mappers.scalableMapper.get(entity);
+		final float scalingFactor = (sc != null ? sc.scale : 1.0f);
+		final float rotation;
+
+		if (Mappers.paddleMapper.has(entity)) {
+			rotation = (float) Math.toDegrees(p.getPhi());
+		} else {
+			rotation = (rot != null ? rot.rotation : 0.0f);
+		}
+
+		batch.begin();
+		batch.draw(region, p.getX(), p.getY(), 0.0f, 0.0f, region.getRegionWidth(), region.getRegionHeight(),
+		        scalingFactor, scalingFactor, rotation);
+		batch.end();
+
+		if (k != null) {
+			drawHealthBar(p, k, region.getRegionHeight() * scalingFactor);
 		}
 	}
 

@@ -2,9 +2,13 @@ package uk.org.ulcompsoc.ld32.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Renderable extends Component {
+	public Animation animation = null;
+	public float animTime = 0.0f;
+
 	public TextureRegion region = null;
 
 	public final RenderableType type;
@@ -20,12 +24,18 @@ public class Renderable extends Component {
 	}
 
 	public Renderable(final TextureRegion region) {
-		this.type = RenderableType.TEXTURE;
+		this.type = RenderableType.STATIC_TEXTURE;
 
 		this.region = region;
 	}
 
+	public Renderable(final Animation animation) {
+		this.type = RenderableType.ANIMATED_TEXTURE;
+
+		this.animation = animation;
+	}
+
 	public static enum RenderableType {
-		TEXTURE, SHAPE;
+		STATIC_TEXTURE, ANIMATED_TEXTURE, SHAPE;
 	}
 }
