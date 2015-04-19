@@ -88,8 +88,9 @@ public class LD32 extends ApplicationAdapter {
 		final Position paddlePosition = Position.fromPolar(map.radius, 0.0f);
 		paddle.add(paddlePosition);
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
-		paddle.add(new SphericalBound(paddleRenderable.region.getRegionWidth()));
+		paddle.add(new SphericalBound(30f));
 		paddle.add(new Scalable(paddleScale));
+
 		paddle.add(new Paddle());
 
 		engine.addEntity(paddle);
@@ -191,7 +192,7 @@ public class LD32 extends ApplicationAdapter {
 
 		e.add(r);
 		e.add(new SphericalBound(10.0f));
-		e.add(new Velocity(1f, 1f));
+		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
 
 		return e;

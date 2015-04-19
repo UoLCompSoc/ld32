@@ -33,6 +33,7 @@ public class Position extends Component {
 		position.x = x;
 
 		recalculatePolarFromEuclidean();
+
 	}
 
 	public void setY(float y) {
@@ -56,6 +57,7 @@ public class Position extends Component {
 	private void recalculatePolarFromEuclidean() {
 		r = (float) Math.sqrt(position.x * position.x + position.y * position.y);
 		phi = (float) Math.atan2(position.y, position.x);
+
 	}
 
 	public Position translatePolarDistance(float r) {

@@ -66,4 +66,20 @@ public abstract class Upgrade extends Component{
 	public UpgradeRoute getType() {
 		return type;
 	}
+	public float getDamage(){
+		return this.dmg;
+	}
+	public float getCosts(){
+		return this.costs;
+	}
+	public float getDrops(){
+		return this.drops;
+	}
+	public int getSimoultaniousFire(){
+		return this.simultanousFire;
+	}
+	public float getTimeDelay(){
+		return this.time;
+	}
+	
 }
