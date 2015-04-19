@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Set;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 import uk.org.ulcompsoc.ld32.components.upgrades.*;
-import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
 
 public class Tower extends Component {
 	private static final float DFLT_RANGE = 100.0f; // starting range
@@ -58,6 +56,22 @@ public class Tower extends Component {
 		combinations = new HashSet<Upgrade>();
 		listOfPointsToScan = new ArrayList<RingSegment>();
 		upgrades =ups;
+	}
+	
+	public void TimePassed(float deltaTime){
+		this.elapsedTime+=deltaTime;
+	}
+	
+	public Boolean isReadyToFire() {
+		if(this.elapsedTime >= this.fireDelay){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void shotHasBeenFired(){
+		this.elapsedTime=0;
 	}
 }
 

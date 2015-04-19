@@ -18,11 +18,9 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 public class BasicFiringSystem extends IteratingSystem {
 
     private Engine engine = null;
-    TowerSystem towS;
 
     public BasicFiringSystem(int priority) {
         super(Family.all(Tower.class, Position.class).get(), priority);
-        towS = new TowerSystem();
     }
 
     @Override
@@ -41,13 +39,15 @@ public class BasicFiringSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         //The tower we're checking for
         Tower tower = Mappers.towerMapper.get(entity);
+    	Damage damageComp = Mappers.damageMapper.get(entity);
+    	
         //The position of the tower
         Position towerPos = Mappers.positionMapper.get(entity);
 
         //Increment known time for the tower
-        towS.TimePassed(entity, deltaTime);
+        tower.TimePassed(deltaTime);
 
-        if(towS.isReadyToFire(entity)) {
+        if(tower.isReadyToFire()) {
             /**
              * Look for an enemy to fire at!
              */
@@ -75,7 +75,7 @@ public class BasicFiringSystem extends IteratingSystem {
                     //TODO IMPLEMENT A POOLEDENGINE FOR THIS?
                     Entity projectile = new Entity();
 
-                    projectile.add(new Projectile(towS.getDamageDealt(entity)));
+                    projectile.add(new Projectile(damageComp.getDamageDealt()));
                     projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
                     projectile.add(new Renderable(Color.RED, 2.0f));
                     projectile.add(new SphericalBound(2.0f));
@@ -86,7 +86,7 @@ public class BasicFiringSystem extends IteratingSystem {
                     engine.addEntity(projectile);
 
                     //Update the tower to be fired
-                    towS.shotHasBeenFired(entity);
+                    tower.shotHasBeenFired();
                 }
 
             }
