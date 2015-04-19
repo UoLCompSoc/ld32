@@ -9,6 +9,7 @@ import uk.org.ulcompsoc.ld32.components.Drop.Colour;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.util.Mappers;
+import uk.org.ulcompsoc.ld32.util.TextureManager;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -19,10 +20,12 @@ import com.badlogic.gdx.graphics.Color;
 public class DoomedSystem extends IteratingSystem {
 	private Engine engine = null;
 	private final Random random = new Random();
+	final TextureManager textureManager;
 
 	@SuppressWarnings("unchecked")
-	public DoomedSystem(int priority) {
+	public DoomedSystem(int priority,final TextureManager textureManager) {
 		super(Family.all(Doomed.class).get(), priority);
+		this.textureManager = textureManager;
 	}
 
 	@Override
