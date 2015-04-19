@@ -85,15 +85,15 @@ public class DoomedSystem extends IteratingSystem {
 		//if booster doesn't equal 0
 		if (booster > 0) {
 			//if chance with booster will go beyond 1.0f - we want to create infinite upgrades
-			if (chance * booster >= 1.0f) {
-				int temp = (int) (chance * booster);
-				if (random.nextInt(temp) + random.nextFloat() < chance*booster) {
+			if (chance + booster >= 1.0f) {
+				int temp = (int) (chance + booster);
+				if (random.nextInt(temp) + random.nextFloat() < chance+booster) {
 					return true;
 				} else return false;
 
 			} else {
 				// if chance with booster is below 1.0f
-				if (random.nextFloat() < chance * booster) {
+				if (random.nextFloat() < chance+booster) {
 					return true;
 				} else return false;
 			}
