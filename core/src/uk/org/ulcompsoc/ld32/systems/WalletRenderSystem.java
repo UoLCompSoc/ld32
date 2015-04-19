@@ -54,7 +54,6 @@ public class WalletRenderSystem extends IteratingSystem {
 		final Wallet wallet = Mappers.walletMapper.get(entity);
 
 		p = camera.unproject(basePosition);
-		System.out.format("(p.x, p.y) = (%f, %f)\n", p.x, p.y);
 
 		batch.begin();
 		batch.draw(red, p.x, p.y, red.getRegionWidth(), red.getRegionHeight());
