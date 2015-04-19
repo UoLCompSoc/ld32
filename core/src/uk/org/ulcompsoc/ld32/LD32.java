@@ -105,7 +105,8 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(paddlePosition);
 		final int[] leftKeys = { Keys.LEFT, Keys.A };
 		final int[] rightKeys = { Keys.RIGHT, Keys.D };
-		paddle.add(new PaddleInputListener(leftKeys, rightKeys));
+		final int[] fireKeys = {Keys.UP, Keys.SPACE};
+		paddle.add(new PaddleInputListener(leftKeys, rightKeys, fireKeys));
 		paddle.add(new SphericalBound(30f));
 		paddle.add(new Positron());
 		paddle.add(new Paddle());

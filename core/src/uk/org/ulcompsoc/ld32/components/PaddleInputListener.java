@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Component;
 public class PaddleInputListener extends Component {
 	public final int[] leftKeys;
 	public final int[] rightKeys;
+	public final int[] fireKeys;
 
 	public static final float MAX_VELOCITY = LDUtil.PI / 25;
 	public static final float MAX_SPEED_TIME = 1.5f;
@@ -15,17 +16,20 @@ public class PaddleInputListener extends Component {
 	public float pressTime = 0.0f;
 	public float velocity = 0.0f;
 
-	public PaddleInputListener(int leftKey, int rightKey) {
+	public PaddleInputListener(int leftKey, int rightKey, int fireKeys) {
 		this.leftKeys = new int[1];
 		this.rightKeys = new int[1];
+		this.fireKeys = new int [1];
 
 		this.leftKeys[0] = leftKey;
 		this.rightKeys[0] = rightKey;
+		this.fireKeys[0] = fireKeys;
 	}
 
-	public PaddleInputListener(final int[] leftKeys, final int[] rightKeys) {
+	public PaddleInputListener(final int[] leftKeys, final int[] rightKeys, final int [] fireKeys) {
 		this.leftKeys = leftKeys;
 		this.rightKeys = rightKeys;
+		this.fireKeys = fireKeys;
 	}
 
 	public void setVelocity(float velocity) {
