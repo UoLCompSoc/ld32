@@ -23,6 +23,7 @@ import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
 import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
 import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
+import uk.org.ulcompsoc.ld32.systems.PositionDebugSystem;
 import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
 import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
@@ -93,9 +94,12 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(paddleRenderable);
 
 		final float paddleScale = 0.2f;
-		final Position paddlePosition = Position.fromPolar(map.radius, 0.0f);
+		final Position paddlePosition = Position
+		        .fromPolar(map.radius + paddleScale * paddleRenderable.getWidth(), 0.0f);
 		paddle.add(paddlePosition);
-		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
+		final int[] leftKeys = { Keys.LEFT, Keys.A };
+		final int[] rightKeys = { Keys.RIGHT, Keys.D };
+		paddle.add(new PaddleInputListener(leftKeys, rightKeys));
 		paddle.add(new SphericalBound(30f));
 		paddle.add(new Scalable(paddleScale));
 
@@ -129,6 +133,9 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new PathFollowingSystem(5000));
 		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
+
+		engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
+
 		engine.addSystem(new DoomedSystem(100000));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));

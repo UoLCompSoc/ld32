@@ -91,9 +91,12 @@ public class RenderSystem extends IteratingSystem {
 			rotation = (rot != null ? rot.rotation : 0.0f);
 		}
 
+		final float xOffset = scalingFactor * region.getRegionWidth() / 2.0f;
+		final float yOffset = scalingFactor * region.getRegionHeight() / 2.0f;
+
 		batch.begin();
-		batch.draw(region, p.getX(), p.getY(), 0.0f, 0.0f, region.getRegionWidth(), region.getRegionHeight(),
-		        scalingFactor, scalingFactor, rotation);
+		batch.draw(region, p.getX() - xOffset, p.getY() - yOffset, 0.0f, 0.0f, region.getRegionWidth(),
+		        region.getRegionHeight(), scalingFactor, scalingFactor, rotation);
 		batch.end();
 
 		if (k != null) {
@@ -125,8 +128,9 @@ public class RenderSystem extends IteratingSystem {
 		float remaningHealth = k.getHealth() / k.getOrigHealth();
 
 		// If there's no difference, default to 0
-		if (remaningHealth == 1)
+		if (remaningHealth == 1) {
 			remaningHealth = 0;
+		}
 
 		renderer.rect(p.getX(), p.getY() + radius, radius * remaningHealth, radius / HEALTH_HEIGHT_POSITION_MODIFIER);
 

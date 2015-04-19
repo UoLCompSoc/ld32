@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Renderable extends Component {
 	public Animation animation = null;
@@ -37,5 +38,41 @@ public class Renderable extends Component {
 
 	public static enum RenderableType {
 		STATIC_TEXTURE, ANIMATED_TEXTURE, SHAPE;
+	}
+
+	public float getWidth() {
+		switch (type) {
+		case ANIMATED_TEXTURE:
+			return animation.getKeyFrame(animTime).getRegionWidth();
+
+		case SHAPE:
+			return size;
+
+		case STATIC_TEXTURE:
+			return region.getRegionWidth();
+
+		default:
+			break;
+		}
+
+		throw new GdxRuntimeException("Invalid type in Renderable.getWidth()");
+	}
+
+	public float getHeight() {
+		switch (type) {
+		case ANIMATED_TEXTURE:
+			return animation.getKeyFrame(animTime).getRegionHeight();
+
+		case SHAPE:
+			return size;
+
+		case STATIC_TEXTURE:
+			return region.getRegionHeight();
+
+		default:
+			break;
+		}
+
+		throw new GdxRuntimeException("Invalid type in Renderable.getWidth()");
 	}
 }

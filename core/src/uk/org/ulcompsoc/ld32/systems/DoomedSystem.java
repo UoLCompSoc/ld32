@@ -13,6 +13,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 
 public class DoomedSystem extends IteratingSystem {
 	private Engine engine = null;
+	private final Random random = new Random();
 
 	@SuppressWarnings("unchecked")
 	public DoomedSystem(int priority) {
@@ -34,8 +35,35 @@ public class DoomedSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		CanItDrop canItDrop = Mappers.dropMapper.get(entity);
+
+		if (canItDrop != null) {
+			// do something here, it can drop
+		}
+
 		engine.removeEntity(entity);
 	}
-	
 
+	  private boolean shouldItDrop(float chance, float booster){
+          if(booster>0){
+                  if(chance*booster>=1.0f){
+                          int temp =(int) (chance*booster);
+                          if(random.nextInt(temp)+random.nextFloat()<chance*booster){
+                                  return true;
+                          }
+                                 
+                  } else {
+                          if(random.nextFloat()<chance*booster){
+                                  return true;
+                          }
+                  }
+          } else {
+                  if(chance>=1.0f){
+                          int temp2 = (int) chance;
+                          if(random.nextInt(temp2)+random.nextFloat()<chance){
+                                 // return
+                          }
+                  }
+          }
+          return false;
+	  }
 }
