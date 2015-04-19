@@ -10,22 +10,32 @@ import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
+import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class DoomedSystem extends IteratingSystem {
 	private Engine engine = null;
 	private final Random random = new Random();
 	final TextureManager textureManager;
 
+	private TextureRegion red;
+	private TextureRegion blue;
+	private TextureRegion green;
+	
 	@SuppressWarnings("unchecked")
 	public DoomedSystem(int priority,final TextureManager textureManager) {
 		super(Family.all(Doomed.class).get(), priority);
 		this.textureManager = textureManager;
+		
+		this.red = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
+		this.blue = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
+		this.green = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
 	}
 
 	@Override
@@ -53,7 +63,7 @@ public class DoomedSystem extends IteratingSystem {
 				Entity toAdd = new Entity();
 				toAdd.add(new Drop(Colour.RED));
 				toAdd.add(position);
-				toAdd.add(new Renderable(Color.RED, 4.0f));
+				toAdd.add(new Renderable(red));
 				engine.addEntity(toAdd);
 			}
 			boolean blueDrop = shouldItDrop(canItDrop.blueDropChance, CanItDrop.RED_BOOSTER);
@@ -64,7 +74,7 @@ public class DoomedSystem extends IteratingSystem {
 				Entity toAdd2 = new Entity();
 				toAdd2.add(new Drop(Colour.BLUE));
 				toAdd2.add(position);
-				toAdd2.add(new Renderable(Color.BLUE, 4.0f));
+				toAdd2.add(new Renderable(blue));
 				engine.addEntity(toAdd2);
 			}
 			boolean greenDrop = shouldItDrop(canItDrop.greenDropChance, CanItDrop.GREEN_BOOSTER);
@@ -75,7 +85,7 @@ public class DoomedSystem extends IteratingSystem {
 				Entity toAdd3 = new Entity();
 				toAdd3.add(new Drop(Colour.GREEN));
 				toAdd3.add(position);
-				toAdd3.add(new Renderable(Color.GREEN, 4.0f));
+				toAdd3.add(new Renderable(green));
 				engine.addEntity(toAdd3);
 
 			}
