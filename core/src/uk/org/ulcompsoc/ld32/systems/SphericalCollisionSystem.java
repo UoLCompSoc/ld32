@@ -88,8 +88,11 @@ public class SphericalCollisionSystem extends EntitySystem {
 					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x,2) + Math.pow(otherCircle.y - oneCircle.y,2)));
 
 					//If the atom is within roughly the core
-					if (atom != null && distance > oneCircle.radius / 4) {
+					if (atom != null && distance > oneCircle.radius / 4 && !atom.primed) {
 						// System.out.println("atom found");
+
+						//The atom is now housed in the paddle;
+						atom.atPaddle = true;
 
 						Position atomPos = Mappers.positionMapper.get(entities.get(j));
 						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
@@ -108,6 +111,33 @@ public class SphericalCollisionSystem extends EntitySystem {
 						v.x = x;
 						v.y = y;
 
+					} else if(atom != null && atom.primed) {
+
+						//Launch in opposite direction of the paddle.
+						Position atomPos = Mappers.positionMapper.get(entities.get(j));
+						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
+
+						Position oppositePaddlePos = Position.fromPolar(paddlePos.getR(), paddlePos.getPhi());
+						oppositePaddlePos.movePolarAngle(180.0f);
+
+						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
+
+						float deltaX = (float) ((oppositePaddlePos.getR() * Math.cos(oppositePaddlePos.getPhi()) - atomPos.getX()));
+						float deltaY = (float) ((oppositePaddlePos.getR() * Math.sin(oppositePaddlePos.getPhi())) - atomPos.getY());
+
+						float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0/Math.PI)); //Add 180 to get opposite
+
+						float degrees = (radPrime + 360) % 360;
+
+						float x = (float) (Math.cos(Math.toRadians(degrees)));
+						float y = (float) (Math.sin(Math.toRadians(degrees)));
+
+						v.x = x;
+						v.y = y;
+
+						atom.primed = false;
+					} else if(atom != null) {
+						atom.atPaddle = false;
 					}
 
 					/**
