@@ -12,6 +12,7 @@ import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Scalable;
+import uk.org.ulcompsoc.ld32.components.Enemy;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
@@ -102,7 +103,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new PaddleInputListener(leftKeys, rightKeys));
 		paddle.add(new SphericalBound(30f));
 		paddle.add(new Scalable(paddleScale));
-
+		paddle.add(new Enemy());
 		paddle.add(new Paddle());
 
 		engine.addEntity(paddle);
