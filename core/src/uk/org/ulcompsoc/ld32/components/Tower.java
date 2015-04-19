@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 import uk.org.ulcompsoc.ld32.components.upgrades.*;
 
 
@@ -28,9 +29,11 @@ public class Tower extends Component {
 	private Upgrade red;
 	private Upgrade blue;
 	private Upgrade green;
+	private Upgrade ascended;
 	private Set<Upgrade> combinations;
-
-	public Tower() {
+	private Upgradable upgrades;
+	
+	public Tower(Upgradable ups) {
 		this.range = Tower.DFLT_RANGE;
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
@@ -45,7 +48,7 @@ public class Tower extends Component {
 
 		combinations = new HashSet<Upgrade>();
 		listOfPointsToScan = new ArrayList<RingSegment>();
-		
+		upgrades =ups;
 	}
 
 	// set the upgrade of the blue component
@@ -56,6 +59,7 @@ public class Tower extends Component {
 		blueBalls = blueBalls - 5;
 		if (blue == null) {
 			 blue = new Damage_Plus();
+			updateCombos();
 			return true;
 		}
 		
@@ -70,6 +74,34 @@ public class Tower extends Component {
 			}
 			default: return false;
 		}
+		updateCombos();
+		return true;
+	}
+	
+	public boolean setGreenUpgrade() {
+		if(greenBalls < 5) {
+			return false;
+		}
+		greenBalls = greenBalls -5;
+		
+		if(green == null) {
+			green = new Monster_Drops_1();
+			updateCombos();
+			return true;
+		}
+		
+		switch(green.getStage()) {
+			case 1: {
+				green = new Monster_Drops_2();
+				break;
+			}
+			case 2: {
+				green = new Upgrade_Costs();
+				break;
+			}
+			default: return false;
+		}
+		updateCombos();
 		return true;
 	}
 
@@ -77,11 +109,10 @@ public class Tower extends Component {
 		if (redBalls < 5) {
 			return false;
 		}
-
 		redBalls = redBalls - 5;
-
 		if (red == null) {
 			red = new Number_Of_Balls_1();
+			updateCombos();
 			return true;
 		}
 
@@ -95,8 +126,8 @@ public class Tower extends Component {
 				break;
 			}
 			default: return false;
-				
-			}
+		}
+		updateCombos();
 		return true;
 	}
 
@@ -105,6 +136,13 @@ public class Tower extends Component {
 		int greenStage = green.getStage();
 		int blueStage = blue.getStage();
 		
+		combinations.addAll(upgrades.getUpgradesFor(Math.min(redStage,greenStage), UpgradeRoute.REDGREEN));
+		combinations.addAll(upgrades.getUpgradesFor(Math.min(redStage,blueStage), UpgradeRoute.REDBLUE));
+		combinations.addAll(upgrades.getUpgradesFor(Math.min(greenStage,blueStage), UpgradeRoute.GREENBLUE));
+		combinations.addAll(upgrades.getUpgradesFor(Math.min(redStage,Math.min(blueStage, greenStage)), UpgradeRoute.REDGREENBLUE));
 		
+		if(ascended == null && Math.min(redStage, Math.min(greenStage, blueStage)) >= 4) {
+			ascended = new Ascended();
+		}
 	}
 }
