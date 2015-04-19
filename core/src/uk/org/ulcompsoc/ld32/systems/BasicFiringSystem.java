@@ -35,6 +35,10 @@ public class BasicFiringSystem extends IteratingSystem {
 	public BasicFiringSystem(int priority) {
 		super(Family.all(Tower.class, Position.class).get(), priority);
 
+		this.textureManager = new TextureManager();
+		this.textureManager.load();
+		this.atomSprite = new Sprite(new TextureRegion(textureManager.nameMap.get(TextureName.AMMO)));
+		this.atomSprite.setOriginCenter();
 	}
 
 	@Override
@@ -89,9 +93,10 @@ public class BasicFiringSystem extends IteratingSystem {
 					// TODO IMPLEMENT A POOLEDENGINE FOR THIS?
 					Entity projectile = new Entity();
 
+
 					projectile.add(new Projectile(damageComp.getDamageDealt()));
 					projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
-
+					projectile.add(new Renderable(atomSprite));
 					projectile.add(new SphericalBound(2.0f));
 
 					// System.out.println(radPrime);
