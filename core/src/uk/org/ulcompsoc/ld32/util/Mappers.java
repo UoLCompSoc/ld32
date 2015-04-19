@@ -4,7 +4,6 @@ import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Doomed;
-import uk.org.ulcompsoc.ld32.components.Enemy;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
@@ -13,15 +12,13 @@ import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Positron;
+import uk.org.ulcompsoc.ld32.components.Projectile;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
-import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.Wallet;
-import uk.org.ulcompsoc.ld32.components.*;
-import uk.org.ulcompsoc.ld32.components.Projectile;
 //import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 
@@ -41,18 +38,16 @@ public class Mappers {
 	public static final ComponentMapper<SphericalBound> sphericalBoundsMapper = ComponentMapper
 	        .getFor(SphericalBound.class);
 	public static final ComponentMapper<Rotatable> rotatableMapper = ComponentMapper.getFor(Rotatable.class);
-	public static final ComponentMapper<Scalable> scalableMapper = ComponentMapper.getFor(Scalable.class);
 	public static final ComponentMapper<Atom> atomMapper = ComponentMapper.getFor(Atom.class);
 	public static final ComponentMapper<Paddle> paddleMapper = ComponentMapper.getFor(Paddle.class);
 	public static final ComponentMapper<Velocity> velMapper = ComponentMapper.getFor(Velocity.class);
 	public static final ComponentMapper<CanItDrop> dropMapper = ComponentMapper.getFor(CanItDrop.class);
 
-	//Added by Musty
+	// Added by Musty
 	public static final ComponentMapper<Damage> damageMapper = ComponentMapper.getFor(Damage.class);
-	public static final ComponentMapper<Killable> killableMapper= ComponentMapper.getFor(Killable.class);
-	public static final ComponentMapper<Positron> enemyMapper= ComponentMapper.getFor(Positron.class);
+	public static final ComponentMapper<Killable> killableMapper = ComponentMapper.getFor(Killable.class);
+	public static final ComponentMapper<Positron> enemyMapper = ComponentMapper.getFor(Positron.class);
 
-	
 	public static final ComponentMapper<MouseListener> mouseListenerMapper = ComponentMapper
 	        .getFor(MouseListener.class);
 	public static final ComponentMapper<Wallet> walletMapper = ComponentMapper.getFor(Wallet.class);
