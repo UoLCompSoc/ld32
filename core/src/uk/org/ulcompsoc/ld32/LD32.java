@@ -155,11 +155,12 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new BasicFiringSystem(6500));
 		engine.addSystem(new SphericalCollisionSystem(7500, new Circle(Gdx.graphics.getWidth() / 2, Gdx.graphics
 		        .getHeight() / 2, map.radius)));
+		engine.addSystem(new ProjectileLifeTimeSystem(8000));
 		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
 
-		engine.addSystem(new WalletRenderSystem(25000, spriteBatch, camera, textureManager, (int) (Gdx.graphics
-		        .getWidth() * 0.8), (int) (Gdx.graphics.getHeight() * 0.9)));
+		engine.addSystem(new WalletRenderSystem(25000, spriteBatch, camera, textureManager,
+		        Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.95f));
 
 		engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
@@ -173,7 +174,6 @@ public class LD32 extends ApplicationAdapter {
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
-		engine.addSystem(new ProjectileLifeTimeSystem(8000));
 	}
 
 	@Override

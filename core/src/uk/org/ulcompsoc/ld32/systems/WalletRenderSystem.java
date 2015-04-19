@@ -46,15 +46,16 @@ public class WalletRenderSystem extends IteratingSystem {
 		this.red = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
 		this.blue = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
 		this.green = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
-		// do blue
 	}
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		final Wallet wallet = Mappers.walletMapper.get(entity);
 
-		p = camera.unproject(basePosition);
+		camera.update();
+		p = camera.unproject(basePosition.cpy());
 
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(red, p.x, p.y, red.getRegionWidth(), red.getRegionHeight());
 		batch.draw(blue, p.x + red.getRegionWidth(), p.y, blue.getRegionWidth(), blue.getRegionHeight());
