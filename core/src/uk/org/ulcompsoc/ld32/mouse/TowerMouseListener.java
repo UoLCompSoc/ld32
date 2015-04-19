@@ -15,7 +15,7 @@ public class TowerMouseListener implements MouseListenerHandler {
 
 	@Override
 	public void handleClick(final Entity tower, MouseButtons button, float mouseX, float mouseY) {
-		// System.out.println("Click: " + button.name());
+		System.out.format("Click (%s) at (%f, %f)\n", button.name(), mouseX, mouseY);
 	}
 
 	@Override
