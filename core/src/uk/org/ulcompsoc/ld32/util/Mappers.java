@@ -16,6 +16,7 @@ import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 
 import com.badlogic.ashley.core.ComponentMapper;
@@ -41,6 +42,7 @@ public class Mappers {
 	public static final ComponentMapper<Velocity> velMapper = ComponentMapper.getFor(Velocity.class);
 	//Added by Damian - just in case if it needs to be found and quickly fixed :P
 	public static final ComponentMapper<CanItDrop> dropMapper = ComponentMapper.getFor(CanItDrop.class);
+	public static final ComponentMapper<Wallet> walletMapper = ComponentMapper.getFor(Wallet.class);
 	
 	private Mappers() {
 	}
