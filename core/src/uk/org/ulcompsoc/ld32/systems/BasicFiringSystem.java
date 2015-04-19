@@ -1,9 +1,6 @@
 package uk.org.ulcompsoc.ld32.systems;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import uk.org.ulcompsoc.ld32.components.Antiproton;
-
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Projectile;
@@ -12,16 +9,16 @@ import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.util.Mappers;
+import uk.org.ulcompsoc.ld32.util.TextureManager;
+import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
-import uk.org.ulcompsoc.ld32.util.TextureManager;
-import uk.org.ulcompsoc.ld32.util.TextureName;
 
 /**
  * Created by Samy Narrainen on 19/04/2015. Description: Provides a basic system
@@ -30,16 +27,13 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 public class BasicFiringSystem extends IteratingSystem {
 
 	private Engine engine = null;
-    private Sprite atomSprite = null;
-    private TextureManager textureManager;
+	private TextureRegion ammoSprite = null;
 
-	public BasicFiringSystem(int priority) {
+	@SuppressWarnings("unchecked")
+	public BasicFiringSystem(int priority, final TextureManager textureManager) {
 		super(Family.all(Tower.class, Position.class).get(), priority);
 
-		this.textureManager = new TextureManager();
-		this.textureManager.load();
-		this.atomSprite = new Sprite(new TextureRegion(textureManager.nameMap.get(TextureName.AMMO)));
-		this.atomSprite.setOriginCenter();
+		this.ammoSprite = new TextureRegion(textureManager.nameMap.get(TextureName.AMMO));
 	}
 
 	@Override
@@ -72,9 +66,9 @@ public class BasicFiringSystem extends IteratingSystem {
 			 */
 
 			// Get all enemies in the engine
+			@SuppressWarnings("unchecked")
 			ImmutableArray<Entity> enemies = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class)
 			        .one(Antiproton.class).get());
-
 
 			// Iterate finding one to fire at
 			for (int i = 0; i < enemies.size(); i++) {
@@ -95,13 +89,11 @@ public class BasicFiringSystem extends IteratingSystem {
 					// TODO IMPLEMENT A POOLEDENGINE FOR THIS?
 					Entity projectile = new Entity();
 
-
 					projectile.add(new Projectile(damageComp.getDamageDealt()));
 					projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
-					projectile.add(new Renderable(atomSprite));
+					projectile.add(new Renderable(ammoSprite));
 					projectile.add(new SphericalBound(2.0f));
 
-					// System.out.println(radPrime);
 					float deltaX = (float) ((enemyPos.getR() * Math.cos(enemyPos.getPhi()) - towerPos.getX()));
 					float deltaY = (float) ((enemyPos.getR() * Math.sin(enemyPos.getPhi())) - towerPos.getY());
 
@@ -119,8 +111,6 @@ public class BasicFiringSystem extends IteratingSystem {
 					// System.out.println("x: " + x + "####" + "y: " + y);
 
 					projectile.add(new Velocity(x, y));
-
-					projectile.add(new Velocity((float) (Math.cos(radPrime) + 1f), (float) (Math.sin(radPrime)) + 1f));
 
 					engine.addEntity(projectile);
 

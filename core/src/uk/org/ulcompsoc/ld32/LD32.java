@@ -152,7 +152,7 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new AtomMovementSystem(5500, new Circle(Gdx.graphics.getWidth() / 2,
 		        Gdx.graphics.getHeight() / 2, map.radius)));
 		engine.addSystem(new ProjectileMovementSystem(6000));
-		engine.addSystem(new BasicFiringSystem(6500));
+		engine.addSystem(new BasicFiringSystem(6500, textureManager));
 		engine.addSystem(new SphericalCollisionSystem(7500, new Circle(Gdx.graphics.getWidth() / 2, Gdx.graphics
 		        .getHeight() / 2, map.radius)));
 		engine.addSystem(new ProjectileLifeTimeSystem(8000));
