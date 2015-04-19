@@ -32,13 +32,32 @@ public class Position extends Component {
 	public void setX(float x) {
 		position.x = x;
 
-		this.setPolar((float) Math.sqrt(position.x*position.x + position.y*position.y), (float) Math.atan2(position.y, position.x));
+		recalculatePolarFromEuclidean();
+
 	}
 
 	public void setY(float y) {
 		position.y = y;
 
-		this.setPolar((float) Math.sqrt(position.x*position.x + position.y*position.y), (float) Math.atan2(position.y, position.x));
+		recalculatePolarFromEuclidean();
+	}
+
+	public void moveX(float x) {
+		position.x += x;
+
+		recalculatePolarFromEuclidean();
+	}
+
+	public void moveY(float y) {
+		position.y += y;
+
+		recalculatePolarFromEuclidean();
+	}
+
+	private void recalculatePolarFromEuclidean() {
+		r = (float) Math.sqrt(position.x * position.x + position.y * position.y);
+		phi = (float) Math.atan2(position.y, position.x);
+
 	}
 
 	public Position translatePolarDistance(float r) {

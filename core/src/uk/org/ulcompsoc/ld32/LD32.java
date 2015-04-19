@@ -80,23 +80,26 @@ public class LD32 extends ApplicationAdapter {
 		this.spriteBatch = new SpriteBatch();
 		this.textureManager.load();
 
-		paddle.add(Position.fromPolar(map.radius + 5.0f, 0.0f));
-		Renderable paddleRenderable = new Renderable(new TextureRegion(
-		        textureManager.nameMap.get(TextureName.BASIC_TOWER)));
+		final Renderable paddleRenderable = new Renderable(new TextureRegion(
+		        textureManager.nameMap.get(TextureName.PADDLE)));
 		paddle.add(paddleRenderable);
+
+		final float paddleScale = 0.2f;
+		final Position paddlePosition = Position.fromPolar(map.radius + 0.0f, 0.0f);
+		paddlePosition.moveY(-paddleScale * paddleRenderable.region.getRegionHeight());
+		paddle.add(paddlePosition);
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
 		paddle.add(new SphericalBound(30f));
-		paddle.add(new Scalable(0.25f));
-		paddle.add(new Paddle());
+		paddle.add(new Scalable(paddleScale));
 
-		// r.region.getRegionHeight()
+		paddle.add(new Paddle());
 
 		engine.addEntity(paddle);
 
 		final RingSegment firstSegment = map.getFirstSegment();
 		enemy.add(Position.fromPolar(firstSegment.middleR, firstSegment.startPhi));
 		enemy.add(new Renderable(Color.BLUE, 32.0f));
-		enemy.add(new PathFollower(firstSegment));
+		enemy.add(new PathFollower(firstSegment).continueToNull());
 		engine.addEntity(enemy);
 
 		tower.add(Position.fromPolar(map.radius, LDUtil.PI));

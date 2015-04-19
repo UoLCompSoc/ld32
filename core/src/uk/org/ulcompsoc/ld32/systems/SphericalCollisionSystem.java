@@ -2,9 +2,10 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector2;
-import uk.org.ulcompsoc.ld32.components.*;
+import uk.org.ulcompsoc.ld32.components.Atom;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.ComponentMapper;
@@ -14,6 +15,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by Samy Narrainen on 18/04/2015.
@@ -24,7 +26,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 	private ComponentMapper<Position> posMapper = null;
 	private ComponentMapper<Renderable> renderMapper = null;
 	private ComponentMapper<SphericalBound> boundMapper = null;
-	private Circle                      outerBorder	= null;
+	private Circle outerBorder = null;
 
 	public SphericalCollisionSystem(int priority, Circle outerBorder) {
 		super(priority);
@@ -82,6 +84,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 					Atom atom = Mappers.atomMapper.get(entities.get(j));
 
+
 					/**
 					 * Atom collision
 					 */
@@ -93,6 +96,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 						Position p = Mappers.positionMapper.get(entities.get(j));
 						Position p2 = Mappers.positionMapper.get(entities.get(i));
 						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
+
 
 //						float oneRadius = Mappers.sphericalBoundsMapper.get(other).radius;
 //						float otherRadius = Mappers.sphericalBoundsMapper.get(other).radius;
@@ -128,19 +132,24 @@ public class SphericalCollisionSystem extends EntitySystem {
 						/*
 
 						if(p.getY() > outerBorder.radius) {
+
+						if (p.getY() > outerBorder.radius) {
+
 							v.y = -v.y;
 
 							System.out.println("test");
-						} else if(p.getX() > outerBorder.radius /2) {
+						} else if (p.getX() > outerBorder.radius / 2) {
 							v.x = -v.x;
 							System.out.println("test2");
-						} else if(p.getY() < -outerBorder.radius/2) {
+						} else if (p.getY() < -outerBorder.radius / 2) {
 							v.y = -v.y;
 							System.out.println("reached2");
-						} else if(p.getX() < -outerBorder.radius /2) {
+						} else if (p.getX() < -outerBorder.radius / 2) {
 							v.x = -v.x;
 						}
+
 						*/
+
 
 					}
 				}
