@@ -69,8 +69,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(paddleRenderable);
 
 		final float paddleScale = 0.2f;
-		final Position paddlePosition = Position.fromPolar(map.radius + 0.0f, 0.0f);
-		paddlePosition.moveY(-paddleScale * paddleRenderable.region.getRegionHeight());
+		final Position paddlePosition = Position.fromPolar(map.radius, 0.0f);
 		paddle.add(paddlePosition);
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
 		paddle.add(new SphericalBound(30f));
@@ -82,8 +81,8 @@ public class LD32 extends ApplicationAdapter {
 		engine.addEntity(paddle);
 
 		final RingSegment firstSegment = map.getFirstSegment();
-		enemy.add(Position.fromPolar(firstSegment.middleR, firstSegment.startPhi));
-		enemy.add(new Renderable(Color.BLUE, 32.0f));
+		enemy.add(Position.fromPolar(firstSegment.middleR, firstSegment.middlePhi));
+		enemy.add(new Renderable(Color.BLUE, 16.0f));
 		enemy.add(new PathFollower(firstSegment).continueToNull());
 		enemy.add(new Enemy());
 		engine.addEntity(enemy);
