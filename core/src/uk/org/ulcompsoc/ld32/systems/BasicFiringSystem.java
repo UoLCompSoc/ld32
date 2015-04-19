@@ -88,7 +88,26 @@ public class BasicFiringSystem extends IteratingSystem {
                     float deltaX = enemyPos.getX();
                     float deltaY = enemyPos.getY();
 
-                    projectile.add(new Velocity(senBeta, cosBeta));
+                    float newY = enemyPos.getX() * senBeta - enemyPos.getY() * (cosBeta + 1);
+
+                    float core = (float) (deltaX / Math.sqrt((deltaX * senBeta) - (deltaY * (cosBeta+1))));
+                    float core2 = (float) (deltaY / Math.sqrt((deltaX * senBeta) - (deltaY * (cosBeta+1))));
+
+
+                    float rad1 =(float) Math.atan(deltaX);
+
+                    float deg1 = (float) (rad1 * (180 / Math.PI));
+
+                    float rad2 =(float) Math.atan(deltaY);
+
+                    float deg2 = (float) (rad2 * (180 / Math.PI));
+
+
+                    float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0/Math.PI));
+
+                    System.out.println(radPrime);
+
+                    projectile.add(new Velocity((float) (Math.cos(radPrime) + 1f), (float) (Math.sin(radPrime)) +1f));
 
                     engine.addEntity(projectile);
 
