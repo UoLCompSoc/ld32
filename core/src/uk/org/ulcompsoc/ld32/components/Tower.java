@@ -23,8 +23,7 @@ public class Tower extends Component {
 	public float range;
 	public float fireDelay;
 	public float dropRate;
-	public float damage;
-	public float missleCount;
+	public float missileCount;
 	
 	//attributes assosiated with firing
 	private float elapsedTime;
@@ -40,15 +39,14 @@ public class Tower extends Component {
 	private Upgrade ascended;
 	private Set<Upgrade> combinations;
 	private Upgradable upgrades;
+	public Killable killComp;
+	public Damage damageComp;
 	
 	public Tower(Upgradable ups) {
 		this.range = Tower.DFLT_RANGE;
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
-		this.damage = Tower.DFLT_DMG;
-		this.missleCount = Tower.DFLT_MISSLE_COUNT;
-
-
+		this.missileCount = Tower.DFLT_MISSLE_COUNT;
 		this.redBalls = 0;
 		this.blueBalls = 0;
 		this.greenBalls = 0;
@@ -62,6 +60,8 @@ public class Tower extends Component {
 		combinations = new HashSet<Upgrade>();
 		listOfPointsToScan = new ArrayList<RingSegment>();
 		upgrades =ups;
+		killComp = new Killable();
+		damageComp = new Damage(Tower.DFLT_DMG);
 	}
 
 	// set the upgrade of the blue component
@@ -164,12 +164,10 @@ public class Tower extends Component {
 	private void updateTowersStats(){
 		if(!combinations.isEmpty()){
 			for(Upgrade t : combinations){
-				this.damage*=t.getDamage();
+				damageComp.useMultiplier(t.getDamage());
 				this.dropRate*=t.getDrops();
 				this.fireDelay*=t.getTimeDelay();
-				this.missleCount+=t.getSimultaneousFire();
-
-
+				this.missileCount= Math.max(missileCount, t.getSimultaneousFire());
 			}
 		}
 	}
@@ -177,6 +175,7 @@ public class Tower extends Component {
 	public void TimePassed(float deltaTime){
 		this.elapsedTime+=deltaTime;
 	}
+	
 	public Boolean isReadyToFire(){
 		if(this.elapsedTime>=fireDelay){
 			return true;
@@ -184,7 +183,35 @@ public class Tower extends Component {
 			return false;
 		}
 	}
+	
 	public void shotHasBeenFired(){
 		this.elapsedTime=0;
 	}
+
+	public boolean containsUpgrade(Upgrade up) {
+		if(combinations.contains(up)) {
+			return true;
+		}
+		
+		switch(up.getType()) {
+			case RED: {
+				if(red.getStage() >= up.getStage()) {
+					return true;
+				}
+			}
+			case GREEN: {
+				if(green.getStage() >= up.getStage()) {
+					return true;
+				}
+			}
+			case BLUE: {
+				if(blue.getStage() >= up.getStage()) {
+					return true;
+				}
+			}
+			
+			default: return false;
+		}
+	}
 }
+

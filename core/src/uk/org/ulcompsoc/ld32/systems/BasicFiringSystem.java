@@ -72,7 +72,7 @@ public class BasicFiringSystem extends IteratingSystem {
                     //TODO IMPLEMENT A POOLEDENGINE FOR THIS?
                     Entity projectile = new Entity();
 
-                    projectile.add(new Projectile(tower.damage));
+                    projectile.add(new Projectile(tower.damageComp.getDamageDealt()));
                     projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
                     projectile.add(new Renderable(Color.RED, 2.0f));
                     projectile.add(new SphericalBound(2.f));

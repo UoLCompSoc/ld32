@@ -125,7 +125,7 @@ public class RenderSystem extends IteratingSystem {
 		// Draw the negative health
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);
 
-		float remaningHealth = k.health / k.originalHealth;
+		float remaningHealth = k.getHealth() / k.getOrigHealth();
 
 		// If there's no difference, default to 0
 		if (remaningHealth == 1) {

@@ -7,8 +7,8 @@ import com.badlogic.ashley.core.Component;
  */
 public class Killable extends Component {
 
-    public float health = 100.0f;
-    public float originalHealth = 100.0f;
+    private float health = 100.0f;
+    private float originalHealth = 100.0f;
     private final float DEATH_THRESHOLD = 0.0f;
 
     public Killable() {
@@ -26,6 +26,20 @@ public class Killable extends Component {
         else
             return false;
     }
-
-
+    
+    public void setHealth(float h) {
+    	health = h;
+    }
+    
+    public void addHealth(float h) {
+    	health = health + h;
+    }
+    
+    public float getHealth() {
+    	return health;
+    }
+    
+    public float getOrigHealth() {
+    	return originalHealth;
+    }
 }
