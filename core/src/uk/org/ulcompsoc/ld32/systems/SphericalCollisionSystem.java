@@ -88,8 +88,8 @@ public class SphericalCollisionSystem extends EntitySystem {
 					if (atom != null) {
 						// System.out.println("atom found");
 
-						Position p = Mappers.positionMapper.get(entities.get(j));
-						Position p2 = Mappers.positionMapper.get(entities.get(i));
+						Position atomPos = Mappers.positionMapper.get(entities.get(j));
+						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
 						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
 
 						// float oneRadius =
@@ -107,6 +107,24 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 						// /if(p.getX() > outerBorder.radius / 2 && p.getY() >
 						// outerBorder.radius / 2) {
+
+						float deltaX = (float) ((paddlePos.getR() * Math.cos(paddlePos.getPhi()) - atomPos.getX()));
+						float deltaY = (float) ((paddlePos.getR() * Math.sin(paddlePos.getPhi())) - atomPos.getY());
+
+						float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0/Math.PI));
+
+						float degrees = (radPrime + 360) % 360;
+
+						//System.out.println(degrees);
+
+						float x = (float) (Math.cos(Math.toRadians(degrees)));
+						float y = (float) (Math.sin(Math.toRadians(degrees)));
+
+						v.x = x;
+						v.y = y;
+
+/*
+
 						if (p.getX() > 0 && p.getY() > 0) {
 							System.out.println("TOP RIGHT");
 							v.y = (float) Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
@@ -127,6 +145,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 							v.y = (float) -Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
 							v.x = (float) -Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
 						}
+						*/
 
 						/*
 						 * 
@@ -152,7 +171,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 					Projectile projectile = Mappers.projectileMapper.get(entities.get(j));
 
 					if(projectile != null) {
-						System.out.println("HIT");
+
 
 						//Check if other is killable
 						Killable isEnemyKillable = Mappers.killableMapper.get(entities.get(i));
@@ -161,8 +180,16 @@ public class SphericalCollisionSystem extends EntitySystem {
 						if(isEnemyKillable != null) {
 							isEnemyKillable.removeHealth(projectile.damage);
 
-							System.out.println("TRUE");
+							//If the enemy has 'death' hp then it's doomed, send it to die
+							if(isEnemyKillable.getHealth() <= 0) {
+								entities.get(i).add(new Doomed());
+								System.out.println("DOOMED");
+							}
+
+
 							engine.removeEntity(entities.get(j));
+
+
 						}
 					}
 
