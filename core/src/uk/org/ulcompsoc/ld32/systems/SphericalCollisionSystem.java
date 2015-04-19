@@ -2,6 +2,7 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.MathUtils;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
@@ -60,7 +61,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 		ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class,
 		        Renderable.class).get());
 
-		ArrayList<Circle> bounds = new ArrayList<Circle>();
+		ArrayList<Circle> bounds = new ArrayList<>();
 
 		for (int i = 0; i < entities.size(); i++) {
 			final float x = posMapper.get(entities.get(i)).getX();
@@ -72,11 +73,11 @@ public class SphericalCollisionSystem extends EntitySystem {
 		}
 
 		for (int i = 0; i < bounds.size() - 1; i++) {
-			Entity one = entities.get(i);
+			//Entity one = entities.get(i);
 			Circle oneCircle = bounds.get(i);
 
 			for (int j = i + 1; j < bounds.size(); j++) {
-				Entity other = entities.get(j);
+				//Entity other = entities.get(j);
 				Circle otherCircle = bounds.get(j);
 
 				// Collision
@@ -109,23 +110,28 @@ public class SphericalCollisionSystem extends EntitySystem {
 //
 //
 
+
+
 				///if(p.getX() > outerBorder.radius / 2 && p.getY() > outerBorder.radius / 2) {
 						if(p.getX() > 0 && p.getY() > 0) {
 							System.out.println("TOP RIGHT");
-							v.y = -v.y;
-							v.x -= v.x;
+							v.y = (float) Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
+							v.x = (float) Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
 
 						} else if(p.getX() < 0 && p.getY() > 0) {
 							System.out.println("TOP LEFT");
-							v.y = -v.y;
-							v.x = -v.x;
+							v.y = (float) Math.sin(Math.PI * MathUtils.random(.01f,1.0f));
+							v.x = (float) Math.sin(Math.PI * MathUtils.random(.01f,1.0f));
 
 						} else if(p.getX() > 0 && p.getY() < 0) {
 							System.out.println("BOTTOM RIGHT");
+							v.y = (float) -Math.sin(Math.PI * MathUtils.random(.01f,1.0f));
+							v.x = (float) -Math.sin(Math.PI * MathUtils.random(.01f,1.0f));
+
 						} else if(p.getX() < 0 && p.getY() < 0) {
 							System.out.println("BOTTOM LEFT");
-							v.y = v.y * -1;
-							v.x = v.x * -1;
+							v.y = (float) -Math.cos(Math.PI * MathUtils.random(.01f,1.0f));
+							v.x = (float) -Math.cos(Math.PI * MathUtils.random(.01f,1.0f));
 						}
 
 

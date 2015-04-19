@@ -193,7 +193,7 @@ public class LD32 extends ApplicationAdapter {
 
 		e.add(r);
 		e.add(new SphericalBound(10.0f));
-		e.add(new Velocity(1f, 1f));
+		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
 
 		return e;
