@@ -78,8 +78,8 @@ public class BasicFiringSystem extends IteratingSystem {
                     projectile.add(new Renderable(Color.RED, 2.0f));
                     projectile.add(new SphericalBound(2.0f));
 
-                    projectile.add(new Velocity((float) (enemyPos.getX() / Math.sqrt(Math.pow(enemyPos.getX(),2)+ Math.pow(enemyPos.getY(),2))),
-                            (float) (enemyPos.getY() / Math.sqrt(Math.pow(enemyPos.getX(),2)+ Math.pow(enemyPos.getY(),2)))));
+                    projectile.add(new Velocity((float) -(enemyPos.getX() / Math.sqrt(Math.pow(enemyPos.getX(),2)+ Math.pow(enemyPos.getY(),2))),
+                            (float) -(enemyPos.getY() / Math.sqrt(Math.pow(enemyPos.getX(),2)+ Math.pow(enemyPos.getY(),2)))));
 
                     engine.addEntity(projectile);
 
