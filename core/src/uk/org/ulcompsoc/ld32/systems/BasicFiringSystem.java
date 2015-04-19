@@ -1,7 +1,7 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import uk.org.ulcompsoc.ld32.components.Antiproton;
 import uk.org.ulcompsoc.ld32.components.Damage;
-import uk.org.ulcompsoc.ld32.components.Enemy;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Projectile;
 import uk.org.ulcompsoc.ld32.components.Renderable;
@@ -60,8 +60,8 @@ public class BasicFiringSystem extends IteratingSystem {
 			 */
 
 			// Get all enemies in the engine
-			ImmutableArray<Entity> enemies = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class,
-			        Enemy.class).get());
+			ImmutableArray<Entity> enemies = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class)
+			        .one(Antiproton.class).get());
 
 			// Iterate finding one to fire at
 			for (int i = 0; i < enemies.size(); i++) {
