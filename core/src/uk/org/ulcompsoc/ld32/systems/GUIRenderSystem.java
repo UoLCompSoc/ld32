@@ -22,7 +22,6 @@ public class GUIRenderSystem extends IteratingSystem {
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
 	private Vector3 temp;
 
-
 	@SuppressWarnings("unchecked")
 	public GUIRenderSystem(final Batch batch, final TextureManager textureManager, final OrthographicCamera cam,
 	        int priority) {
@@ -30,14 +29,14 @@ public class GUIRenderSystem extends IteratingSystem {
 		this.batch = batch;
 		this.textureManager = textureManager;
 		this.camera = cam;
-		 this.frame = new TextureRegion(textureManager.nameMap.get(TextureName.FRAME_1));
+		this.frame = new TextureRegion(textureManager.nameMap.get(TextureName.FRAME_1));
 		// TextureRegion(textureManager.nameMap.get(TextureName.));
 	}
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		Wallet wallet = Mappers.walletMapper.get(entity);
-		
+
 		camera.update();
 		temp = camera.unproject(DFLT_POSITION_OF_THE_FRAME.cpy());
 		batch.setProjectionMatrix(camera.combined);
@@ -45,10 +44,10 @@ public class GUIRenderSystem extends IteratingSystem {
 		int bluecount = wallet.blue;
 		int greencount = wallet.green;
 		batch.begin();
-		batch.draw(frame, temp.x, temp.y+frame.getRegionHeight());
+		batch.draw(frame, temp.x, temp.y - frame.getRegionHeight());
 		batch.end();
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
 	}
-	
+
 }
