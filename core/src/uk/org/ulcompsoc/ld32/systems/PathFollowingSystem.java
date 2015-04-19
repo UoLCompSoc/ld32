@@ -45,10 +45,10 @@ public class PathFollowingSystem extends IntervalIteratingSystem {
 			entity.remove(PathFollower.class);
 		} else {
 			if (pf.isStraightPath()) {
-				p.setPolar(
-				        pf.segment.next.middleR,
-				        pf.segment.middlePhi + LDUtil.smoothStep(0.0f, pf.wanderTime, pf.timeWaited)
-				                * Math.abs(pf.segment.next.middlePhi - pf.segment.middlePhi));
+				final float newPhi = pf.segment.middlePhi + LDUtil.smoothStep(0.0f, pf.wanderTime, pf.timeWaited)
+				        * Math.abs(pf.segment.next.middlePhi - pf.segment.middlePhi);
+				System.out.println("Phi: " + newPhi);
+				p.setPolar(pf.segment.next.middleR, newPhi);
 			} else {
 				if (pf.timeWaited / pf.wanderTime >= 0.75f) {
 					p.setPolar(LDUtil.smoothStep(0.0f, pf.wanderTime / 2.0f, pf.timeWaited - 0.25f)
