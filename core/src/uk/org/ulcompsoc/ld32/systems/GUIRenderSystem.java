@@ -43,8 +43,13 @@ public class GUIRenderSystem extends IteratingSystem {
 		int redcount = wallet.red;
 		int bluecount = wallet.blue;
 		int greencount = wallet.green;
+
+		final float scale = 0.75f;
+		final float w = frame.getRegionWidth() * scale;
+		final float h = frame.getRegionHeight() * scale;
+
 		batch.begin();
-		batch.draw(frame, temp.x, temp.y - frame.getRegionHeight(),frame.getRegionWidth()*0.75f, frame.getRegionHeight()*0.75f);
+		batch.draw(frame, temp.x, temp.y - h, w, h);
 		batch.end();
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
