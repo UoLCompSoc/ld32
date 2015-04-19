@@ -70,11 +70,11 @@ public class SphericalCollisionSystem extends EntitySystem {
 		}
 
 		for (int i = 0; i < bounds.size() - 1; i++) {
-			Entity one = entities.get(i);
+			//Entity one = entities.get(i);
 			Circle oneCircle = bounds.get(i);
 
 			for (int j = i + 1; j < bounds.size(); j++) {
-				Entity other = entities.get(j);
+				//Entity other = entities.get(j);
 				Circle otherCircle = bounds.get(j);
 
 				// Collision
@@ -85,28 +85,15 @@ public class SphericalCollisionSystem extends EntitySystem {
 					/**
 					 * Atom collision
 					 */
-					if (atom != null) {
+					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x,2) + Math.pow(otherCircle.y - oneCircle.y,2)));
+
+					//If the atom is within roughly the core
+					if (atom != null && distance > oneCircle.radius / 4) {
 						// System.out.println("atom found");
 
 						Position atomPos = Mappers.positionMapper.get(entities.get(j));
 						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
 						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
-
-						// float oneRadius =
-						// Mappers.sphericalBoundsMapper.get(other).radius;
-						// float otherRadius =
-						// Mappers.sphericalBoundsMapper.get(other).radius;
-						//
-						// if(oneRadius > otherRadius) {
-						// System.out.println("LO");
-						// } else {
-						// System.out.println("NO");
-						// }
-						//
-						//
-
-						// /if(p.getX() > outerBorder.radius / 2 && p.getY() >
-						// outerBorder.radius / 2) {
 
 						float deltaX = (float) ((paddlePos.getR() * Math.cos(paddlePos.getPhi()) - atomPos.getX()));
 						float deltaY = (float) ((paddlePos.getR() * Math.sin(paddlePos.getPhi())) - atomPos.getY());
@@ -115,53 +102,11 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 						float degrees = (radPrime + 360) % 360;
 
-						//System.out.println(degrees);
-
 						float x = (float) (Math.cos(Math.toRadians(degrees)));
 						float y = (float) (Math.sin(Math.toRadians(degrees)));
 
 						v.x = x;
 						v.y = y;
-
-/*
-
-						if (p.getX() > 0 && p.getY() > 0) {
-							System.out.println("TOP RIGHT");
-							v.y = (float) Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
-							v.x = (float) Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
-
-						} else if (p.getX() < 0 && p.getY() > 0) {
-							System.out.println("TOP LEFT");
-							v.y = (float) Math.sin(Math.PI * MathUtils.random(.01f, 1.0f));
-							v.x = (float) Math.sin(Math.PI * MathUtils.random(.01f, 1.0f));
-
-						} else if (p.getX() > 0 && p.getY() < 0) {
-							System.out.println("BOTTOM RIGHT");
-							v.y = (float) -Math.sin(Math.PI * MathUtils.random(.01f, 1.0f));
-							v.x = (float) -Math.sin(Math.PI * MathUtils.random(.01f, 1.0f));
-
-						} else if (p.getX() < 0 && p.getY() < 0) {
-							System.out.println("BOTTOM LEFT");
-							v.y = (float) -Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
-							v.x = (float) -Math.cos(Math.PI * MathUtils.random(.01f, 1.0f));
-						}
-						*/
-
-						/*
-						 * 
-						 * if(p.getY() > outerBorder.radius) {
-						 * 
-						 * if (p.getY() > outerBorder.radius) {
-						 * 
-						 * v.y = -v.y;
-						 * 
-						 * System.out.println("test"); } else if (p.getX() >
-						 * outerBorder.radius / 2) { v.x = -v.x;
-						 * System.out.println("test2"); } else if (p.getY() <
-						 * -outerBorder.radius / 2) { v.y = -v.y;
-						 * System.out.println("reached2"); } else if (p.getX() <
-						 * -outerBorder.radius / 2) { v.x = -v.x; }
-						 */
 
 					}
 
