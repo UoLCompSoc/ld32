@@ -46,7 +46,8 @@ public class Tower extends Component {
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
 		this.damage = Tower.DFLT_DMG;
-		//this.missileCount = Tower.DFLT_MISSILE_COUNT;
+		this.missleCount = Tower.DFLT_MISSLE_COUNT;
+
 
 		this.redBalls = 0;
 		this.blueBalls = 0;
@@ -166,7 +167,8 @@ public class Tower extends Component {
 				this.damage*=t.getDamage();
 				this.dropRate*=t.getDrops();
 				this.fireDelay*=t.getTimeDelay();
-				//this.missleCount+=t.getSimoultaniousFire();
+				this.missleCount+=t.getSimultaneousFire();
+
 
 			}
 		}
