@@ -5,24 +5,27 @@ import java.util.HashMap;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
+import uk.org.ulcompsoc.ld32.components.Enemy;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
+import uk.org.ulcompsoc.ld32.components.MouseListener;
 import uk.org.ulcompsoc.ld32.components.Paddle;
 import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Scalable;
-import uk.org.ulcompsoc.ld32.components.Enemy;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
+import uk.org.ulcompsoc.ld32.mouse.TowerMouseListener;
 import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
 import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
+import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
 import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
 import uk.org.ulcompsoc.ld32.systems.PositionDebugSystem;
@@ -45,6 +48,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -57,6 +61,7 @@ public class LD32 extends ApplicationAdapter {
 	private final TextureManager textureManager;
 
 	private final Entity paddle = new Entity();
+	private Sprite paddleSprite = null;
 
 	private final Entity enemy = new Entity();
 
@@ -91,8 +96,9 @@ public class LD32 extends ApplicationAdapter {
 		this.spriteBatch = new SpriteBatch();
 		this.textureManager.load();
 
-		final Renderable paddleRenderable = new Renderable(new TextureRegion(
-		        textureManager.nameMap.get(TextureName.PADDLE)));
+		paddleSprite = new Sprite(new TextureRegion(textureManager.nameMap.get(TextureName.PADDLE)));
+		paddleSprite.setOriginCenter();
+		final Renderable paddleRenderable = new Renderable(paddleSprite);
 		paddle.add(paddleRenderable);
 
 		final float paddleScale = 0.2f;
@@ -116,13 +122,19 @@ public class LD32 extends ApplicationAdapter {
 		// enemy.add(new Enemy());
 		// engine.addEntity(enemy);
 
-		tower.add(Position.fromPolar(map.radius, LDUtil.PI));
-		tower.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.BASIC_TOWER))));
+		final Position towerPos = Position.fromPolar(map.radius, LDUtil.PI);
+		final Renderable towerRen = new Renderable(new TextureRegion(
+		        textureManager.nameMap.get(TextureName.BASIC_TOWER)));
+		final float towerScale = 0.25f;
+		tower.add(towerPos);
+		tower.add(towerRen);
 		tower.add(new Tower(new Upgradable()));
 		tower.add(new Killable(100));
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
-		tower.add(new Scalable(0.25f));
+		tower.add(new Scalable(towerScale));
+		tower.add(new MouseListener(new TowerMouseListener(), new Circle(towerPos.getX(), towerPos.getY(), towerRen
+		        .getHeight() * towerScale)));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
@@ -133,7 +145,14 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.addSystem(new EnemySpawningSystem(500, 5.0f, map, textureManager));
 		engine.addSystem(new PaddleInputSystem(1000));
+		engine.addSystem(new MouseListenerSystem(2000, camera));
 		engine.addSystem(new PathFollowingSystem(5000));
+		engine.addSystem(new AtomMovementSystem(5500, new Circle(Gdx.graphics.getWidth() / 2,
+		        Gdx.graphics.getHeight() / 2, map.radius)));
+		engine.addSystem(new ProjectileMovementSystem(6000));
+		engine.addSystem(new BasicFiringSystem(6500));
+		engine.addSystem(new SphericalCollisionSystem(7500, new Circle(Gdx.graphics.getWidth() / 2, Gdx.graphics
+		        .getHeight() / 2, map.radius)));
 		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
 
@@ -146,19 +165,12 @@ public class LD32 extends ApplicationAdapter {
 		// engine.addSystem(new AtomMovementSystem(new
 		// Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2,
 		// map.radius), 2));
-		engine.addSystem(new SphericalCollisionSystem(2, new Circle(Gdx.graphics.getWidth() / 2, Gdx.graphics
-		        .getHeight() / 2, map.radius)));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
-
-		engine.addSystem(new AtomMovementSystem(new Circle(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2,
-		        map.radius), 2));
 
 		/**
 		 * FIRING SYSTEM FOR TOWERS
 		 */
-		engine.addSystem(new BasicFiringSystem(2));
-		engine.addSystem(new ProjectileMovementSystem(2));
 	}
 
 	@Override

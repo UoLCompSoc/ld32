@@ -1,12 +1,12 @@
 package uk.org.ulcompsoc.ld32.util;
 
-
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
+import uk.org.ulcompsoc.ld32.components.MouseListener;
 import uk.org.ulcompsoc.ld32.components.Paddle;
 import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
@@ -17,6 +17,7 @@ import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.Wallet;
 //import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 
@@ -40,17 +41,15 @@ public class Mappers {
 	public static final ComponentMapper<Atom> atomMapper = ComponentMapper.getFor(Atom.class);
 	public static final ComponentMapper<Paddle> paddleMapper = ComponentMapper.getFor(Paddle.class);
 	public static final ComponentMapper<Velocity> velMapper = ComponentMapper.getFor(Velocity.class);
-	//Added by Damian - just in case if it needs to be found and quickly fixed :P
 	public static final ComponentMapper<CanItDrop> dropMapper = ComponentMapper.getFor(CanItDrop.class);
-///<<<<<<< HEAD
+
 	//Added by Musty
 	public static final ComponentMapper<Damage> damageMapper = ComponentMapper.getFor(Damage.class);
 	public static final ComponentMapper<Killable> killableMapper= ComponentMapper.getFor(Killable.class);
-//=======
-	//public static final ComponentMapper<Wallet> walletMapper = ComponentMapper.getFor(Wallet.class);
-//>>>>>>> 026960522dc40fe5ac368c640c20825982cbbb6d
-	
+	public static final ComponentMapper<MouseListener> mouseListenerMapper = ComponentMapper
+	        .getFor(MouseListener.class);
+	public static final ComponentMapper<Wallet> walletMapper = ComponentMapper.getFor(Wallet.class);
+
 	private Mappers() {
 	}
-
 }
