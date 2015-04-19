@@ -15,13 +15,15 @@ import com.badlogic.ashley.core.Component;
 public class Tower extends Component {
 	private static final float DFLT_RANGE = 10.0f; // starting range
 	private static final float DFLT_FIRE_DELAY = 0.5f; // default fire delay
-	private static final float DFLT_MONSTER_DROP_RATE = 0.1f;
-	private static final float DFLT_DMG = 3.0f;
+	private static final float DFLT_MONSTER_DROP_RATE = 0.1f; //the chance for a monster to drop currency
+	private static final float DFLT_DMG = 3.0f; // base damge of the tower
+	private static final int DFLT_MISSLE_COUNT = 1; // how many bullets/misslies the tower fires of at once.
 
 	public float range;
 	public float fireDelay;
 	public float dropRate;
 	public float damage;
+	public float missleCount;
 
 	public int redBalls;
 	public int blueBalls; // heeeeeeeyooooo :D
@@ -39,6 +41,8 @@ public class Tower extends Component {
 		this.range = Tower.DFLT_RANGE;
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
+		this.damage = Tower.DFLT_DMG;
+		this.missleCount = Tower.DFLT_MISSLE_COUNT;
 
 		this.redBalls = 0;
 		this.blueBalls = 0;
@@ -150,6 +154,10 @@ public class Tower extends Component {
 	private void updateTowersStats(){
 		if(!combinations.isEmpty()){
 			for(Upgrade t : combinations){
+				this.damage*=t.getDamage();
+				this.dropRate*=t.getDrops();
+				this.fireDelay*=t.getTimeDelay();
+				this.missleCount+=t.getSimoultaniousFire();
 				
 			}
 		}
