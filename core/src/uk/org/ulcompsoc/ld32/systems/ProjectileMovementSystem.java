@@ -33,7 +33,8 @@ public class ProjectileMovementSystem extends IteratingSystem {
         Position p = Mappers.positionMapper.get(entity);
         Vector2 v = Mappers.velMapper.get(entity).velocity;
 
-        p.translatePolarDistance(0.1f);
+        p.setX(p.getX() + v.x);
+        p.setY(p.getY() + v.y);
 
     }
 
