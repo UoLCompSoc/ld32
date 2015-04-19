@@ -29,6 +29,7 @@ public class Tower extends Component {
 	public int redBalls;
 	public int blueBalls; // heeeeeeeyooooo :D
 	public int greenBalls;
+	public int pongBonusCounter;
 
 	public List<RingSegment> listOfPointsToScan;
 	public Upgrade red;
@@ -46,7 +47,8 @@ public class Tower extends Component {
 		this.redBalls = 0;
 		this.blueBalls = 0;
 		this.greenBalls = 0;
-
+		pongBonusCounter = 0;
+		
 		red = null;
 		blue = null;
 		green = null;

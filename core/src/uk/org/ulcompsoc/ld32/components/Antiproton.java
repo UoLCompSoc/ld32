@@ -3,7 +3,7 @@ package uk.org.ulcompsoc.ld32.components;
 public class Antiproton extends Enemy {
 	
 	public Antiproton() {
-		health = 60f * multiplier;
+		health = 40f * multiplier;
 		speed = 1f * multiplier;
 	}
 }
