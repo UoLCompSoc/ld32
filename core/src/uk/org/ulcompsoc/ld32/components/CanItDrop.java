@@ -12,18 +12,16 @@ public class CanItDrop extends Component {
 	public float blueDropChance;
 	public float greenDropChance;
 	
-	public float redBooster; // if doesn't drop, increase slightly - so player doesn't get unlucky streak
-	public float blueBooster;
-	public float greenBooster;
+	public static float RED_BOOSTER = 0; // if doesn't drop, increase slightly - so player doesn't get unlucky streak
+	public static float BLUE_BOOSTER = 0;
+	public static float GREEN_BOOSTER = 0;
+	
+	public static final float DFLT_BOOSTER_INCREASE = 0.03f;
 	
 	
 	public CanItDrop(){
 		this.redDropChance = CanItDrop.DFLT_RED_DROP_CHANCE;
 		this.blueDropChance = CanItDrop.DFLT_BLUE_DROP_CHANCE;
 		this.greenDropChance = CanItDrop.DFLT_GREEN_DROP_CHANCE;
-		
-		redBooster = 0;
-		blueBooster = 0;
-		greenBooster = 0;
 	}
 }
