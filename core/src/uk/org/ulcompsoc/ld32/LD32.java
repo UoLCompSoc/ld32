@@ -43,6 +43,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -55,6 +56,7 @@ public class LD32 extends ApplicationAdapter {
 	private final TextureManager textureManager;
 
 	private final Entity paddle = new Entity();
+	private Sprite paddleSprite = null;
 
 	private final Entity enemy = new Entity();
 
@@ -89,8 +91,9 @@ public class LD32 extends ApplicationAdapter {
 		this.spriteBatch = new SpriteBatch();
 		this.textureManager.load();
 
-		final Renderable paddleRenderable = new Renderable(new TextureRegion(
-		        textureManager.nameMap.get(TextureName.PADDLE)));
+		paddleSprite = new Sprite(new TextureRegion(textureManager.nameMap.get(TextureName.PADDLE)));
+		paddleSprite.setOriginCenter();
+		final Renderable paddleRenderable = new Renderable(paddleSprite);
 		paddle.add(paddleRenderable);
 
 		final float paddleScale = 0.2f;
@@ -102,7 +105,6 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new PaddleInputListener(leftKeys, rightKeys));
 		paddle.add(new SphericalBound(30f));
 		paddle.add(new Scalable(paddleScale));
-
 		paddle.add(new Paddle());
 
 		engine.addEntity(paddle);

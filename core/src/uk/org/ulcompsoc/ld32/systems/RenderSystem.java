@@ -73,6 +73,22 @@ public class RenderSystem extends IteratingSystem {
 			break;
 		}
 
+		case SPRITE: {
+			final Rotatable rot = Mappers.rotatableMapper.get(entity);
+			final float rotation;
+			if (Mappers.paddleMapper.has(entity)) {
+				rotation = (float) Math.toDegrees(p.getPhi());
+			} else {
+				rotation = (rot != null ? rot.rotation : 0.0f);
+			}
+
+			r.sprite.setOrigin(r.sprite.getRegionWidth() / 2.0f, r.sprite.getRegionHeight());
+			r.sprite.rotate(rotation);
+
+			drawFrame(entity, p, r, k, r.sprite);
+			break;
+		}
+
 		default:
 			break;
 		}
@@ -80,16 +96,8 @@ public class RenderSystem extends IteratingSystem {
 
 	private void drawFrame(final Entity entity, final Position p, final Renderable r, final Killable k,
 	        final TextureRegion region) {
-		final Rotatable rot = Mappers.rotatableMapper.get(entity);
 		final Scalable sc = Mappers.scalableMapper.get(entity);
 		final float scalingFactor = (sc != null ? sc.scale : 1.0f);
-		final float rotation;
-
-		if (Mappers.paddleMapper.has(entity)) {
-			rotation = (float) Math.toDegrees(p.getPhi());
-		} else {
-			rotation = (rot != null ? rot.rotation : 0.0f);
-		}
 
 		final float xOffset = scalingFactor * region.getRegionWidth() / 2.0f;
 		final float yOffset = scalingFactor * region.getRegionHeight() / 2.0f;
