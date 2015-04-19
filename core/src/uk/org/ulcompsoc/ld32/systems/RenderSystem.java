@@ -96,7 +96,7 @@ public class RenderSystem extends IteratingSystem {
 
 		batch.begin();
 		batch.draw(region, p.getX() - xOffset, p.getY() - yOffset, 0.0f, 0.0f, region.getRegionWidth(),
-		        region.getRegionHeight(), scalingFactor, scalingFactor, rotation);
+		        region.getRegionHeight(), scalingFactor, scalingFactor, 0.0f);
 		batch.end();
 
 		if (k != null) {
