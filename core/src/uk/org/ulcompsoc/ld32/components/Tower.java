@@ -8,9 +8,10 @@ import java.util.Set;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 import uk.org.ulcompsoc.ld32.components.upgrades.*;
-
+import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.ComponentMapper;
 
 public class Tower extends Component {
 	private static final float DFLT_RANGE = 100.0f; // starting range
@@ -45,7 +46,7 @@ public class Tower extends Component {
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
 		this.damage = Tower.DFLT_DMG;
-		this.missleCount = Tower.DFLT_MISSLE_COUNT;
+		this.missileCount = Tower.DFLT_MISSILE_COUNT;
 
 		this.redBalls = 0;
 		this.blueBalls = 0;
@@ -158,6 +159,7 @@ public class Tower extends Component {
 		}
 		updateTowersStats();
 	}
+	
 	private void updateTowersStats(){
 		if(!combinations.isEmpty()){
 			for(Upgrade t : combinations){
@@ -165,6 +167,7 @@ public class Tower extends Component {
 				this.dropRate*=t.getDrops();
 				this.fireDelay*=t.getTimeDelay();
 				this.missleCount+=t.getSimoultaniousFire();
+
 			}
 		}
 	}

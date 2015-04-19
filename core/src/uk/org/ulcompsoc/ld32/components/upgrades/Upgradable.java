@@ -59,4 +59,12 @@ public class Upgradable extends Component{
 	public Set<Upgrade> getAllUpgrades() {
 		return upgrades;
 	}
+	
+	public void addUpgrade(Upgrade u) {
+		upgrades.add(u);
+	}
+	
+	public void removeUpgrade(Upgrade u) {
+		upgrades.remove(u);
+	}
 }
