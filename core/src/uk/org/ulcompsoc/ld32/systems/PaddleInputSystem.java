@@ -52,5 +52,18 @@ public class PaddleInputSystem extends IteratingSystem {
 		} else {
 			pil.pressTime = pil.velocity = 0.0f;
 		}
+
+		/**
+		 * Firing mechanism
+		 */
+		out: for (int i = 0; i < pil.fireKeys.length; ++i) {
+			final int rKey = pil.fireKeys[i];
+			if (Gdx.input.isKeyPressed(rKey)) {
+				break out;
+			}
+		}
+
+
+
 	}
 }
