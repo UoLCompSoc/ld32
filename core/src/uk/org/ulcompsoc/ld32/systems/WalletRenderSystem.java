@@ -54,7 +54,6 @@ public class WalletRenderSystem extends IteratingSystem {
 
 		camera.update();
 		p = camera.unproject(basePosition.cpy());
-		System.out.format("(%f, %f)\n", p.x, p.y);
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
