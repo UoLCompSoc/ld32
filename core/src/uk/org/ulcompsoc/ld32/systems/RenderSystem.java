@@ -28,7 +28,7 @@ public class RenderSystem extends IteratingSystem {
 
 	@SuppressWarnings("unchecked")
 	public RenderSystem(int priority, final Batch batch, final ShapeRenderer renderer, final OrthographicCamera camera) {
-		super(Family.all(Position.class, Renderable.class).get());
+		super(Family.all(Position.class, Renderable.class).get(), priority);
 
 		this.batch = batch;
 		this.renderer = renderer;
@@ -48,6 +48,10 @@ public class RenderSystem extends IteratingSystem {
 		final Renderable r = Mappers.renderableMapper.get(entity);
 		final Killable k = Mappers.killableMapper.get(entity);
 
+		final Scalable sc = Mappers.scalableMapper.get(entity);
+
+		final float scalingFactor = calculateScalingFactor(sc);
+
 		switch (r.type) {
 		case SHAPE: {
 			renderer.setProjectionMatrix(camera.combined);
@@ -64,30 +68,18 @@ public class RenderSystem extends IteratingSystem {
 		}
 
 		case STATIC_TEXTURE: {
-			drawFrame(entity, p, r, k, r.region);
+			drawFrame(entity, p, r, k, scalingFactor, r.region);
 			break;
 		}
 
 		case ANIMATED_TEXTURE: {
 			r.animTime += deltaTime;
-			drawFrame(entity, p, r, k, r.animation.getKeyFrame(r.animTime));
+			drawFrame(entity, p, r, k, scalingFactor, r.animation.getKeyFrame(r.animTime));
 			break;
 		}
 
 		case SPRITE: {
-			final Rotatable rot = Mappers.rotatableMapper.get(entity);
-			final float rotation;
-			if (Mappers.paddleMapper.has(entity)) {
-				rotation = (float) Math.toDegrees(p.getPhi());
-			} else {
-				rotation = (rot != null ? rot.rotation : 0.0f);
-			}
-
-			r.sprite.setOrigin(r.sprite.getRegionWidth() / 2.0f, r.sprite.getRegionHeight());
-
-			r.sprite.setRotation(rotation);
-
-			drawFrame(entity, p, r, k, r.sprite);
+			drawFrame(entity, p, r, k, scalingFactor, r.sprite);
 			break;
 		}
 
@@ -97,23 +89,17 @@ public class RenderSystem extends IteratingSystem {
 	}
 
 	private void drawFrame(final Entity entity, final Position p, final Renderable r, final Killable k,
-	        final TextureRegion region) {
-		final Scalable sc = Mappers.scalableMapper.get(entity);
-
-		final float scalingFactor;
-		if (sc != null) {
-			if (sc.timeElapsed <= 0.0f) {
-				sc.scale = sc.baseScale;
-			} else {
-				sc.scale = sc.baseScale * (1.0f + LDUtil.normalCurve(0.0f, sc.totalAnimTime, sc.timeElapsed, true));
-				// System.out.format("Scale = %f, tE = %f, tAT = %f\n",
-				// sc.scale, sc.timeElapsed, sc.totalAnimTime);
-			}
-
-			scalingFactor = sc.scale;
+	        float scalingFactor, final TextureRegion region) {
+		final Rotatable rot = Mappers.rotatableMapper.get(entity);
+		final float rotationRad;
+		final float rotationDeg;
+		if (Mappers.paddleMapper.has(entity)) {
+			rotationRad = p.getPhi();
 		} else {
-			scalingFactor = 1.0f;
+			rotationRad = (rot != null ? rot.rotation : 0.0f);
 		}
+
+		rotationDeg = (float) Math.toDegrees(rotationRad);
 
 		final float xOffset = scalingFactor * region.getRegionWidth() / 2.0f;
 		final float yOffset = scalingFactor * region.getRegionHeight() / 2.0f;
@@ -164,5 +150,21 @@ public class RenderSystem extends IteratingSystem {
 		        / HEALTH_HEIGHT_POSITION_MODIFIER);
 
 		renderer.end();
+	}
+
+	private float calculateScalingFactor(final Scalable sc) {
+		if (sc != null) {
+			if (sc.timeElapsed <= 0.0f) {
+				sc.scale = sc.baseScale;
+			} else {
+				sc.scale = sc.baseScale * (1.0f + LDUtil.normalCurve(0.0f, sc.totalAnimTime, sc.timeElapsed, true));
+				// System.out.format("Scale = %f, tE = %f, tAT = %f\n",
+				// sc.scale, sc.timeElapsed, sc.totalAnimTime);
+			}
+
+			return sc.scale;
+		} else {
+			return 1.0f;
+		}
 	}
 }

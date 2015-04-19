@@ -18,6 +18,7 @@ import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.TowerMouseListener;
 import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
@@ -32,6 +33,7 @@ import uk.org.ulcompsoc.ld32.systems.PositionDebugSystem;
 import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
 import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
+import uk.org.ulcompsoc.ld32.systems.WalletRenderSystem;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -112,6 +114,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new Scalable(paddleScale));
 		paddle.add(new Enemy());
 		paddle.add(new Paddle());
+		paddle.add(new Wallet(1, 0, 0));
 
 		engine.addEntity(paddle);
 
@@ -155,6 +158,9 @@ public class LD32 extends ApplicationAdapter {
 		        .getHeight() / 2, map.radius)));
 		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
+
+		engine.addSystem(new WalletRenderSystem(25000, spriteBatch, camera, textureManager, (int) (Gdx.graphics
+		        .getWidth() * 0.8), (int) (Gdx.graphics.getHeight() * 0.9)));
 
 		engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
