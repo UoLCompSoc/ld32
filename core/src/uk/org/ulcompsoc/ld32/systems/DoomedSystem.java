@@ -83,17 +83,24 @@ public class DoomedSystem extends IteratingSystem {
 
 	private boolean shouldItDrop(float chance, float booster) {
 		//if booster doesn't equal 0
+		int toprint;
+		float topri;
 		if (booster > 0) {
 			//if chance with booster will go beyond 1.0f - we want to create infinite upgrades
 			if (chance + booster >= 1.0f) {
 				int temp = (int) (chance + booster);
-				if (random.nextInt(temp) + random.nextFloat() < chance+booster) {
+				toprint = random.nextInt(temp);
+				topri = random.nextFloat();
+				System.out.println("the requirement:"+(toprint+topri)+" , dropchance: "+(chance+booster));
+				if (toprint+ topri < chance+booster) {
 					return true;
 				} else return false;
 
 			} else {
 				// if chance with booster is below 1.0f
-				if (random.nextFloat() < chance+booster) {
+				topri = random.nextFloat();
+				System.out.println("the requirement:"+topri+" dropchance:"+(chance+booster));
+				if (topri < chance+booster) {
 					return true;
 				} else return false;
 			}
@@ -102,12 +109,17 @@ public class DoomedSystem extends IteratingSystem {
 			//if chance is bigger than 1.0f
 			if (chance >= 1.0f) {
 				int temp2 = (int) chance;
-				if (random.nextInt(temp2) + random.nextFloat() < chance) {
+				toprint = random.nextInt(temp2);
+				topri = random.nextFloat();
+				System.out.println("the requirement:"+(topri+toprint)+" dropchance:"+chance);
+				if (toprint + topri < chance) {
 					return true;
 				} else return false;
 			} else {
 				//if chance is below 1.0f
-				if(random.nextFloat()< chance){
+				topri = random.nextFloat();
+				System.out.println("the requirement:"+topri+" dropchance:"+chance);
+				if(topri< chance){
 					return true;
 				} else return false;
 			}
