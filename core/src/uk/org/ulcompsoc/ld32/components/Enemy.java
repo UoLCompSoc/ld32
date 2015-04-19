@@ -12,10 +12,7 @@ import com.badlogic.ashley.core.Component;
  */
 public class Enemy extends Component {
 	
-	Killable killable;
-	String name;
-	int speed;
-	int damage;
+	Killable killComp;
 	
 	public Enemy() {
 		//killable = new Killable();

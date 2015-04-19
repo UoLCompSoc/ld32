@@ -3,6 +3,7 @@ package uk.org.ulcompsoc.ld32.util;
 
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
+import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
@@ -31,7 +32,6 @@ public class Mappers {
 	public static final ComponentMapper<Doomed> doomedMapper = ComponentMapper.getFor(Doomed.class);
 	public static final ComponentMapper<PaddleInputListener> paddleInputListener = ComponentMapper
 	        .getFor(PaddleInputListener.class);
-	public static final ComponentMapper<Killable> killableMapper = ComponentMapper.getFor(Killable.class);
 	public static final ComponentMapper<SphericalBound> sphericalBoundsMapper = ComponentMapper
 	        .getFor(SphericalBound.class);
 	public static final ComponentMapper<Rotatable> rotatableMapper = ComponentMapper.getFor(Rotatable.class);
@@ -41,6 +41,9 @@ public class Mappers {
 	public static final ComponentMapper<Velocity> velMapper = ComponentMapper.getFor(Velocity.class);
 	//Added by Damian - just in case if it needs to be found and quickly fixed :P
 	public static final ComponentMapper<CanItDrop> dropMapper = ComponentMapper.getFor(CanItDrop.class);
+	//Added by Musty
+	public static final ComponentMapper<Damage> damageMapper = ComponentMapper.getFor(Damage.class);
+	public static final ComponentMapper<Killable> killableMapper= ComponentMapper.getFor(Killable.class);
 	
 	private Mappers() {
 	}
