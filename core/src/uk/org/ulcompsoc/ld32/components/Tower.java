@@ -8,9 +8,10 @@ import java.util.Set;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 import uk.org.ulcompsoc.ld32.components.upgrades.*;
-
+import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.ComponentMapper;
 
 public class Tower extends Component {
 	private static final float DFLT_RANGE = 10.0f; // starting range
@@ -18,7 +19,7 @@ public class Tower extends Component {
 	private static final float DFLT_MONSTER_DROP_RATE = 0.1f; //the chance for a monster to drop currency
 	private static final float DFLT_DMG = 3.0f; // base damge of the tower
 	private static final int DFLT_MISSILE_COUNT = 1; // how many bullets/misslies the tower fires of at once.
-
+	
 	public float range;
 	public float fireDelay;
 	public float dropRate;

@@ -31,7 +31,7 @@ public class PathFollowingSystem extends IntervalIteratingSystem {
 		if (pf.timeWaited >= pf.wanderTime) {
 			p.setPolar(pf.segment.next.middleR, pf.segment.next.middlePhi);
 
-			if (pf.shouldContinue()) {
+			if (pf.checkAndResetContinue()) {
 				final RingSegment next = pf.segment.next;
 
 				if (next != null) {
@@ -44,18 +44,41 @@ public class PathFollowingSystem extends IntervalIteratingSystem {
 
 			entity.remove(PathFollower.class);
 		} else {
+			if (pf.segment.next == null) {
+				entity.remove(PathFollower.class);
+				return;
+			}
+
+			final float startR = pf.segment.middleR;
+			final float destinationR = pf.segment.next.middleR;
+
+			final float startPhi = pf.segment.middlePhi;
+			// if the next phi is smaller then we've done a full loop
+			// so the destination needs another 2 *pi so we don't go backwards
+			final float destinationPhi = (pf.segment.next.middlePhi < pf.segment.middlePhi ? pf.segment.next.middlePhi
+			        + 2 * LDUtil.PI : pf.segment.next.middlePhi);
+
 			if (pf.isStraightPath()) {
-				final float newPhi = pf.segment.middlePhi + LDUtil.smoothStep(0.0f, pf.wanderTime, pf.timeWaited)
-				        * Math.abs(pf.segment.next.middlePhi - pf.segment.middlePhi);
-				System.out.println("Phi: " + newPhi);
-				p.setPolar(pf.segment.next.middleR, newPhi);
+				final float newPhi = startPhi + LDUtil.smoothStep(0.0f, pf.wanderTime, pf.timeWaited)
+				        * Math.abs(destinationPhi - startPhi) * pf.transitionDirection;
+				// System.out.println("Phi: " + newPhi);
+				p.setPolar(destinationR, newPhi);
 			} else {
-				if (pf.timeWaited / pf.wanderTime >= 0.75f) {
-					p.setPolar(LDUtil.smoothStep(0.0f, pf.wanderTime / 2.0f, pf.timeWaited - 0.25f)
-					        * pf.segment.next.middleR, pf.segment.next.middlePhi);
+				if (pf.timeWaited / pf.wanderTime >= 0.5f) {
+					// if we're over halfway through the total transition, move
+					// along R
+
+					// note (destinationR - startR) is brittle with regards to
+					// directions, we assume we always move inwards on R
+					p.setPolar(
+					        startR
+					                + LDUtil.smoothStep(0.0f, pf.wanderTime / 2.0f, pf.timeWaited
+					                        - (pf.wanderTime / 2.0f)) * (destinationR - startR), destinationPhi);
 				} else {
-					p.setPolar(pf.segment.middleR, LDUtil.smoothStep(0.0f, pf.wanderTime / 2.0f, pf.timeWaited)
-					        * pf.segment.next.middlePhi);
+					// for the first half of the transition, move along phi
+					final float newPhi = startPhi + LDUtil.smoothStep(0.0f, pf.wanderTime / 2.0f, pf.timeWaited)
+					        * Math.abs(destinationPhi - startPhi) * pf.transitionDirection;
+					p.setPolar(startR, newPhi);
 				}
 			}
 		}
