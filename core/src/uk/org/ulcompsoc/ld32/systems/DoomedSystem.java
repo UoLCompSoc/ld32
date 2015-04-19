@@ -29,6 +29,7 @@ public class DoomedSystem extends IteratingSystem {
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
+		
 		engine.removeEntity(entity);
 	}
 }
