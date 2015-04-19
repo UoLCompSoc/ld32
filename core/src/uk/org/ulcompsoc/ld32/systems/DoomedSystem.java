@@ -1,5 +1,7 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import java.util.Random;
+
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.util.Mappers;
@@ -32,7 +34,22 @@ public class DoomedSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		CanItDrop canItDrop = Mappers.dropMapper.get(entity);
-		//canItDrop.
 		engine.removeEntity(entity);
 	}
+	
+	private Boolean shouldItDrop(float chance, float booster){
+		Random random = new Random();
+		
+		if(booster>0){
+			if(chance*booster>=1.0f){
+				int temp =(int) (chance*booster);
+				if(random.nextInt(temp)+random.nextFloat()<chance*booster){
+					return true;
+				}
+					
+			}
+		}
+		return false;
+	}
+	
 }
