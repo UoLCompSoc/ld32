@@ -1,6 +1,8 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -29,7 +31,8 @@ public class DoomedSystem extends IteratingSystem {
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		
+		CanItDrop canItDrop = Mappers.dropMapper.get(entity);
+		//canItDrop.
 		engine.removeEntity(entity);
 	}
 }
