@@ -2,6 +2,7 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import uk.org.ulcompsoc.ld32.CircleMap;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.components.Antiproton;
 import uk.org.ulcompsoc.ld32.components.Enemy;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
@@ -62,6 +63,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 		entity.add(new Renderable(img));
 		entity.add(new Positron());
 		//entity.add(new Enemy());
+		entity.add(new Antiproton());
 		entity.add(new Killable(5)); //TODO GIVE PROPER HEALTH
 		entity.add(new SphericalBound(5f));
 		entity.add(new Scalable(0.25f));

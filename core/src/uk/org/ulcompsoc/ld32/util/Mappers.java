@@ -21,6 +21,7 @@ import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.*;
+import uk.org.ulcompsoc.ld32.components.Projectile;
 //import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 
