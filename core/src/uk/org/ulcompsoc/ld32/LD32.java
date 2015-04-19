@@ -21,18 +21,7 @@ import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.TowerMouseListener;
-import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
-import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
-import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
-import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
-import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
-import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
-import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
-import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
-import uk.org.ulcompsoc.ld32.systems.PositionDebugSystem;
-import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
-import uk.org.ulcompsoc.ld32.systems.RenderSystem;
-import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
+import uk.org.ulcompsoc.ld32.systems.*;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -168,9 +157,7 @@ public class LD32 extends ApplicationAdapter {
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
-		/**
-		 * FIRING SYSTEM FOR TOWERS
-		 */
+		engine.addSystem(new ProjectileLifeTimeSystem(8000));
 	}
 
 	@Override
