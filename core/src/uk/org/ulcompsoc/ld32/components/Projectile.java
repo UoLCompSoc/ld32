@@ -9,9 +9,37 @@ import com.badlogic.ashley.core.Component;
  */
 public class Projectile extends Component {
 
+    //The damage this projectile was spawned with
     public float damage = 0.0f;
+    //After how much elapsed time will this projectile disappear?
+    public float maximumUptime = 2.0f;
+    //How much time has currently passed since existence?
+    public float elapsedTime = 0.0f;
 
     public Projectile(float damage) {
-        this.damage = damage;
+        this(damage, 2.0f);
     }
+
+    public Projectile(float damage, float maximumUptime) {
+        this.damage = damage;
+        this.maximumUptime = maximumUptime;
+    }
+
+    /**
+     * Allows us to update how much time has passed.
+     * @param delta, time delta
+     */
+    public void updateDelta(float delta) {
+        this.elapsedTime += delta;
+    }
+
+
+    public boolean hasExceededUptime() {
+        if(elapsedTime >= maximumUptime)
+            return true;
+        else
+            return false;
+    }
+
+
 }
