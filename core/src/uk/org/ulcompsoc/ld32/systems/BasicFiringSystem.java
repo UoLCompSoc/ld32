@@ -1,6 +1,9 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import uk.org.ulcompsoc.ld32.components.Antiproton;
+
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Projectile;
@@ -17,6 +20,8 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Circle;
+import uk.org.ulcompsoc.ld32.util.TextureManager;
+import uk.org.ulcompsoc.ld32.util.TextureName;
 
 /**
  * Created by Samy Narrainen on 19/04/2015. Description: Provides a basic system
@@ -25,9 +30,16 @@ import com.badlogic.gdx.math.Circle;
 public class BasicFiringSystem extends IteratingSystem {
 
 	private Engine engine = null;
+    private Sprite atomSprite = null;
+    private TextureManager textureManager;
 
 	public BasicFiringSystem(int priority) {
 		super(Family.all(Tower.class, Position.class).get(), priority);
+
+		this.textureManager = new TextureManager();
+		this.textureManager.load();
+		this.atomSprite = new Sprite(new TextureRegion(textureManager.nameMap.get(TextureName.AMMO)));
+		this.atomSprite.setOriginCenter();
 	}
 
 	@Override
@@ -63,6 +75,7 @@ public class BasicFiringSystem extends IteratingSystem {
 			ImmutableArray<Entity> enemies = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class)
 			        .one(Antiproton.class).get());
 
+
 			// Iterate finding one to fire at
 			for (int i = 0; i < enemies.size(); i++) {
 				// The known position of the enemy
@@ -82,9 +95,10 @@ public class BasicFiringSystem extends IteratingSystem {
 					// TODO IMPLEMENT A POOLEDENGINE FOR THIS?
 					Entity projectile = new Entity();
 
+
 					projectile.add(new Projectile(damageComp.getDamageDealt()));
 					projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
-					projectile.add(new Renderable(Color.RED, 2.0f));
+					projectile.add(new Renderable(atomSprite));
 					projectile.add(new SphericalBound(2.0f));
 
 					// System.out.println(radPrime);
