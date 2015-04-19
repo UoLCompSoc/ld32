@@ -4,7 +4,6 @@ import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
-import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
@@ -48,9 +47,7 @@ public class RenderSystem extends IteratingSystem {
 		final Renderable r = Mappers.renderableMapper.get(entity);
 		final Killable k = Mappers.killableMapper.get(entity);
 
-		final Scalable sc = Mappers.scalableMapper.get(entity);
-
-		final float scalingFactor = calculateScalingFactor(sc);
+		final float scalingFactor = calculateScalingFactor(r);
 
 		switch (r.type) {
 		case SHAPE: {
@@ -91,6 +88,7 @@ public class RenderSystem extends IteratingSystem {
 	private void drawFrame(final Entity entity, final Position p, final Renderable r, final Killable k,
 	        float scalingFactor, final TextureRegion region) {
 		final Rotatable rot = Mappers.rotatableMapper.get(entity);
+
 		final float rotationRad;
 		final float rotationDeg;
 		if (Mappers.paddleMapper.has(entity)) {
@@ -144,7 +142,7 @@ public class RenderSystem extends IteratingSystem {
 		// If there's no difference, default to 0
 		if (remaningHealth == 1 && k.getHealth() >= 0) {
 			remaningHealth = 0;
-		} else if(k.getHealth() <= 0) {
+		} else if (k.getHealth() <= 0) {
 			remaningHealth = 1;
 		}
 
@@ -154,12 +152,13 @@ public class RenderSystem extends IteratingSystem {
 		renderer.end();
 	}
 
-	private float calculateScalingFactor(final Scalable sc) {
+	private float calculateScalingFactor(final Renderable sc) {
 		if (sc != null) {
-			if (sc.timeElapsed <= 0.0f) {
+			if (sc.scaleAnimTimeElapsed <= 0.0f) {
 				sc.scale = sc.baseScale;
 			} else {
-				sc.scale = sc.baseScale * (1.0f + LDUtil.normalCurve(0.0f, sc.totalAnimTime, sc.timeElapsed, true));
+				sc.scale = sc.baseScale
+				        * (1.0f + LDUtil.normalCurve(0.0f, sc.totalScaleAnimTime, sc.scaleAnimTimeElapsed, true));
 				// System.out.format("Scale = %f, tE = %f, tAT = %f\n",
 				// sc.scale, sc.timeElapsed, sc.totalAnimTime);
 			}

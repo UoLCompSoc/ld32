@@ -20,6 +20,12 @@ public class Renderable extends Component {
 	public float size = -1;
 	public Color color = null;
 
+	public float baseScale = 1.0f;
+	public float scale = 1.0f;
+
+	public float totalScaleAnimTime = 0.25f;
+	public float scaleAnimTimeElapsed = 0.0f;
+
 	public Renderable(final Color color, final float size) {
 		this.type = RenderableType.SHAPE;
 
@@ -49,19 +55,24 @@ public class Renderable extends Component {
 		STATIC_TEXTURE, ANIMATED_TEXTURE, SPRITE, SHAPE;
 	}
 
+	public Renderable setScale(float scale) {
+		this.baseScale = this.scale = scale;
+		return this;
+	}
+
 	public float getWidth() {
 		switch (type) {
 		case ANIMATED_TEXTURE:
-			return animation.getKeyFrame(animTime).getRegionWidth();
+			return animation.getKeyFrame(animTime).getRegionWidth() * scale;
 
 		case SHAPE:
-			return size;
+			return size * scale;
 
 		case STATIC_TEXTURE:
-			return region.getRegionWidth();
+			return region.getRegionWidth() * scale;
 
 		case SPRITE:
-			return sprite.getRegionWidth();
+			return sprite.getRegionWidth() * scale;
 
 		default:
 			break;
@@ -73,21 +84,21 @@ public class Renderable extends Component {
 	public float getHeight() {
 		switch (type) {
 		case ANIMATED_TEXTURE:
-			return animation.getKeyFrame(animTime).getRegionHeight();
+			return animation.getKeyFrame(animTime).getRegionHeight() * scale;
 
 		case SHAPE:
-			return size;
+			return size * scale;
 
 		case STATIC_TEXTURE:
-			return region.getRegionHeight();
+			return region.getRegionHeight() * scale;
 
 		case SPRITE:
-			return sprite.getRegionHeight();
+			return sprite.getRegionHeight() * scale;
 
 		default:
 			break;
 		}
 
-		throw new GdxRuntimeException("Invalid type in Renderable.getWidth()");
+		throw new GdxRuntimeException("Invalid type in Renderable.getHeight()");
 	}
 }

@@ -7,7 +7,6 @@ import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
@@ -60,15 +59,13 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 		entity.add(Position.fromPolar(firstSegment.middleR, firstSegment.middlePhi));
 		entity.add(new PathFollower(firstSegment).continueToNull().killWhenDone());
-		entity.add(new Renderable(img));
+		entity.add(new Renderable(img).setScale(0.25f));
 		entity.add(new Positron());
 		// entity.add(new Enemy());
 		entity.add(new Antiproton());
 		entity.add(new Killable(5)); // TODO GIVE PROPER HEALTH
 		entity.add(new CanItDrop());
 		entity.add(new SphericalBound(5f));
-		entity.add(new Scalable(0.25f));
-
 		return entity;
 	}
 }

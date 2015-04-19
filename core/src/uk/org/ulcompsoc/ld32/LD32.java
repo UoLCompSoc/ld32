@@ -12,7 +12,6 @@ import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.Scalable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
@@ -50,7 +49,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -63,7 +61,7 @@ public class LD32 extends ApplicationAdapter {
 	private final TextureManager textureManager;
 
 	private final Entity paddle = new Entity();
-	private Sprite paddleSprite = null;
+	private TextureRegion paddleSprite = null;
 
 	private final Entity enemy = new Entity();
 
@@ -98,20 +96,17 @@ public class LD32 extends ApplicationAdapter {
 		this.spriteBatch = new SpriteBatch();
 		this.textureManager.load();
 
-		paddleSprite = new Sprite(new TextureRegion(textureManager.nameMap.get(TextureName.PADDLE)));
-		paddleSprite.setOriginCenter();
-		final Renderable paddleRenderable = new Renderable(paddleSprite);
+		paddleSprite = new TextureRegion(textureManager.nameMap.get(TextureName.PADDLE));
+		final float paddleScale = 0.2f;
+		final Renderable paddleRenderable = new Renderable(paddleSprite).setScale(paddleScale);
 		paddle.add(paddleRenderable);
 
-		final float paddleScale = 0.2f;
-		final Position paddlePosition = Position
-		        .fromPolar(map.radius + paddleScale * paddleRenderable.getWidth(), 0.0f);
+		final Position paddlePosition = Position.fromPolar(map.radius + paddleRenderable.getWidth(), 0.0f);
 		paddle.add(paddlePosition);
 		final int[] leftKeys = { Keys.LEFT, Keys.A };
 		final int[] rightKeys = { Keys.RIGHT, Keys.D };
 		paddle.add(new PaddleInputListener(leftKeys, rightKeys));
 		paddle.add(new SphericalBound(30f));
-		paddle.add(new Scalable(paddleScale));
 		paddle.add(new Positron());
 		paddle.add(new Paddle());
 		paddle.add(new Wallet(1, 0, 0));
@@ -126,17 +121,16 @@ public class LD32 extends ApplicationAdapter {
 		// engine.addEntity(enemy);
 
 		final Position towerPos = Position.fromPolar(map.radius, LDUtil.PI);
-		final Renderable towerRen = new Renderable(new TextureRegion(
-		        textureManager.nameMap.get(TextureName.BASIC_TOWER)));
 		final float towerScale = 0.25f;
+		final Renderable towerRen = new Renderable(new TextureRegion(
+		        textureManager.nameMap.get(TextureName.BASIC_TOWER))).setScale(towerScale);
 		tower.add(towerPos);
 		tower.add(towerRen);
 		tower.add(new Tower(new Upgradable()));
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
-		tower.add(new Scalable(towerScale));
 		tower.add(new MouseListener(new TowerMouseListener(), new Circle(towerPos.getX(), towerPos.getY(), towerRen
-		        .getHeight() * towerScale)));
+		        .getHeight())));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
@@ -237,8 +231,7 @@ public class LD32 extends ApplicationAdapter {
 		Entity e = new Entity();
 
 		e.add(Position.fromEuclidean(2.0f, 2.0f));
-		e.add(new Renderable(ballAnimation));
-		e.add(new Scalable(0.5f));
+		e.add(new Renderable(ballAnimation).setScale(0.5f));
 		e.add(new SphericalBound(10.0f));
 		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
