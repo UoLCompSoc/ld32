@@ -17,7 +17,7 @@ public class Tower extends Component {
 	private static final float DFLT_FIRE_DELAY = 0.5f; // default fire delay
 	private static final float DFLT_MONSTER_DROP_RATE = 0.1f; //the chance for a monster to drop currency
 	private static final float DFLT_DMG = 3.0f; // base damge of the tower
-	private static final int DFLT_MISSLE_COUNT = 1; // how many bullets/misslies the tower fires of at once.
+	private static final int DFLT_MISSLE_COUNT = 1; // how many bullets/misslies the tower fires of at once or with a slight delay between.
 
 	public float range;
 	public float fireDelay;
@@ -149,7 +149,9 @@ public class Tower extends Component {
 		
 		if(ascended == null && Math.min(redStage, Math.min(greenStage, blueStage)) >= 4) {
 			ascended = new Ascended();
+			combinations.add(ascended);
 		}
+		updateTowersStats();
 	}
 	private void updateTowersStats(){
 		if(!combinations.isEmpty()){
@@ -158,7 +160,6 @@ public class Tower extends Component {
 				this.dropRate*=t.getDrops();
 				this.fireDelay*=t.getTimeDelay();
 				this.missleCount+=t.getSimoultaniousFire();
-				
 			}
 		}
 	}
