@@ -11,6 +11,7 @@ import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.util.Mappers;
 
 /**
  * Created by Samy Narrainen on 18/04/2015.
@@ -18,11 +19,9 @@ import uk.org.ulcompsoc.ld32.components.Velocity;
 public class AtomMovementSystem extends IteratingSystem {
 
     /**
-     * Defines the external limits of the Atom
+     * Defines the external limits for the Atom
      */
     private Circle                      outerBorder	= null;
-    private ComponentMapper<Position>	posMapper	= null;
-    private ComponentMapper<Velocity>	velMapper	= null;
 
     @SuppressWarnings("unchecked")
     public AtomMovementSystem(Circle outerBorder, int priority) {
@@ -32,22 +31,17 @@ public class AtomMovementSystem extends IteratingSystem {
     protected AtomMovementSystem(Family family, Circle outerBorder, int priority) {
         super(family, priority);
 
-        posMapper = ComponentMapper.getFor(Position.class);
-        velMapper = ComponentMapper.getFor(Velocity.class);
         this.outerBorder = outerBorder;
-
     }
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
+        Position p = Mappers.positionMapper.get(entity);
+        Vector2 v = Mappers.velMapper.get(entity).velocity;
 
-        Position p = posMapper.get(entity);
-        Vector2 v = velMapper.get(entity).velocity;
 
         p.setX(p.getX() + v.x);
         p.setY(p.getY() + v.y);
-
-
 
     }
 }

@@ -85,7 +85,7 @@ public class LD32 extends ApplicationAdapter {
 		        textureManager.nameMap.get(TextureName.BASIC_TOWER)));
 		paddle.add(paddleRenderable);
 		paddle.add(new PaddleInputListener(Keys.A, Keys.D));
-		paddle.add(new SphericalBound(paddleRenderable.region.getRegionWidth()));
+		paddle.add(new SphericalBound(30f));
 		paddle.add(new Scalable(0.25f));
 		paddle.add(new Paddle());
 
