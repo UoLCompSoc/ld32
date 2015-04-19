@@ -2,7 +2,14 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import uk.org.ulcompsoc.ld32.CircleMap;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.*;
+import uk.org.ulcompsoc.ld32.components.Enemy;
+import uk.org.ulcompsoc.ld32.components.Killable;
+import uk.org.ulcompsoc.ld32.components.PathFollower;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Positron;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Scalable;
+import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
@@ -53,12 +60,9 @@ public class EnemySpawningSystem extends IntervalSystem {
 		entity.add(Position.fromPolar(firstSegment.middleR, firstSegment.middlePhi));
 		entity.add(new PathFollower(firstSegment).continueToNull().killWhenDone());
 		entity.add(new Renderable(img));
-<<<<<<< HEAD
 		entity.add(new Positron());
-=======
-		entity.add(new Enemy());
+		//entity.add(new Enemy());
 		entity.add(new Killable(5)); //TODO GIVE PROPER HEALTH
->>>>>>> c04c85e19fbcaf9b3b2ac28eb96355c5e8adc107
 		entity.add(new SphericalBound(5f));
 		entity.add(new Scalable(0.25f));
 

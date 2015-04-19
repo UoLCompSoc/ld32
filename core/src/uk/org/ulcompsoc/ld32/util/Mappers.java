@@ -1,6 +1,5 @@
 package uk.org.ulcompsoc.ld32.util;
 
-<<<<<<< HEAD
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
@@ -21,9 +20,7 @@ import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.Wallet;
-=======
 import uk.org.ulcompsoc.ld32.components.*;
->>>>>>> c04c85e19fbcaf9b3b2ac28eb96355c5e8adc107
 //import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 

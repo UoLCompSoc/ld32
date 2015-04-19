@@ -22,7 +22,9 @@ public enum TextureName {
 	SIX("numbers/6.png"),
 	SEVEN("numbers/7.png"),
 	EIGHT("numbers/8.png"),
-	NINE("numbers/9.png");
+	NINE("numbers/9.png"),
+	
+	FRAME_1("GUI/frame.png");
 
 	public final String assetName;
 
