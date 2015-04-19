@@ -1,7 +1,7 @@
 package uk.org.ulcompsoc.ld32.util;
 
 public enum TextureName {
-	BASIC_TOWER("towers/tower_0.png");
+	BASIC_TOWER("towers/tower_0.png"), PADDLE("paddle.png");
 
 	public final String assetName;
 

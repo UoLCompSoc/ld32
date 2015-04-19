@@ -1,5 +1,6 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
@@ -28,12 +29,34 @@ public class PathFollowingSystem extends IntervalIteratingSystem {
 		pf.timeWaited += interval;
 
 		if (pf.timeWaited >= pf.wanderTime) {
-			p.setPolar(pf.segment.middleR, pf.segment.next.middlePhi);
+			p.setPolar(pf.segment.next.middleR, pf.segment.next.middlePhi);
+
+			if (pf.shouldContinue()) {
+				final RingSegment next = pf.segment.next;
+
+				if (next != null) {
+					pf.initialise(next);
+					return;
+				} else {
+					pf.continueOnce = pf.continueToNull = false;
+				}
+			}
+
 			entity.remove(PathFollower.class);
 		} else {
 			if (pf.isStraightPath()) {
-				p.setPolar(pf.segment.middleR, LDUtil.smoothStep(0.0f, pf.wanderTime, pf.timeWaited)
-				        * pf.segment.next.middlePhi);
+				p.setPolar(
+				        pf.segment.next.middleR,
+				        pf.segment.middlePhi + LDUtil.smoothStep(0.0f, pf.wanderTime, pf.timeWaited)
+				                * Math.abs(pf.segment.next.middlePhi - pf.segment.middlePhi));
+			} else {
+				if (pf.timeWaited / pf.wanderTime >= 0.75f) {
+					p.setPolar(LDUtil.smoothStep(0.0f, pf.wanderTime / 2.0f, pf.timeWaited - 0.25f)
+					        * pf.segment.next.middleR, pf.segment.next.middlePhi);
+				} else {
+					p.setPolar(pf.segment.middleR, LDUtil.smoothStep(0.0f, pf.wanderTime / 2.0f, pf.timeWaited)
+					        * pf.segment.next.middlePhi);
+				}
 			}
 		}
 	}

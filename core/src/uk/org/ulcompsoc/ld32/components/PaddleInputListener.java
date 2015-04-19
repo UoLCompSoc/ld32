@@ -8,8 +8,8 @@ public class PaddleInputListener extends Component {
 	public final int[] leftKeys;
 	public final int[] rightKeys;
 
-	public static final float MAX_VELOCITY = LDUtil.PI / 50;
-	public static final float MAX_SPEED_TIME = 3.0f;
+	public static final float MAX_VELOCITY = LDUtil.PI / 25;
+	public static final float MAX_SPEED_TIME = 1.5f;
 
 	/* when pressTime >= maxSpeedTime, velocity should be maxVelocity */
 	public float pressTime = 0.0f;
