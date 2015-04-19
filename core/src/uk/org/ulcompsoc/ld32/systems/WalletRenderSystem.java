@@ -41,6 +41,10 @@ public class WalletRenderSystem extends IteratingSystem {
 		batch.draw(red, x, y,red.getRegionWidth(), red.getRegionHeight());
 		batch.draw(blue, x+3.0f, y+1.0f, blue.getRegionWidth(), blue.getRegionHeight());
 		batch.draw(green,x-2.5f, y+0.9f, green.getRegionWidth(), blue.getRegionHeight());
+		
+		int redCount = wallet.redCurrency;
+		int blueCount = wallet.blueCurrency;
+		int greenCount = wallet.greenCurrency; // might move it  out
 		// once for each of red, green, blue:
 		// draw sprite - red at (x,y), green a bit to the right, blue right of
 		// that
