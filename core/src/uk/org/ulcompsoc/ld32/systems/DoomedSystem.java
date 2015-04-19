@@ -37,19 +37,5 @@ public class DoomedSystem extends IteratingSystem {
 		engine.removeEntity(entity);
 	}
 	
-	private Boolean shouldItDrop(float chance, float booster){
-		Random random = new Random();
-		
-		if(booster>0){
-			if(chance*booster>=1.0f){
-				int temp =(int) (chance*booster);
-				if(random.nextInt(temp)+random.nextFloat()<chance*booster){
-					return true;
-				}
-					
-			}
-		}
-		return false;
-	}
-	
+
 }
