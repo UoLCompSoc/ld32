@@ -42,9 +42,10 @@ public class BasicFiringSystem extends IteratingSystem {
         //The position of the tower
         Position towerPos = Mappers.positionMapper.get(entity);
 
+        //Increment known time for the tower
+        tower.TimePassed(deltaTime);
 
-        //TODO IF THE TOWER IS READY TO FIRE
-        if(true) {
+        if(tower.isReadyToFire()) {
             /**
              * Look for an enemy to fire at!
              */
@@ -75,12 +76,15 @@ public class BasicFiringSystem extends IteratingSystem {
                     projectile.add(new Projectile(tower.damageComp.getDamageDealt()));
                     projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
                     projectile.add(new Renderable(Color.RED, 2.0f));
-                    projectile.add(new SphericalBound(2.f));
+                    projectile.add(new SphericalBound(2.0f));
 
                     //TODO GIVE VELOCITY OF THE RIGHT (R, THETA)
                     projectile.add(new Velocity(0.2f,0.2f));
 
                     engine.addEntity(projectile);
+
+                    //Update the tower to be fired
+                    tower.shotHasBeenFired();
 
                 }
 
