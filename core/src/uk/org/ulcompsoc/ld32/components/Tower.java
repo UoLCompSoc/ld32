@@ -15,7 +15,7 @@ public class Tower extends Component {
 	private static final float DFLT_RANGE = 100.0f; // starting range
 	private static final float DFLT_FIRE_DELAY = 1f; // default fire delay
 	private static final float DFLT_MONSTER_DROP_RATE = 5f; //the chance for a monster to drop currency
-	public static final float DFLT_DMG = 3.0f; // base damge of the tower
+	public static final float DFLT_DMG = 5.0f; // base damge of the tower
 	private static final int DFLT_MISSLE_COUNT = 1; // how many bullets/misslies the tower fires of at once or with a slight delay between.
 
 	public float range;

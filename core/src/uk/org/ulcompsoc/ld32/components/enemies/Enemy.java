@@ -1,4 +1,4 @@
-package uk.org.ulcompsoc.ld32.components;
+package uk.org.ulcompsoc.ld32.components.enemies;
 
 import java.util.Random;
 
