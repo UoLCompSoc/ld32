@@ -4,12 +4,16 @@ import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.components.Drop;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 
 public class DoomedSystem extends IteratingSystem {
 	private Engine engine = null;
@@ -35,14 +39,37 @@ public class DoomedSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		CanItDrop canItDrop = Mappers.dropMapper.get(entity);
-
+		Position position = Mappers.positionMapper.get(entity);
 		if (canItDrop != null) {
 			boolean redDrop = shouldItDrop(canItDrop.redDropChance, CanItDrop.RED_BOOSTER);
 			if(!redDrop){
 				CanItDrop.RED_BOOSTER+=CanItDrop.DFLT_BOOSTER_INCREASE;
 			} else {
-				//i guess this is where the entity Drop is created
 				CanItDrop.RED_BOOSTER = 0;
+				Entity toAdd = new Entity();
+				toAdd.add(new Drop());
+				toAdd.add(position);
+				toAdd.add(new Renderable(Color.RED, 4.0f));
+			}
+			boolean blueDrop = shouldItDrop(canItDrop.blueDropChance, CanItDrop.RED_BOOSTER);
+			if(!blueDrop){
+				CanItDrop.BLUE_BOOSTER+=CanItDrop.DFLT_BOOSTER_INCREASE;
+			} else {
+				CanItDrop.BLUE_BOOSTER = 0;
+				Entity toAdd2 = new Entity();
+				toAdd2.add(new Drop());
+				toAdd2.add(position);
+				toAdd2.add(new Renderable(Color.BLUE, 4.0f));
+			}
+			boolean greenDrop = shouldItDrop(canItDrop.greenDropChance, CanItDrop.GREEN_BOOSTER);
+			if(!greenDrop){
+				CanItDrop.GREEN_BOOSTER+=CanItDrop.DFLT_BOOSTER_INCREASE;
+			} else {
+				CanItDrop.GREEN_BOOSTER = 0;
+				Entity toAdd3 = new Entity();
+				toAdd3.add(new Drop());
+				toAdd3.add(position);
+				toAdd3.add(new Renderable(Color.GREEN, 4.0f));
 			}
 		}
 
