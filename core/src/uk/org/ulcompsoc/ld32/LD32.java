@@ -164,7 +164,7 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
-		engine.addSystem(new DoomedSystem(100000));
+		engine.addSystem(new DoomedSystem(100000, textureManager));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
