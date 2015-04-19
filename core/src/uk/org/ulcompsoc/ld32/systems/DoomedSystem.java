@@ -50,6 +50,7 @@ public class DoomedSystem extends IteratingSystem {
 				toAdd.add(new Drop());
 				toAdd.add(position);
 				toAdd.add(new Renderable(Color.RED, 4.0f));
+				engine.addEntity(toAdd);
 			}
 			boolean blueDrop = shouldItDrop(canItDrop.blueDropChance, CanItDrop.RED_BOOSTER);
 			if(!blueDrop){
@@ -60,6 +61,7 @@ public class DoomedSystem extends IteratingSystem {
 				toAdd2.add(new Drop());
 				toAdd2.add(position);
 				toAdd2.add(new Renderable(Color.BLUE, 4.0f));
+				engine.addEntity(toAdd2);
 			}
 			boolean greenDrop = shouldItDrop(canItDrop.greenDropChance, CanItDrop.GREEN_BOOSTER);
 			if(!greenDrop){
@@ -70,6 +72,8 @@ public class DoomedSystem extends IteratingSystem {
 				toAdd3.add(new Drop());
 				toAdd3.add(position);
 				toAdd3.add(new Renderable(Color.GREEN, 4.0f));
+				engine.addEntity(toAdd3);
+			
 			}
 		}
 
