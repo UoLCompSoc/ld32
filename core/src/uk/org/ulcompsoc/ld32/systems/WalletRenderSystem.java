@@ -29,14 +29,18 @@ public class WalletRenderSystem extends IteratingSystem {
 		this.x = y;
 
 		this.red = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
-		// do green
+		this.blue = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
+		this.green = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
 		// do blue
 	}
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		final Wallet wallet = Mappers.walletMapper.get(entity);
-
+		
+		batch.draw(red, x, y,red.getRegionWidth(), red.getRegionHeight());
+		batch.draw(blue, x+3.0f, y+1.0f, blue.getRegionWidth(), blue.getRegionHeight());
+		batch.draw(green,x-2.5f, y+0.9f, green.getRegionWidth(), blue.getRegionHeight());
 		// once for each of red, green, blue:
 		// draw sprite - red at (x,y), green a bit to the right, blue right of
 		// that
