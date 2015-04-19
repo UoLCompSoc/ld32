@@ -7,6 +7,7 @@ import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Drop.Colour;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Engine;
@@ -47,7 +48,7 @@ public class DoomedSystem extends IteratingSystem {
 			} else {
 				CanItDrop.RED_BOOSTER = 0;
 				Entity toAdd = new Entity();
-				toAdd.add(new Drop());
+				toAdd.add(new Drop(Colour.RED));
 				toAdd.add(position);
 				toAdd.add(new Renderable(Color.RED, 4.0f));
 				engine.addEntity(toAdd);
@@ -58,7 +59,7 @@ public class DoomedSystem extends IteratingSystem {
 			} else {
 				CanItDrop.BLUE_BOOSTER = 0;
 				Entity toAdd2 = new Entity();
-				toAdd2.add(new Drop());
+				toAdd2.add(new Drop(Colour.BLUE));
 				toAdd2.add(position);
 				toAdd2.add(new Renderable(Color.BLUE, 4.0f));
 				engine.addEntity(toAdd2);
@@ -69,7 +70,7 @@ public class DoomedSystem extends IteratingSystem {
 			} else {
 				CanItDrop.GREEN_BOOSTER = 0;
 				Entity toAdd3 = new Entity();
-				toAdd3.add(new Drop());
+				toAdd3.add(new Drop(Colour.GREEN));
 				toAdd3.add(position);
 				toAdd3.add(new Renderable(Color.GREEN, 4.0f));
 				engine.addEntity(toAdd3);
