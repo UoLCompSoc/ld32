@@ -75,8 +75,6 @@ public class PathFollower extends Component {
 		this.straightPath = straightPath;
 
 		if (segment.next != null) {
-			System.out.format("Travelling from (%f, %f) to (%f, %f)\n", segment.middleR, segment.middlePhi,
-			        segment.next.middleR, segment.next.middlePhi);
 			// if (segment.middlePhi <= segment.next.middlePhi) {
 			// this.transitionDirection = 1.0f;
 			// } else {
