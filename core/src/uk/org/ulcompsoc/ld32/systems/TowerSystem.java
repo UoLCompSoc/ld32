@@ -4,12 +4,11 @@ import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.upgrades.*;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
+import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 
 public class TowerSystem extends EntitySystem {
 	private Engine engine = null;
@@ -17,11 +16,13 @@ public class TowerSystem extends EntitySystem {
 	public TowerSystem() {
 		this(0);
 	}
+	
 	public TowerSystem(int priority) {
 		super(priority);
 	}
-	public boolean setRedUpgrade(Entity e) {
-		Tower tower = e.getComponent(Tower.class);
+	
+	public boolean setRedUpgrade(Entity entity) {
+		Tower tower = Mappers.towerMapper.get(entity);
 		if (tower.redBalls < 5) {
 			return false;
 		}
@@ -29,7 +30,7 @@ public class TowerSystem extends EntitySystem {
 		tower.redBalls = tower.redBalls - 5;
 		if (tower.red == null) {
 			tower.red = new Number_Of_Balls_1();
-			updateCombos(e);
+			updateCombos(entity);
 			return true;
 		}
 
@@ -44,19 +45,19 @@ public class TowerSystem extends EntitySystem {
 			}
 			default: return false;
 		}
-		updateCombos(e);
+		updateCombos(entity);
 		return true;
 	}
 	
-	public boolean setBlueUpgrade(Entity e) {
-		Tower tower = e.getComponent(Tower.class);
+	public boolean setBlueUpgrade(Entity entity) {
+		Tower tower = Mappers.towerMapper.get(entity);
 		if (tower.blueBalls < 5) {
 			return false;
 		}
 		tower.blueBalls = tower.blueBalls - 5;
 		if (tower.blue == null) {
 			tower.blue = new Damage_Plus();
-			updateCombos(e);
+			updateCombos(entity);
 			return true;
 		}
 		switch(tower.blue.getStage()) {
@@ -70,7 +71,7 @@ public class TowerSystem extends EntitySystem {
 			}
 			default: return false;
 		}
-		updateCombos(e);
+		updateCombos(entity);
 		return true;
 	}
 	
@@ -103,8 +104,8 @@ public class TowerSystem extends EntitySystem {
 	}
 	
 	
-	private void updateCombos(Entity e) {
-		Tower tower = e.getComponent(Tower.class);
+	private void updateCombos(Entity entity) {
+		Tower tower = Mappers.towerMapper.get(entity);
 		
 		int redStage = tower.red.getStage();
 		int greenStage = tower.green.getStage();
@@ -119,12 +120,12 @@ public class TowerSystem extends EntitySystem {
 			tower.ascended = new Ascended();
 			tower.combinations.add(tower.ascended);
 		}
-		updateTowerStats(e);
+		updateTowerStats(entity);
 	}
 
-	private void updateTowerStats(Entity e) {
-		Tower tower = e.getComponent(Tower.class);
-		Damage damageComp = e.getComponent(Damage.class);
+	private void updateTowerStats(Entity entity) {
+		Tower tower = Mappers.towerMapper.get(entity);
+		Damage damageComp = Mappers.damageMapper.get(entity);
 		
 		for(Upgrade up : tower.combinations){
 			damageComp.useMultiplier(up.getDamage());
@@ -134,28 +135,8 @@ public class TowerSystem extends EntitySystem {
 		}
 	}
 	
-	public void TimePassed(Entity e, float deltaTime){
-		Tower tower = e.getComponent(Tower.class);
-		tower.elapsedTime+=deltaTime;
-	}
-	
-	public Boolean isReadyToFire(Entity e) {
-		Tower tower = e.getComponent(Tower.class);
-
-		if(tower.elapsedTime >= tower.fireDelay){
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public void shotHasBeenFired(Entity e){
-		Tower tower = e.getComponent(Tower.class);
-		tower.elapsedTime=0;
-	}
-
-	public boolean containsUpgrade(Entity e, Upgrade up) {
-		Tower tower = e.getComponent(Tower.class);
+	public boolean containsUpgrade(Entity entity, Upgrade up) {
+		Tower tower = Mappers.towerMapper.get(entity);
 		if(tower.combinations.contains(up)) {
 			return true;
 		}
@@ -180,7 +161,4 @@ public class TowerSystem extends EntitySystem {
 		}
 	}
 
-	public float getDamageDealt(Entity e) {
-		return e.getComponent(Damage.class).getDamageDealt();
-	}
 }

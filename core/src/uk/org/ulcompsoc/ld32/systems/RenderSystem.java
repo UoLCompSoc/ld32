@@ -5,6 +5,7 @@ import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.Scalable;
+import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Entity;
@@ -56,7 +57,7 @@ public class RenderSystem extends IteratingSystem {
 			renderer.end();
 
 			if (k != null) {
-				drawHealthBar(p, k, r.size);
+				drawHealthBar(p.getX() - (r.size / 2.0f), p.getY() - (r.size / 2.0f), k, r.size);
 			}
 
 			break;
@@ -73,6 +74,23 @@ public class RenderSystem extends IteratingSystem {
 			break;
 		}
 
+		case SPRITE: {
+			final Rotatable rot = Mappers.rotatableMapper.get(entity);
+			final float rotation;
+			if (Mappers.paddleMapper.has(entity)) {
+				rotation = (float) Math.toDegrees(p.getPhi());
+			} else {
+				rotation = (rot != null ? rot.rotation : 0.0f);
+			}
+
+			r.sprite.setOrigin(r.sprite.getRegionWidth() / 2.0f, r.sprite.getRegionHeight());
+
+			r.sprite.setRotation(rotation);
+
+			drawFrame(entity, p, r, k, r.sprite);
+			break;
+		}
+
 		default:
 			break;
 		}
@@ -80,27 +98,37 @@ public class RenderSystem extends IteratingSystem {
 
 	private void drawFrame(final Entity entity, final Position p, final Renderable r, final Killable k,
 	        final TextureRegion region) {
-		final Rotatable rot = Mappers.rotatableMapper.get(entity);
 		final Scalable sc = Mappers.scalableMapper.get(entity);
-		final float scalingFactor = (sc != null ? sc.scale : 1.0f);
-		final float rotation;
 
-		if (Mappers.paddleMapper.has(entity)) {
-			rotation = (float) Math.toDegrees(p.getPhi());
+		final float scalingFactor;
+		if (sc != null) {
+			if (sc.timeElapsed <= 0.0f) {
+				sc.scale = sc.baseScale;
+			} else {
+				sc.scale = sc.baseScale * (1.0f + LDUtil.normalCurve(0.0f, sc.totalAnimTime, sc.timeElapsed, true));
+				// System.out.format("Scale = %f, tE = %f, tAT = %f\n",
+				// sc.scale, sc.timeElapsed, sc.totalAnimTime);
+			}
+
+			scalingFactor = sc.scale;
 		} else {
-			rotation = (rot != null ? rot.rotation : 0.0f);
+			scalingFactor = 1.0f;
 		}
 
 		final float xOffset = scalingFactor * region.getRegionWidth() / 2.0f;
 		final float yOffset = scalingFactor * region.getRegionHeight() / 2.0f;
 
+		final float x = p.getX() - xOffset;
+		final float y = p.getY() - yOffset;
+
 		batch.begin();
-		batch.draw(region, p.getX() - xOffset, p.getY() - yOffset, 0.0f, 0.0f, region.getRegionWidth(),
-		        region.getRegionHeight(), scalingFactor, scalingFactor, 0.0f);
+		batch.setProjectionMatrix(camera.combined);
+		batch.draw(region, x, y, 0.0f, 0.0f, region.getRegionWidth(), region.getRegionHeight(), scalingFactor,
+		        scalingFactor, 0.0f);
 		batch.end();
 
 		if (k != null) {
-			drawHealthBar(p, k, region.getRegionHeight() * scalingFactor);
+			drawHealthBar(x, y, k, region.getRegionHeight() * scalingFactor);
 		}
 	}
 
@@ -112,15 +140,15 @@ public class RenderSystem extends IteratingSystem {
 	 *            position of the entity
 	 * @param k
 	 *            for health information
-	 * @param radius
+	 * @param radiusOfEntity
 	 *            how big is the entity?
 	 */
-	private void drawHealthBar(Position p, Killable k, float radius) {
+	private void drawHealthBar(float x, float y, Killable k, float radiusOfEntity) {
 		renderer.begin(ShapeType.Filled);
 
 		// Draw the positive health
 		renderer.setColor(POSITIVE_HEALTH_COLOR);
-		renderer.rect(p.getX(), p.getY() + radius, radius, radius / 4.0f);
+		renderer.rect(x, y + radiusOfEntity, radiusOfEntity, radiusOfEntity / 4.0f);
 
 		// Draw the negative health
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);
@@ -132,7 +160,8 @@ public class RenderSystem extends IteratingSystem {
 			remaningHealth = 0;
 		}
 
-		renderer.rect(p.getX(), p.getY() + radius, radius * remaningHealth, radius / HEALTH_HEIGHT_POSITION_MODIFIER);
+		renderer.rect(x, y + radiusOfEntity, radiusOfEntity * remaningHealth, radiusOfEntity
+		        / HEALTH_HEIGHT_POSITION_MODIFIER);
 
 		renderer.end();
 	}
