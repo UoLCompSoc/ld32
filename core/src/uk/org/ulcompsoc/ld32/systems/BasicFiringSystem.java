@@ -1,13 +1,6 @@
 package uk.org.ulcompsoc.ld32.systems;
 
-import uk.org.ulcompsoc.ld32.components.Antiproton;
-import uk.org.ulcompsoc.ld32.components.Damage;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Projectile;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.SphericalBound;
-import uk.org.ulcompsoc.ld32.components.Tower;
-import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
@@ -84,7 +77,7 @@ public class BasicFiringSystem extends IteratingSystem {
 				Circle enemyRange = new Circle(enemyPos.getX(), enemyPos.getY(), enemyRadius.radius);
 
 				// The tower is able to see the enemy, fire!!!
-				if (enemyRange.overlaps(towerRange)) {
+				if (enemyRange.overlaps(towerRange) && tower.isReadyToFire()) {
 					// Create a projectile to send towards the enemy.
 					// TODO IMPLEMENT A POOLEDENGINE FOR THIS?
 					Entity projectile = new Entity();
@@ -92,7 +85,8 @@ public class BasicFiringSystem extends IteratingSystem {
 					projectile.add(new Projectile(damageComp.getDamageDealt()));
 					projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
 					projectile.add(new Renderable(ammoSprite));
-					projectile.add(new SphericalBound(2.0f));
+					projectile.add(new SphericalBound(ammoSprite.getRegionWidth()*0.5f));
+					projectile.add(new Scalable(0.5f));
 
 					float deltaX = (float) ((enemyPos.getR() * Math.cos(enemyPos.getPhi()) - towerPos.getX()));
 					float deltaY = (float) ((enemyPos.getR() * Math.sin(enemyPos.getPhi())) - towerPos.getY());
