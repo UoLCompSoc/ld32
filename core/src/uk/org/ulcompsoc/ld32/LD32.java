@@ -124,6 +124,7 @@ public class LD32 extends ApplicationAdapter {
 		 * FIRING SYSTEM FOR TOWERS
 		 */
 		engine.addSystem(new BasicFiringSystem(2));
+		engine.addSystem(new ProjectileMovementSystem(2));
 	}
 
 	@Override
