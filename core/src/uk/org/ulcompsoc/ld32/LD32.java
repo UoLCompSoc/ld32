@@ -23,6 +23,7 @@ import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
+import uk.org.ulcompsoc.ld32.systems.GUIRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
@@ -159,6 +160,7 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
 		engine.addSystem(new DoomedSystem(100000, textureManager));
+		engine.addSystem(new GUIRenderSystem(spriteBatch, textureManager, camera, 90000));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
