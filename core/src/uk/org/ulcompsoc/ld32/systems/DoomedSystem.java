@@ -37,7 +37,13 @@ public class DoomedSystem extends IteratingSystem {
 		CanItDrop canItDrop = Mappers.dropMapper.get(entity);
 
 		if (canItDrop != null) {
-			// do something here, it can drop
+			boolean redDrop = shouldItDrop(canItDrop.redDropChance, CanItDrop.RED_BOOSTER);
+			if(!redDrop){
+				CanItDrop.RED_BOOSTER+=CanItDrop.DFLT_BOOSTER_INCREASE;
+			} else {
+				//i guess this is where the entity Drop is created
+				CanItDrop.RED_BOOSTER = 0;
+			}
 		}
 
 		engine.removeEntity(entity);
@@ -46,6 +52,7 @@ public class DoomedSystem extends IteratingSystem {
 	private boolean shouldItDrop(float chance, float booster) {
 		//if booster doesn't equal 0
 		if (booster > 0) {
+			//if chance with booster will go beyond 1.0f - we want to create infinite upgrades
 			if (chance * booster >= 1.0f) {
 				int temp = (int) (chance * booster);
 				if (random.nextInt(temp) + random.nextFloat() < chance*booster) {
@@ -53,18 +60,21 @@ public class DoomedSystem extends IteratingSystem {
 				} else return false;
 
 			} else {
+				// if chance with booster is below 1.0f
 				if (random.nextFloat() < chance * booster) {
 					return true;
 				} else return false;
 			}
 		//if booster equals zero
 		} else {
+			//if chance is bigger than 1.0f
 			if (chance >= 1.0f) {
 				int temp2 = (int) chance;
 				if (random.nextInt(temp2) + random.nextFloat() < chance) {
 					return true;
 				} else return false;
 			} else {
+				//if chance is below 1.0f
 				if(random.nextFloat()< chance){
 					return true;
 				} else return false;
