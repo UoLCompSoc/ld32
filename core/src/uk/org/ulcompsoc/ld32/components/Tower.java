@@ -18,14 +18,17 @@ public class Tower extends Component {
 	private static final float DFLT_FIRE_DELAY = 0.5f; // default fire delay
 	private static final float DFLT_MONSTER_DROP_RATE = 0.1f; //the chance for a monster to drop currency
 	private static final float DFLT_DMG = 3.0f; // base damge of the tower
-	private static final int DFLT_MISSILE_COUNT = 1; // how many bullets/misslies the tower fires of at once.
-	
+	private static final int DFLT_MISSLE_COUNT = 1; // how many bullets/misslies the tower fires of at once or with a slight delay between.
+
 	public float range;
 	public float fireDelay;
 	public float dropRate;
 	public float damage;
-	public float missileCount;
-
+	public float missleCount;
+	
+	//attributes assosiated with firing
+	private float elapsedTime;
+	
 	public int redBalls;
 	public int blueBalls; // heeeeeeeyooooo :D
 	public int greenBalls;
@@ -43,7 +46,8 @@ public class Tower extends Component {
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
 		this.damage = Tower.DFLT_DMG;
-		this.missileCount = Tower.DFLT_MISSILE_COUNT;
+		this.missleCount = Tower.DFLT_MISSLE_COUNT;
+
 
 		this.redBalls = 0;
 		this.blueBalls = 0;
@@ -52,6 +56,8 @@ public class Tower extends Component {
 		red = null;
 		blue = null;
 		green = null;
+		
+		this.elapsedTime = 0;
 
 		combinations = new HashSet<Upgrade>();
 		listOfPointsToScan = new ArrayList<RingSegment>();
@@ -150,7 +156,9 @@ public class Tower extends Component {
 		
 		if(ascended == null && Math.min(redStage, Math.min(greenStage, blueStage)) >= 4) {
 			ascended = new Ascended();
+			combinations.add(ascended);
 		}
+		updateTowersStats();
 	}
 	
 	private void updateTowersStats(){
@@ -159,8 +167,24 @@ public class Tower extends Component {
 				this.damage*=t.getDamage();
 				this.dropRate*=t.getDrops();
 				this.fireDelay*=t.getTimeDelay();
-				this.missileCount+=t.getSimultaneousFire();
+				this.missleCount+=t.getSimultaneousFire();
+
+
 			}
 		}
+	}
+	
+	public void TimePassed(float deltaTime){
+		this.elapsedTime+=deltaTime;
+	}
+	public Boolean isReadyToFire(){
+		if(this.elapsedTime>=fireDelay){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public void shotHasBeenFired(){
+		this.elapsedTime=0;
 	}
 }

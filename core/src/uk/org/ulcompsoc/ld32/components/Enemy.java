@@ -10,7 +10,7 @@ import com.badlogic.ashley.core.Component;
  * Created by Samy Narrainen on 19/04/2015.
  * Description: Necessary as it provides the BasicFiringSystem a means of detecting enemies.
  */
-public abstract class Enemy extends Component {
+public class Enemy extends Component {
 	
 	Killable killable;
 	String name;
@@ -18,7 +18,7 @@ public abstract class Enemy extends Component {
 	int damage;
 	
 	public Enemy() {
-		killable = new Killable();
+		//killable = new Killable();
 	}
 	
 	public Upgrade.UpgradeRoute randomDrop() {
