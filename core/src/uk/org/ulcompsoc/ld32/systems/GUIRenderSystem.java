@@ -44,7 +44,7 @@ public class GUIRenderSystem extends IteratingSystem {
 		int bluecount = wallet.blue;
 		int greencount = wallet.green;
 		batch.begin();
-		batch.draw(frame, temp.x, temp.y - frame.getRegionHeight());
+		batch.draw(frame, temp.x, temp.y - frame.getRegionHeight(),frame.getRegionWidth()*0.75f, frame.getRegionHeight()*0.75f);
 		batch.end();
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
