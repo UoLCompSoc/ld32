@@ -1,5 +1,7 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import java.util.Random;
+
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.upgrades.*;
@@ -161,4 +163,29 @@ public class TowerSystem extends EntitySystem {
 		}
 	}
 
+	public boolean pongBonus(Entity entity) {
+		Tower tower = Mappers.towerMapper.get(entity);
+		if(tower.pongBonusCounter >= 10) {
+			return false;
+		}
+		
+		Damage damageComp = Mappers.damageMapper.get(entity);
+		Random rand = new Random();
+		switch(rand.nextInt(3)) {
+			case 0: {
+				damageComp.useMultiplier(1.1f);
+				break;
+			}
+			case 1: {
+				tower.fireDelay = tower.fireDelay * 0.9f;
+				break;
+			}
+			case 2: {
+				tower.range = tower.range * 1.1f;
+				break;
+			}
+		}
+		tower.pongBonusCounter++;
+		return true;
+	}
 }
