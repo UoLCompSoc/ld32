@@ -5,12 +5,15 @@ import java.util.List;
 
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Projectile;
 import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.ComponentMapper;
@@ -188,7 +191,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 								// System.out.println("DOOMED");
 							}
 
-							engine.removeEntity(entities.get(j));
+							startProjectileDoom(entities.get(j));
 
 						}
 					} else if (projectile2 != null) {
@@ -202,7 +205,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 							}
 
-							engine.removeEntity(entities.get(i));
+							startProjectileDoom(entities.get(i));
 
 						}
 					}
@@ -210,5 +213,16 @@ public class SphericalCollisionSystem extends EntitySystem {
 				}
 			}
 		}
+	}
+
+	private void startProjectileDoom(Entity projectile) {
+		projectile.remove(Projectile.class);
+		projectile.remove(Velocity.class);
+		final Rotatable rot = Mappers.rotatableMapper.get(projectile);
+
+		if (rot != null) {
+			rot.animatedRotation = false;
+		}
+		projectile.add(new Fade(0.25f, true));
 	}
 }
