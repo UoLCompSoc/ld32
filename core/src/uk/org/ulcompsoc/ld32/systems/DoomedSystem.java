@@ -3,6 +3,7 @@ package uk.org.ulcompsoc.ld32.systems;
 import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
+import uk.org.ulcompsoc.ld32.components.DeathAnimation;
 import uk.org.ulcompsoc.ld32.components.DoomNotifier;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
@@ -30,6 +31,7 @@ public class DoomedSystem extends IteratingSystem {
 
 	private final Entity player;
 
+	private final TextureManager textureManager;
 	private TextureRegion ballRegion;
 
 	@SuppressWarnings("unchecked")
@@ -37,7 +39,7 @@ public class DoomedSystem extends IteratingSystem {
 		super(Family.all(Doomed.class).get(), priority);
 
 		this.player = player;
-
+		this.textureManager = textureManager;
 		this.ballRegion = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_GREY));
 	}
 
@@ -58,8 +60,24 @@ public class DoomedSystem extends IteratingSystem {
 		handleDrop(entity, deltaTime);
 		handleBonus(entity, deltaTime);
 		handleNotifyDeath(entity, deltaTime);
+		handleDeathAnimation(entity, deltaTime);
 
 		engine.removeEntity(entity);
+	}
+
+	private void handleDeathAnimation(final Entity entity, float deltaTime) {
+		final DeathAnimation da = Mappers.deathAnimationMapper.get(entity);
+		final Position p = Mappers.positionMapper.get(entity);
+
+		if (da != null) {
+			final Entity e = new Entity();
+			final Renderable r = new Renderable(da.animation);
+
+			e.add(Position.fromPolar(p.getR(), p.getPhi()));
+			e.add(r);
+
+			engine.addEntity(e);
+		}
 	}
 
 	private void handleBonus(final Entity entity, float deltaTime) {
