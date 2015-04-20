@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Player;
+import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -128,12 +129,11 @@ public class GUIRenderSystem extends EntitySystem {
 		// scaleX, scaleY, rotation);
 
 		if (selectedTowerEntity != null) {
-
-			// Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
-			// if(tower.red!=null){
-			// handleACounter(tower.red.getStage(),batch, new Vector3(110.0f,
-			// 350.0f, 0.0f), new Vector3 (130.0f, 350.0f, 0.0f));
-			// }
+			Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
+			if (tower != null) {
+				handleACounter(tower.red.getStage(), batch, new Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
+				        350.0f, 0.0f));
+			}
 		}
 
 		/**
