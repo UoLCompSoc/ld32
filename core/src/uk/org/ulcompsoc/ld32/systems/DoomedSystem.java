@@ -3,8 +3,18 @@ package uk.org.ulcompsoc.ld32.systems;
 import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.LD32;
-import uk.org.ulcompsoc.ld32.components.*;
+import uk.org.ulcompsoc.ld32.components.CanItDrop;
+import uk.org.ulcompsoc.ld32.components.DeathAnimation;
+import uk.org.ulcompsoc.ld32.components.DoomNotifier;
+import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Drop.Colour;
+import uk.org.ulcompsoc.ld32.components.EntityLink;
+import uk.org.ulcompsoc.ld32.components.Fade;
+import uk.org.ulcompsoc.ld32.components.Player;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.enemies.Enemy;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -28,13 +38,17 @@ public class DoomedSystem extends IteratingSystem {
 	private final TextureManager textureManager;
 	private TextureRegion ballRegion;
 
+	private final LD32 ld32;
+
 	@SuppressWarnings("unchecked")
-	public DoomedSystem(int priority, final Entity player) {
+	public DoomedSystem(int priority, final Entity player, final LD32 ld32) {
 		super(Family.all(Doomed.class).get(), priority);
 
 		this.player = player;
 		this.textureManager = LD32.textureManager;
 		this.ballRegion = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_GREY));
+
+		this.ld32 = ld32;
 	}
 
 	@Override
@@ -175,16 +189,24 @@ public class DoomedSystem extends IteratingSystem {
 				toAdd3.add(new Fade().doomAfterFade());
 				engine.addEntity(toAdd3);
 			}
+
+			final boolean atomDrop = shouldItDrop(canItDrop.atomDropChance, CanItDrop.ATOM_BOOSTER);
+
+			// atom booster is changed based on the number of ascended towers
+			if (atomDrop) {
+				engine.addEntity(ld32.makeAtom());
+			}
 		}
 	}
 
 	/**
 	 * Increments the player score by the enemy which was doomed
+	 * 
 	 * @param entity
 	 * @param deltaTime
 	 */
 	private void handleScore(Entity entity, float deltaTime) {
-		if(Mappers.enemyMapper.has(entity)) {
+		if (Mappers.enemyMapper.has(entity)) {
 			Enemy enemy = Mappers.enemyMapper.get(entity);
 
 			Player.score += enemy.score;

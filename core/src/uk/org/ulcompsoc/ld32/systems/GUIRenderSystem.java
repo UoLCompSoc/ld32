@@ -2,6 +2,7 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.ArrayList;
 
+import com.badlogic.ashley.core.Engine;
 import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Player;
 import uk.org.ulcompsoc.ld32.components.Tower;
@@ -22,6 +23,9 @@ public class GUIRenderSystem extends EntitySystem {
 	private final Batch batch;
 	private final TextureManager textureManager;
 	private OrthographicCamera camera;
+
+	private Engine engine = null;
+	private boolean processing = false;
 
 	// different textures
 	private TextureRegion frame = null;
@@ -87,6 +91,20 @@ public class GUIRenderSystem extends EntitySystem {
 		this.eight = new TextureRegion(textureManager.nameMap.get(TextureName.EIGHT));
 		this.nine = new TextureRegion(textureManager.nameMap.get(TextureName.NINE));
 
+	}
+
+
+
+	@Override
+	public void addedToEngine(Engine engine) {
+		this.engine = engine;
+		processing = true;
+	}
+
+	@Override
+	public void removedFromEngine(Engine engine) {
+		this.engine = null;
+		processing = false;
 	}
 
 	@Override
