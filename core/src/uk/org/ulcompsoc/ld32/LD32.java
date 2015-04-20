@@ -10,7 +10,6 @@ import uk.org.ulcompsoc.ld32.audio.SilentAudioManager;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
-import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
 import uk.org.ulcompsoc.ld32.components.MouseListener.MouseButtons;
@@ -183,7 +182,7 @@ public class LD32 extends ApplicationAdapter {
 		engine.addEntity(mapEntity);
 
 		engine.addSystem(new GUIRenderSystem(-100, spriteBatch, camera, paddle));
-		engine.addSystem(new EnemySpawningSystem(500, 1.0f, map));
+		engine.addSystem(new EnemySpawningSystem(500, 0.5f, map));
 		engine.addSystem(new PaddleInputSystem(1000));
 		engine.addSystem(new MouseListenerSystem(2000, camera));
 		engine.addSystem(new PathFollowingSystem(5000));
@@ -201,7 +200,7 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new WalletRenderSystem(25000, spriteBatch, camera, Gdx.graphics.getWidth() * 0.9f,
 		        Gdx.graphics.getHeight() * 0.95f));
 
-		engine.addSystem(new DoomedSystem(100000, paddle));
+		engine.addSystem(new DoomedSystem(100000, paddle, this));
 		engine.addSystem(new AtomCollisionSystem(7500));
 
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
@@ -211,7 +210,8 @@ public class LD32 extends ApplicationAdapter {
 		// Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2,
 		// map.radius), 2));
 
-		textureManager.makeWord(engine, "h3llo WORLD", 0, 5 + (int) map.radius).add(new Fade(2.0f, true));
+		// textureManager.makeWord(engine, "h3llo WORLD", 0, 5 + (int)
+		// map.radius).add(new Fade(2.0f, true));
 	}
 
 	private List<Integer> frameCounts = new ArrayList<Integer>();

@@ -17,6 +17,7 @@ import uk.org.ulcompsoc.ld32.components.enemies.Antineutron;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
 import uk.org.ulcompsoc.ld32.components.enemies.Enemy;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
+import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
@@ -81,8 +82,8 @@ public class EnemySpawningSystem extends IntervalSystem {
 	}
 
 	private Entity generateEnemy() {
-		if(totalTimeElapsed > 60) {
-			Enemy.setMultiplier(1 + (totalTimeElapsed/200));
+		if (totalTimeElapsed > 60) {
+			Enemy.setMultiplier(1 + (totalTimeElapsed / 200));
 		}
 		System.out.println("EnemyMultiplier: " + Enemy.getMultiplier());
 		final Entity entity = new Entity();
@@ -99,20 +100,19 @@ public class EnemySpawningSystem extends IntervalSystem {
 			Positron pos = new Positron();
 			entity.add(pos);
 			entity.add(new Killable(pos.health));
-			entity.add(new PathFollower(firstSegment, 1/pos.speed).continueToNull().killWhenDone());
+			entity.add(new PathFollower(firstSegment, 1 / pos.speed).continueToNull().killWhenDone());
 
 		} else if (type == EnemyType.BLUE) {
 			Antiproton antiP = new Antiproton();
 			entity.add(antiP);
 			entity.add(new Killable(antiP.health));
-			entity.add(new PathFollower(firstSegment, 1/antiP.speed).continueToNull().killWhenDone());
-
+			entity.add(new PathFollower(firstSegment, 1 / antiP.speed).continueToNull().killWhenDone());
 
 		} else if (type == EnemyType.GREEN) {
 			Antineutron antiN = new Antineutron();
 			entity.add(antiN);
 			entity.add(new Killable(antiN.health));
-			entity.add(new PathFollower(firstSegment, 1/antiN.speed).continueToNull().killWhenDone());
+			entity.add(new PathFollower(firstSegment, 1 / antiN.speed).continueToNull().killWhenDone());
 		}
 		entity.add(new CanItDrop());
 		entity.add(new DeathAnimation(greyEnemy));
@@ -127,13 +127,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 	@SuppressWarnings("unchecked")
 	private float calculateSpawnRate(float elapsedTime) {
 		// System.out.println("ElapsedTime: " + elapsedTime);
-		float factor;
-
-		if (elapsedTime < 60.0f) {
-			factor = 0.1f;
-		} else {
-			factor = 0.5f;
-		}
+		final float factor = Math.max(0.15f, LDUtil.smoothStep(0f, 180.0f, elapsedTime));
 
 		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
 		// System.out.println("Num towers: " + numTowers);

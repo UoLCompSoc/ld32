@@ -3,6 +3,7 @@ package uk.org.ulcompsoc.ld32.systems;
 import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.LD32;
+import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
@@ -103,6 +104,10 @@ public class TowerSystem extends EntitySystem {
 			entity.add(new Renderable(region).setScale(scale).setColor(color));
 
 			if (towerType.equals(TextureName.TOWER_RGB)) {
+				// TODO: this probably shouldn't be here
+				// when we ascend, increase atom drop chance.
+				CanItDrop.ATOM_BOOSTER += CanItDrop.DFLT_BOOSTER_INCREASE;
+
 				final Entity asc = new Entity();
 				final Position p = Mappers.positionMapper.get(entity);
 

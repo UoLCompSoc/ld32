@@ -67,6 +67,8 @@ public class TextureManager implements Disposable {
 		mapOfChars.put('+', temp[zeroPos + 2]);
 		mapOfChars.put('(', temp[zeroPos + 3]);
 		mapOfChars.put(')', temp[zeroPos + 4]);
+		mapOfChars.put('!', temp[zeroPos + 5]);
+		mapOfChars.put('?', temp[zeroPos + 6]);
 		mapOfChars.put(' ', temp[0]); // will be drawn with 0 alpha
 	}
 
