@@ -72,8 +72,9 @@ public class SphericalCollisionSystem extends EntitySystem {
 			// Renderable r = renderMapper.get(entities.get(i));
 			final SphericalBound sphere = boundMapper.get(entities.get(i));
 
-			bounds.add(i, new Circle(x, y, sphere.radius));
+			bounds.add(i, new Circle(x , y, sphere.radius));
 		}
+
 
 		for (int i = 0; i < bounds.size() - 1; i++) {
 			Entity one = entities.get(i);

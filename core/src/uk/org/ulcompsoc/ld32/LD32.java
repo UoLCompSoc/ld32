@@ -22,20 +22,7 @@ import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.EmptyTowerMouseListenerHandler;
 import uk.org.ulcompsoc.ld32.mouse.RegularTowerMouseListenerHandler;
-import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
-import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
-import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
-import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
-import uk.org.ulcompsoc.ld32.systems.GUIRenderSystem;
-import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
-import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
-import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
-import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
-import uk.org.ulcompsoc.ld32.systems.ProjectileLifeTimeSystem;
-import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
-import uk.org.ulcompsoc.ld32.systems.RenderSystem;
-import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
-import uk.org.ulcompsoc.ld32.systems.WalletRenderSystem;
+import uk.org.ulcompsoc.ld32.systems.*;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -133,9 +120,9 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Tower(new Upgradable()));
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
-		tower.add(new SphericalBound(towerRen.getWidth()));
+		tower.add(new SphericalBound(towerRen.getWidth()/2));
 		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(),
-		        towerPos.getY(), towerRen.getHeight())));
+				towerPos.getY(), towerRen.getHeight())));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
@@ -168,6 +155,7 @@ public class LD32 extends ApplicationAdapter {
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
 		engine.addSystem(new DoomedSystem(100000, paddle, textureManager));
+		engine.addSystem(new BoundingDebugSystem(5000, shapeRenderer));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
@@ -176,6 +164,7 @@ public class LD32 extends ApplicationAdapter {
 		// map.radius), 2));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
+
 
 	}
 
@@ -271,6 +260,7 @@ public class LD32 extends ApplicationAdapter {
 		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
+		e.add(new SphericalBound(towerRen.getWidth()/2));
 		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager, engine, paddle), new Circle(towerPos
 		        .getX(), towerPos.getY(), towerRen.getHeight())));
 		return e;

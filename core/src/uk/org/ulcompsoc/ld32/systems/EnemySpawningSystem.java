@@ -68,9 +68,9 @@ public class EnemySpawningSystem extends IntervalSystem {
 		entity.add(new Killable(5)); // TODO GIVE PROPER HEALTH
 		entity.add(new CanItDrop());
 
-		entity.add(new SphericalBound(r.getWidth()));
+		entity.add(new SphericalBound(r.getWidth()/2));
 
-		entity.add(new SphericalBound(5f));
+		//entity.add(new SphericalBound(5f));
 
 		return entity;
 	}
