@@ -40,6 +40,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 	private final float interval;
 
 	private float timeElapsed = 0.0f;
+	private float totalTimeElapsed = 0.0f;
 	// TODO: change this after spawn rate is calculated correctly.
 	private float spawnTime;
 
@@ -66,10 +67,11 @@ public class EnemySpawningSystem extends IntervalSystem {
 	protected void updateInterval() {
 		System.out.println("interval: " + interval);
 		timeElapsed += interval;
+		totalTimeElapsed += interval;
 
 		if (timeElapsed >= spawnTime) {
 			timeElapsed -= spawnTime;
-			spawnTime = 1.0f / calculateSpawnRate(timeElapsed);
+			spawnTime = 1.0f / calculateSpawnRate(totalTimeElapsed);
 			Gdx.app.log("SPAWN_TIME", "Enemy spawn time is now: " + spawnTime);
 
 			engine.addEntity(generateEnemy());
@@ -106,7 +108,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 		System.out.println("ElapsedTime: " + elapsedTime);
 		float factor;
 
-		if (elapsedTime < 60) {
+		if (elapsedTime < 60.0f) {
 			factor = 0.1f;
 		} else {
 			factor = 0.5f;
