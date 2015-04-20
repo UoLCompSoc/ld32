@@ -83,7 +83,7 @@ public class RenderSystem extends IteratingSystem {
 			drawFrame(entity, p, r, k, scalingFactor, r.region);
 			//It's a tower
 			if(Mappers.towerMapper.has(entity)) {
-				this.drawTowerPongProgress(entity, scalingFactor);
+				this.drawTowerPongProgress(entity, scalingFactor, deltaTime);
 			}
 			break;
 		}
@@ -156,8 +156,6 @@ public class RenderSystem extends IteratingSystem {
 	 * Draws a health bar above a position based on the radius of the entity.
 	 * Drawing appropriate regions for remaining health.
 	 *
-	 * @param p
-	 *            position of the entity
 	 * @param k
 	 *            for health information
 	 * @param entityRenderable
@@ -225,8 +223,9 @@ public class RenderSystem extends IteratingSystem {
 		this.pong10 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_TEN));
 	}
 
-	private void drawTowerPongProgress(Entity entity, float scalingFactor) {
+	private void drawTowerPongProgress(Entity entity, float scalingFactor, float deltaTime) {
 		Tower tower = Mappers.towerMapper.get(entity);
+		tower.upgradeElapsedTime += deltaTime;
 		Position p = Mappers.positionMapper.get(entity);
 
 		TextureRegion region = null;
