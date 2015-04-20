@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.components.upgrades.BaseUpgrade;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade;
 
