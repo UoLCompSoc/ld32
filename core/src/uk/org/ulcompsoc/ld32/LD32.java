@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.audio.AudioManager;
 import uk.org.ulcompsoc.ld32.audio.AudioName;
 import uk.org.ulcompsoc.ld32.audio.IAudioManagement;
+import uk.org.ulcompsoc.ld32.audio.SilentAudioManager;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
@@ -66,9 +66,8 @@ public class LD32 extends ApplicationAdapter {
 
 	public static final TextureManager textureManager = new TextureManager();
 
-	public static final IAudioManagement audioManager = new AudioManager();
-	// public static final IAudioManagement audioManager = new
-	// SilentAudioManager(false);
+	// public static final IAudioManagement audioManager = new AudioManager();
+	public static final IAudioManagement audioManager = new SilentAudioManager(false);
 
 	private final Entity paddle = new Entity();
 	private TextureRegion paddleSprite = null;
