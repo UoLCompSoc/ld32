@@ -13,6 +13,7 @@ public abstract class Enemy extends Component {
 	//segments per second
 	public float speed;
 	public float health;
+	public float damage;
 	
 	protected static float multiplier = NORMAL;
 	
