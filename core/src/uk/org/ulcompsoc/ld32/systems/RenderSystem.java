@@ -156,8 +156,6 @@ public class RenderSystem extends IteratingSystem {
 	 * Draws a health bar above a position based on the radius of the entity.
 	 * Drawing appropriate regions for remaining health.
 	 *
-	 * @param p
-	 *            position of the entity
 	 * @param k
 	 *            for health information
 	 * @param entityRenderable
