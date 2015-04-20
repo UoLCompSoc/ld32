@@ -1,21 +1,19 @@
 package uk.org.ulcompsoc.ld32.systems;
 
 import uk.org.ulcompsoc.ld32.LD32;
-import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
-public class GUIRenderSystem extends IteratingSystem {
+public class GUIRenderSystem extends EntitySystem {
 	private final Batch batch;
 	private final TextureManager textureManager;
 	private OrthographicCamera camera;
@@ -37,6 +35,7 @@ public class GUIRenderSystem extends IteratingSystem {
 	private TextureRegion eight = null;
 	private TextureRegion nine = null;
 
+	private final Entity playerEntity;
 	public static Entity selectedTowerEntity = null;
 
 	// Default coordinates for drawing elements in predefined positions
@@ -56,11 +55,12 @@ public class GUIRenderSystem extends IteratingSystem {
 	private Vector3 temp;
 
 	@SuppressWarnings("unchecked")
-	public GUIRenderSystem(final Batch batch, final OrthographicCamera cam, int priority) {
-		super(Family.all(Wallet.class).get(), priority);
+	public GUIRenderSystem(int priority, final Batch batch, final OrthographicCamera cam, final Entity playerEntity) {
+		super(priority);
 		this.batch = batch;
 		this.textureManager = LD32.textureManager;
 		this.camera = cam;
+		this.playerEntity = playerEntity;
 
 		this.frame = new TextureRegion(textureManager.nameMap.get(TextureName.FRAME_1));
 		this.redBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
@@ -81,8 +81,8 @@ public class GUIRenderSystem extends IteratingSystem {
 	}
 
 	@Override
-	protected void processEntity(Entity entity, float deltaTime) {
-		Wallet wallet = Mappers.walletMapper.get(entity);
+	public void update(float deltaTime) {
+		Wallet wallet = Mappers.walletMapper.get(playerEntity);
 
 		// int screenWidth = Gdx.graphics.getWidth();
 		// int screenHeight = Gdx.graphics.getHeight();
@@ -120,7 +120,7 @@ public class GUIRenderSystem extends IteratingSystem {
 		// scaleX, scaleY, rotation);
 
 		if (selectedTowerEntity != null) {
-			//Tower tower = Mappers.towerMapper.get(entity);
+			// Tower tower = Mappers.towerMapper.get(entity);
 		}
 	}
 

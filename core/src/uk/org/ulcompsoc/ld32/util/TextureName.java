@@ -59,7 +59,9 @@ public enum TextureName {
 
 	FRAME_1("GUI/frame.png"), //
 
-	AMMO("ammo.png");//
+	AMMO("ammo.png"),
+
+	MOUSE("mouse.png", 32, 32);// 32x32 animation
 
 	public final String assetName;
 

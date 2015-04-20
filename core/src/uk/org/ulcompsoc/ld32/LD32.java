@@ -182,7 +182,7 @@ public class LD32 extends ApplicationAdapter {
 		mapEntity.add(new MapRenderable(map));
 		engine.addEntity(mapEntity);
 
-		engine.addSystem(new GUIRenderSystem(spriteBatch, camera, -100));
+		engine.addSystem(new GUIRenderSystem(-100, spriteBatch, camera, paddle));
 		engine.addSystem(new EnemySpawningSystem(500, 1.0f, map));
 		engine.addSystem(new PaddleInputSystem(1000));
 		engine.addSystem(new MouseListenerSystem(2000, camera));
