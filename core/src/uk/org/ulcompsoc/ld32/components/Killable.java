@@ -6,8 +6,6 @@ import com.badlogic.ashley.core.Component;
  * Created by Samy Narrainen on 18/04/2015.
  */
 public class Killable extends Component {
-	static int nextID = 0;
-	int id = 0;
 	private float health = 100.0f;
 	private float originalHealth = 100.0f;
 	private final float DEATH_THRESHOLD = 0.0f;
