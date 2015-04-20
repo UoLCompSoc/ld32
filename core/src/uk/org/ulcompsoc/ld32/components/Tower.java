@@ -31,10 +31,6 @@ public class Tower extends Component {
 
 	// attributes associated with firing
 	public float elapsedTime;
-
-	public int redBalls;
-	public int blueBalls; // heeeeeeeyooooo :D
-	public int greenBalls;
 	public int pongBonusCounter;
 
 	public List<RingSegment> listOfPointsToScan;
@@ -50,9 +46,6 @@ public class Tower extends Component {
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
 		this.missileCount = Tower.DFLT_MISSLE_COUNT;
-		this.redBalls = 0;
-		this.blueBalls = 0;
-		this.greenBalls = 0;
 		pongBonusCounter = 0;
 
 		red = new BaseUpgrade();
