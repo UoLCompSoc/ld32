@@ -31,17 +31,10 @@ import com.badlogic.gdx.math.Vector2;
 public class SphericalCollisionSystem extends EntitySystem {
 	private Engine engine = null;
 	boolean processing = false;
-	private ComponentMapper<Position> posMapper = null;
-	private ComponentMapper<Renderable> renderMapper = null;
-	private ComponentMapper<SphericalBound> boundMapper = null;
 	private Circle outerBorder = null;
 
 	public SphericalCollisionSystem(int priority, Circle outerBorder) {
 		super(priority);
-
-		posMapper = Mappers.positionMapper;
-		renderMapper = Mappers.renderableMapper;
-		boundMapper = Mappers.sphericalBoundsMapper;
 		this.outerBorder = outerBorder;
 	}
 
@@ -68,14 +61,12 @@ public class SphericalCollisionSystem extends EntitySystem {
 		ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class,
 		        Renderable.class).get());
 
-		final List<Circle> bounds = new ArrayList<Circle>();
+		final List<Circle> bounds = new ArrayList<>();
 
 		for (int i = 0; i < entities.size(); i++) {
-			final float x = posMapper.get(entities.get(i)).getX();
-			final float y = posMapper.get(entities.get(i)).getY();
-			// Renderable r = renderMapper.get(entities.get(i));
-			final SphericalBound sphere = boundMapper.get(entities.get(i));
-
+			final float x = Mappers.positionMapper.get(entities.get(i)).getX();
+			final float y = Mappers.positionMapper.get(entities.get(i)).getY();
+			final SphericalBound sphere = Mappers.sphericalBoundsMapper.get(entities.get(i));
 			bounds.add(i, new Circle(x, y, sphere.radius));
 		}
 
@@ -90,92 +81,101 @@ public class SphericalCollisionSystem extends EntitySystem {
 				// Collision
 				if (oneCircle.overlaps(otherCircle)) {
 
-					Atom atom = Mappers.atomMapper.get(entities.get(j));
 
 					/**
-					 * Atom collision
+					 * Atom to killable collision
 					 */
-					// Check if the atom has collided with a tower
-					Tower tower = Mappers.towerMapper.get(one);
-
-					// yep, it's collided with a tower.
-					if (tower != null && atom != null) {
-						if (tower.canUpgrade())
-							TowerSystem.pongBonus(one);
-
-					}
-
-					if(Mappers.atomMapper.has(one) && Mappers.killableMapper.has(other)) {
+					if (Mappers.atomMapper.has(one) && Mappers.killableMapper.has(other)) {
 						Killable killable = Mappers.killableMapper.get(other);
 						killable.removeHealth(Atom.DAMAGE);
-						System.out.println("HIT");
+						//System.out.println("HIT");
 
 						if (killable.getHealth() <= 0) {
 							other.add(new Doomed());
 						}
 					}
 
-					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
-					        + Math.pow(otherCircle.y - oneCircle.y, 2)));
 
-					// If the atom is within roughly the core of the paddle
-					if (atom != null && distance > oneCircle.radius / 4 && Mappers.paddleMapper.has(one) && !atom.atPaddle) {
-						// System.out.println("atom found");
 
-						// The atom is now housed in the paddle;
-						atom.atPaddle = true;
+					Atom atom = Mappers.atomMapper.get(entities.get(j));
 
-						Position atomPos = Mappers.positionMapper.get(entities.get(j));
-						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
-						Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
+					/**
+					 * Meta Atom collision
+					 */
+					if(atom != null) {
+						// Check if the atom has collided with a tower
+						Tower tower = Mappers.towerMapper.get(one);
 
-						float deltaX = (float) ((paddlePos.getR() * Math.cos(paddlePos.getPhi()) - atomPos.getX()));
-						float deltaY = (float) ((paddlePos.getR() * Math.sin(paddlePos.getPhi())) - atomPos.getY());
+						// yep, it's collided with a tower.
+						if (tower != null) {
+							if (tower.canUpgrade())
+								TowerSystem.pongBonus(one);
 
-						float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0 / Math.PI));
+						}
 
-						float degrees = (radPrime + 360) % 360;
 
-						float x = (float) (Math.cos(Math.toRadians(degrees)));
-						float y = (float) (Math.sin(Math.toRadians(degrees)));
+						float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
+								+ Math.pow(otherCircle.y - oneCircle.y, 2)));
 
-						v.x = x;
-						v.y = y;
+						// If the atom is within roughly the core of the paddle
+						if (distance > oneCircle.radius / 4 && Mappers.paddleMapper.has(one) && !atom.atPaddle) {
+							// System.out.println("atom found");
 
-					} else if (atom != null && atom.primed && atom.atPaddle && Mappers.paddleMapper.has(one)) {
+							// The atom is now housed in the paddle;
+							atom.atPaddle = true;
 
-						/**
-						 * ATOM FIRING
-						 */
+							Position atomPos = Mappers.positionMapper.get(entities.get(j));
+							Position paddlePos = Mappers.positionMapper.get(entities.get(i));
+							Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
 
-						// Launch in opposite direction of the paddle.
-						Position atomPos = Mappers.positionMapper.get(entities.get(j));
-						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
+							float deltaX = (float) ((paddlePos.getR() * Math.cos(paddlePos.getPhi()) - atomPos.getX()));
+							float deltaY = (float) ((paddlePos.getR() * Math.sin(paddlePos.getPhi())) - atomPos.getY());
 
-						Position oppositePaddlePos = Position.fromPolar(paddlePos.getR(), paddlePos.getPhi());
-						// Add 180 to get opposite
-						oppositePaddlePos.movePolarAngle((float) Math.toRadians(180.0f));
+							float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0 / Math.PI));
 
-						Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
+							float degrees = (radPrime + 360) % 360;
 
-						float deltaX = (float) ((oppositePaddlePos.getR() * Math.cos(oppositePaddlePos.getPhi()) - atomPos
-						        .getX()));
-						float deltaY = (float) ((oppositePaddlePos.getR() * Math.sin(oppositePaddlePos.getPhi())) - atomPos
-						        .getY());
+							float x = (float) (Math.cos(Math.toRadians(degrees)));
+							float y = (float) (Math.sin(Math.toRadians(degrees)));
 
-						float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0 / Math.PI));
+							v.x = x;
+							v.y = y;
 
-						float degrees = (radPrime + 360) % 360;
+						} else if (atom.primed && atom.atPaddle && Mappers.paddleMapper.has(one)) {
 
-						float x = (float) (Math.cos(Math.toRadians(degrees)));
-						float y = (float) (Math.sin(Math.toRadians(degrees)));
+							/**
+							 * ATOM FIRING
+							 */
 
-						v.x = x * 3;
-						v.y = y * 3;
+							// Launch in opposite direction of the paddle.
+							Position atomPos = Mappers.positionMapper.get(entities.get(j));
+							Position paddlePos = Mappers.positionMapper.get(entities.get(i));
 
-						atom.primed = false;
-					} else if (atom != null) {
-						atom.atPaddle = false;
+							Position oppositePaddlePos = Position.fromPolar(paddlePos.getR(), paddlePos.getPhi());
+							// Add 180 to get opposite
+							oppositePaddlePos.movePolarAngle((float) Math.toRadians(180.0f));
+
+							Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
+
+							float deltaX = (float) ((oppositePaddlePos.getR() * Math.cos(oppositePaddlePos.getPhi()) - atomPos
+									.getX()));
+							float deltaY = (float) ((oppositePaddlePos.getR() * Math.sin(oppositePaddlePos.getPhi())) - atomPos
+									.getY());
+
+							float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0 / Math.PI));
+
+							float degrees = (radPrime + 360) % 360;
+
+							float x = (float) (Math.cos(Math.toRadians(degrees)));
+							float y = (float) (Math.sin(Math.toRadians(degrees)));
+
+							v.x = x * 3;
+							v.y = y * 3;
+
+							atom.primed = false;
+						} else {
+							atom.atPaddle = false;
+						}
 					}
 
 					/**

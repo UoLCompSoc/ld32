@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uk.org.ulcompsoc.ld32.components.Position;
+
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -63,4 +66,17 @@ public class TextureManager implements Disposable {
 
 		textures.clear();
 	}
+	
+	/*public Entity[] generateWord(String characters, float x, float y){
+		float xValue = x;
+		float yValue = y;
+		Entity[] toReturn = new Entity[characters.length()];
+		while(!characters.equals("")){
+			char tempChar = characters.charAt(0);
+			characters = characters.substring(1);
+			Entity temp = new Entity();
+			temp.add(Position.fromEuclidean(xValue, yValue));
+			temp.add(component)
+		}
+	}*/
 }
