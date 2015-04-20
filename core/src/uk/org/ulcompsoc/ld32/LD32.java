@@ -10,6 +10,7 @@ import uk.org.ulcompsoc.ld32.audio.SilentAudioManager;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
+import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
 import uk.org.ulcompsoc.ld32.components.MouseListener.MouseButtons;
@@ -210,7 +211,7 @@ public class LD32 extends ApplicationAdapter {
 		// Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2,
 		// map.radius), 2));
 
-		textureManager.makeWord(engine, "h3llo WORLD", 0, 5 + (int) map.radius);
+		textureManager.makeWord(engine, "h3llo WORLD", 0, 5 + (int) map.radius).add(new Fade(2.0f, true));
 	}
 
 	private List<Integer> frameCounts = new ArrayList<Integer>();

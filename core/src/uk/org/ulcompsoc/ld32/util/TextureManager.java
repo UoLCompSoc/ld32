@@ -71,6 +71,10 @@ public class TextureManager implements Disposable {
 	}
 
 	public Entity makeWord(Engine engine, String str, int x, int y) {
+		return makeWord(engine, str, Color.BLACK, x, y);
+	}
+
+	public Entity makeWord(Engine engine, String str, Color color, int x, int y) {
 		Entity head = null;
 		final Entity[] rest = new Entity[str.length() - 1];
 
@@ -84,9 +88,11 @@ public class TextureManager implements Disposable {
 			final TextureRegion region = new TextureRegion(mapOfChars.get(c));
 			final Renderable r = new Renderable(region).setScale(0.25f);
 
+			final Color col = color.cpy();
 			if (c == ' ') {
-				r.setColor(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+				col.a = 0.0f;
 			}
+			r.setColor(col);
 
 			e.add(r);
 			e.add(Position.fromEuclidean(x + i * r.getWidth(), y));
