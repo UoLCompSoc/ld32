@@ -111,7 +111,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 						Position atomPos = Mappers.positionMapper.get(entities.get(j));
 						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
-						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
+						Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
 
 						float deltaX = (float) ((paddlePos.getR() * Math.cos(paddlePos.getPhi()) - atomPos.getX()));
 						float deltaY = (float) ((paddlePos.getR() * Math.sin(paddlePos.getPhi())) - atomPos.getY());
@@ -143,7 +143,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 																						 // get
 																						 // opposite
 
-						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
+						Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
 
 						float deltaX = (float) ((oppositePaddlePos.getR() * Math.cos(oppositePaddlePos.getPhi()) - atomPos
 						        .getX()));

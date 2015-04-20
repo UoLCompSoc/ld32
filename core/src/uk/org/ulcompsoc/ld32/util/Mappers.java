@@ -4,6 +4,7 @@ import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
@@ -41,10 +42,10 @@ public class Mappers {
 	public static final ComponentMapper<Rotatable> rotatableMapper = ComponentMapper.getFor(Rotatable.class);
 	public static final ComponentMapper<Atom> atomMapper = ComponentMapper.getFor(Atom.class);
 	public static final ComponentMapper<Paddle> paddleMapper = ComponentMapper.getFor(Paddle.class);
-	public static final ComponentMapper<Velocity> velMapper = ComponentMapper.getFor(Velocity.class);
-	public static final ComponentMapper<CanItDrop> dropMapper = ComponentMapper.getFor(CanItDrop.class);
+	public static final ComponentMapper<Velocity> velocityMapper = ComponentMapper.getFor(Velocity.class);
+	public static final ComponentMapper<CanItDrop> canItDropMapper = ComponentMapper.getFor(CanItDrop.class);
+	public static final ComponentMapper<Drop> dropMapper = ComponentMapper.getFor(Drop.class);
 
-	// Added by Musty
 	public static final ComponentMapper<Damage> damageMapper = ComponentMapper.getFor(Damage.class);
 	public static final ComponentMapper<Killable> killableMapper = ComponentMapper.getFor(Killable.class);
 	public static final ComponentMapper<Positron> enemyMapper = ComponentMapper.getFor(Positron.class);
