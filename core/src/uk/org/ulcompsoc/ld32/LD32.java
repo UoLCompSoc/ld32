@@ -115,7 +115,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new SphericalBound(30f));
 		paddle.add(new Positron());
 		paddle.add(new Paddle());
-		paddle.add(new Wallet(1, 0, 0));
+		paddle.add(new Wallet(0, 0, 0));
 		paddle.add(new Rotatable().matchPhi());
 
 		engine.addEntity(paddle);

@@ -18,7 +18,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 
-public class EmptyTowerMouseListenerHandler extends ScaleEffectMouseListenerHandler {
+public class EmptyTowerMouseListenerHandler extends BaseTowerMouseListenerHandler {
 	private final TextureManager textureManager;
 
 	private final Engine engine;
