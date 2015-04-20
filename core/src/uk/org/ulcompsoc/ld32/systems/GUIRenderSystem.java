@@ -38,17 +38,17 @@ public class GUIRenderSystem extends IteratingSystem {
 	// Default coordinates for drawing elements in predefined positions
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
 	private final Vector3 DFLT_POSITION_OF_THE_RED_BALL = new Vector3(120.0f, 150.0f, 0.0f);
-	private final Vector3 DFLT_POSITION_OF_THE_BLUE_BALL = new Vector3(120.0f, 250.0f, 0.0f);
-	private final Vector3 DFLT_POSITION_OF_THE_GREEN_BALL = new Vector3(120.0f, 350.f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_GREEN_BALL = new Vector3(120.0f, 250.0f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_BLUE_BALL = new Vector3(120.0f, 350.f, 0.0f);
 	
 	private final Vector3 DFLT_RED_1_DIGIT_POSITION = new Vector3(120.0f, 72.0f, 0.0f);
 	private final Vector3 DFLT_RED_2_DIGIT_POSITION = new Vector3(155.0f, 72.0f, 0.0f);
 	
-	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION= null;
-	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION= null;
+	private final Vector3 DFLT_GREEN_1_DIGIT_POSITION= new Vector3(120.0f, 167.0f, 0.0f);
+	private final Vector3 DFLT_GREEN_2_DIGIT_POSITION= new Vector3(155.0f, 167.0f, 0.0f);
 	
-	private final Vector3 DFLT_GREEN_1_DIGIT_POSITION = null;
-	private final Vector3 DFLT_GREEN_2_DIGIT_POSITION = null;
+	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION = new Vector3(120.0f,262.0f, 0.0f);
+	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION = new Vector3(155.0f,262.0f, 0.0f);
 	private Vector3 temp;
 
 	@SuppressWarnings("unchecked")
@@ -105,13 +105,15 @@ public class GUIRenderSystem extends IteratingSystem {
 		batch.draw(greenBallIcon, temp.x, temp.y);
 		
 		
-		this.handleRedCounter(redcount, batch);
+		this.handleACounter(redcount, batch, DFLT_RED_1_DIGIT_POSITION.cpy(), DFLT_RED_2_DIGIT_POSITION.cpy());
+		this.handleACounter(bluecount, batch, DFLT_BLUE_1_DIGIT_POSITION.cpy(), DFLT_BLUE_2_DIGIT_POSITION.cpy());
+		this.handleACounter(greencount, batch, DFLT_GREEN_1_DIGIT_POSITION.cpy(), DFLT_GREEN_2_DIGIT_POSITION.cpy());
 		batch.end();
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
 	}
 
-	protected void handleRedCounter(int counter, Batch batch) {
+	protected void handleACounter(int counter, Batch batch,final Vector3 vector1,final Vector3 vector2) {
 		float scalefactor = 0.5f;
 		float newWidth = zero.getRegionWidth()*scalefactor;
 		float newHeight = zero.getRegionHeight()*scalefactor;
@@ -123,15 +125,16 @@ public class GUIRenderSystem extends IteratingSystem {
 			} else {
 				toBreakDown = counter+"";
 			}
-			temp = camera.unproject(DFLT_RED_1_DIGIT_POSITION.cpy());
+			temp = camera.unproject(vector1);
 			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(0, 1))), temp.x, (temp.y-newWidth), newWidth, newHeight);
-			temp = camera.unproject(DFLT_RED_2_DIGIT_POSITION.cpy());
+			temp = camera.unproject(vector2);
 			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(1))), temp.x, (temp.y-newWidth) ,newWidth, newHeight);
 		} else {
-			temp = camera.unproject(DFLT_RED_2_DIGIT_POSITION.cpy());
+			temp = camera.unproject(vector2);
 			batch.draw(this.getNumber(counter), temp.x, (temp.y-newWidth),newWidth, newHeight);
 		}
 	}
+	
 	private TextureRegion getNumber(int number){
 		switch(number){
 		case 0: return this.zero;
