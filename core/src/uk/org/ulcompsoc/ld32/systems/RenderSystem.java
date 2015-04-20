@@ -1,5 +1,10 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Killable;
@@ -12,9 +17,12 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -22,14 +30,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class RenderSystem extends IteratingSystem {
+public class RenderSystem extends IteratingSystem implements EntityListener, Comparator<Entity> {
+	private final List<Entity> entities = new ArrayList<Entity>();
+
+	@SuppressWarnings("unchecked")
+	private final Family family = Family.all(Renderable.class).get();
+
+	private ImmutableArray<Entity> entitiesImmu = null;
+
 	private final Batch batch;
 	private final ShapeRenderer renderer;
 	private final OrthographicCamera camera;
 	private final Color POSITIVE_HEALTH_COLOR = Color.GREEN;
 	private final Color NEGATIVE_HEALTH_COLOR = Color.RED;
 	private final float HEALTH_HEIGHT_POSITION_MODIFIER = 4.0f;
+
 	private TextureManager textureManager;
+
+	private boolean reorder = false;
 
 	@SuppressWarnings("unchecked")
 	public RenderSystem(int priority, final Batch batch, final ShapeRenderer renderer, final OrthographicCamera camera) {
@@ -44,11 +62,42 @@ public class RenderSystem extends IteratingSystem {
 	}
 
 	@Override
+	public void addedToEngine(Engine engine) {
+		super.addedToEngine(engine);
+		engine.addEntityListener(this);
+		this.entitiesImmu = engine.getEntitiesFor(family);
+	}
+
+	@Override
+	public void removedFromEngine(Engine engine) {
+		super.removedFromEngine(engine);
+		engine.removeEntityListener(this);
+		this.entitiesImmu = null;
+	}
+
+	@Override
 	public void update(float deltaTime) {
+		if (reorder) {
+			doReorder();
+		}
+
 		batch.setProjectionMatrix(camera.combined);
 		batch.enableBlending();
 
-		super.update(deltaTime);
+		for (int i = 0; i < entities.size(); ++i) {
+			processEntity(entities.get(i), deltaTime);
+		}
+	}
+
+	public void doReorder() {
+		entities.clear();
+
+		for (int i = 0; i < entitiesImmu.size(); i++) {
+			entities.add(entitiesImmu.get(i));
+		}
+
+		Collections.sort(entities, this);
+		reorder = false;
 	}
 
 	@Override
@@ -322,4 +371,26 @@ public class RenderSystem extends IteratingSystem {
 
 		return (float) Math.toDegrees(rotation);
 	}
+
+	@Override
+	public void entityAdded(Entity entity) {
+		final Renderable r = Mappers.renderableMapper.get(entity);
+		if (r != null) {
+			reorder = true;
+		}
+	}
+
+	@Override
+	public void entityRemoved(Entity entity) {
+		entities.remove(entity);
+	}
+
+	@Override
+	public int compare(Entity o1, Entity o2) {
+		final Renderable r1 = Mappers.renderableMapper.get(o1);
+		final Renderable r2 = Mappers.renderableMapper.get(o2);
+
+		return r1.compareTo(r2);
+	}
+
 }

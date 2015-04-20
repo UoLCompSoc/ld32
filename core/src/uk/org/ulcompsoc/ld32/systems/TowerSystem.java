@@ -5,13 +5,26 @@ import java.util.Random;
 import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Drop;
+import uk.org.ulcompsoc.ld32.components.MouseListener;
+import uk.org.ulcompsoc.ld32.components.MouseListener.MouseButtons;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
-import uk.org.ulcompsoc.ld32.components.upgrades.*;
+import uk.org.ulcompsoc.ld32.components.upgrades.Ascended;
+import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus_1;
+import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus_2;
+import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus_3;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_1;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_2;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_3;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_1;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_2;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_3;
+import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
+import uk.org.ulcompsoc.ld32.mouse.ScaleEffectMouseListenerHandler;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
@@ -20,6 +33,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class TowerSystem extends EntitySystem {
@@ -95,8 +109,15 @@ public class TowerSystem extends EntitySystem {
 				asc.add(Position.fromPolar(p.getR(), p.getPhi()));
 
 				final Renderable ascR = new Renderable(new TextureRegion(
-				        LD32.textureManager.nameMap.get(TextureName.TOWER_ASCENDED))).setScale(scale + 0.05f);
+				        LD32.textureManager.nameMap.get(TextureName.TOWER_ASCENDED))).setScale(scale * 0.9f)
+				        .withPriority(5000);
 				asc.add(ascR);
+				asc.add(new MouseListener(new ScaleEffectMouseListenerHandler() {
+					@Override
+					public void handleButtonDown(Entity thisEntity, MouseButtons button, float mouseX, float mouseY) {
+
+					}
+				}, new Circle(p.getX(), p.getY(), ascR.getWidth())));
 
 				asc.add(new Rotatable().animateRotation(1.5f));
 				engine.addEntity(asc);
@@ -275,7 +296,8 @@ public class TowerSystem extends EntitySystem {
 
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage, greenStage), UpgradeRoute.REDGREEN));
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage, blueStage), UpgradeRoute.REDBLUE));
-		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(greenStage, blueStage), UpgradeRoute.GREENBLUE));
+		tower.combinations
+		        .addAll(tower.upgrades.getUpgradesFor(Math.min(greenStage, blueStage), UpgradeRoute.GREENBLUE));
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage, Math.min(blueStage, greenStage)),
 		        UpgradeRoute.REDGREENBLUE));
 

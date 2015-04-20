@@ -9,9 +9,7 @@ import com.badlogic.ashley.core.Entity;
 public class EntityLink extends Component {
 	public List<Entity> children = new ArrayList<Entity>();
 
-	public EntityLink(Entity child, Entity... others) {
-		this.children.add(child);
-
+	public EntityLink(Entity... others) {
 		for (Entity e : others) {
 			this.children.add(e);
 		}
