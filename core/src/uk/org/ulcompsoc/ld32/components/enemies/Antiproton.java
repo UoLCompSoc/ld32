@@ -4,5 +4,6 @@ public class Antiproton extends Enemy {
 	public Antiproton() {
 		health = 40f * multiplier;
 		speed = 1f * multiplier;
+		score = (int) (10 * multiplier);
 	}
 }

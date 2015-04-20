@@ -7,16 +7,19 @@ import com.badlogic.ashley.core.Component;
  * provides the BasicFiringSystem a means of detecting enemies.
  */
 public abstract class Enemy extends Component {
+	public static final float EASY = 0.5f;
+	public static final float NORMAL = 1f;
+	public static final float HARD = 1.5f;
 	public float speed;
 	public float health;
-
-	// Can be used to increase game difficulty
-	static float multiplier = 1;
-
+	
+	static float multiplier = NORMAL;
+	
+	public float score;
 	public Enemy() {
 	}
 
-	public void setMultiplier(float m) {
+	public static void setMultiplier(float m) {
 		multiplier = m;
 	}
 }
