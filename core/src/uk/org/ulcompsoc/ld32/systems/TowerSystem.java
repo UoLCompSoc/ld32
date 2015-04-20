@@ -90,26 +90,35 @@ public class TowerSystem extends EntitySystem {
 			return false;
 		}
 
-		wallet.sub(RED_UPGRADE_COST, 0, 0);
+		boolean didUpgrade = false;
 		switch (tower.red.getStage()) {
 		case 0: {
 			tower.red = new Number_Of_Balls_1();
+			didUpgrade = true;
 			break;
 		}
 		case 1: {
 			tower.red = new Number_Of_Balls_2();
+			didUpgrade = true;
 			break;
 		}
 		case 2: {
 			tower.red = new Number_Of_Balls_3();
+			didUpgrade = true;
 			break;
 		}
 		default:
 			return false;
 		}
-		updateCombos(entity);
-		updateTowerStats(entity);
-		return true;
+
+		if (didUpgrade) {
+			wallet.sub(RED_UPGRADE_COST, 0, 0);
+			updateCombos(entity);
+			updateTowerStats(entity);
+			return true;
+		}
+
+		return false;
 	}
 
 	public boolean setGreenUpgrade(Entity entity) {
@@ -121,28 +130,37 @@ public class TowerSystem extends EntitySystem {
 			return false;
 		}
 
-		wallet.sub(0, GREEN_UPGRADE_COST, 0);
+		boolean didUpgrade = false;
 
 		switch (tower.green.getStage()) {
 		case 0: {
 			tower.green = new Monster_Drops_1();
+			didUpgrade = true;
 			break;
 		}
 		case 1: {
 			tower.green = new Monster_Drops_2();
+			didUpgrade = true;
 			break;
 		}
 		case 2: {
 			tower.green = new Upgrade_Costs();
+			didUpgrade = true;
 			break;
 		}
 		default:
 			return false;
 		}
 
-		updateCombos(entity);
-		updateTowerStats(entity);
-		return true;
+		if (didUpgrade) {
+			wallet.sub(0, GREEN_UPGRADE_COST, 0);
+			updateCombos(entity);
+			updateTowerStats(entity);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	public boolean setBlueUpgrade(Entity entity) {
@@ -154,26 +172,37 @@ public class TowerSystem extends EntitySystem {
 			return false;
 		}
 
-		wallet.sub(0, 0, BLUE_UPGRADE_COST);
+		boolean didUpgrade = false;
+
 		switch (tower.blue.getStage()) {
 		case 0: {
 			tower.blue = new Damage_Plus();
+			didUpgrade = true;
 			break;
 		}
 		case 1: {
 			tower.blue = new Sniper();
+			didUpgrade = true;
 			break;
 		}
 		case 2: {
 			tower.blue = new Mortar();
+			didUpgrade = true;
 			break;
 		}
 		default:
 			return false;
 		}
-		updateCombos(entity);
-		updateTowerStats(entity);
-		return true;
+
+		if (didUpgrade) {
+			wallet.sub(0, 0, BLUE_UPGRADE_COST);
+			updateCombos(entity);
+			updateTowerStats(entity);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	private void updateCombos(Entity entity) {
