@@ -124,6 +124,15 @@ public class TowerSystem extends EntitySystem {
 		Tower tower = Mappers.towerMapper.get(entity);
 		Damage damageComp = Mappers.damageMapper.get(entity);
 		
+		Upgrade[] baseUpgrades = {tower.red, tower.green, tower.blue, tower.ascended};
+		
+		for(Upgrade up : baseUpgrades) {
+			damageComp.useMultiplier(up.getDamage());
+			tower.dropRate*= up.getDrops();
+			tower.fireDelay*= up.getTimeDelay();
+			tower.missileCount= Math.max(tower.missileCount, up.getSimultaneousFire());
+		}
+		
 		for(Upgrade up : tower.combinations){
 			damageComp.useMultiplier(up.getDamage());
 			tower.dropRate*= up.getDrops();
