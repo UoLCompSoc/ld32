@@ -16,16 +16,10 @@ public class Upgradable extends Component {
 	public Upgradable() {
 		upgrades = new HashSet<Upgrade>();
 		upgrades.add(new Ascended());
-		upgrades.add(new Ball_Damages_Enemies());
 		upgrades.add(new BaseUpgrade());
 		upgrades.add(new Damage_Plus());
 		upgrades.add(new Fire_Delay());
-		upgrades.add(new Monster_Drops_1());
-		upgrades.add(new Monster_Drops_2());
 		upgrades.add(new Mortar());
-		upgrades.add(new Number_Of_Balls_1());
-		upgrades.add(new Number_Of_Balls_2());
-		upgrades.add(new Number_Of_Balls_3());
 		upgrades.add(new Quick_Tower());
 		upgrades.add(new Sniper());
 		upgrades.add(new Upgrade_Costs());
