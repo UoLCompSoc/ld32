@@ -1,7 +1,10 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
@@ -10,12 +13,15 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import uk.org.ulcompsoc.ld32.util.TextureManager;
+import uk.org.ulcompsoc.ld32.util.TextureName;
 
 public class RenderSystem extends IteratingSystem {
 	private final Batch batch;
@@ -24,6 +30,7 @@ public class RenderSystem extends IteratingSystem {
 	private final Color POSITIVE_HEALTH_COLOR = Color.GREEN;
 	private final Color NEGATIVE_HEALTH_COLOR = Color.RED;
 	private final float HEALTH_HEIGHT_POSITION_MODIFIER = 4.0f;
+	private TextureManager textureManager;
 
 	@SuppressWarnings("unchecked")
 	public RenderSystem(int priority, final Batch batch, final ShapeRenderer renderer, final OrthographicCamera camera) {
@@ -32,11 +39,15 @@ public class RenderSystem extends IteratingSystem {
 		this.batch = batch;
 		this.renderer = renderer;
 		this.camera = camera;
+		this.textureManager = new TextureManager();
+		this.textureManager.load();
+		initPongTextureRegions();
 	}
 
 	@Override
 	public void update(float deltaTime) {
 		batch.setProjectionMatrix(camera.combined);
+		batch.enableBlending();
 
 		super.update(deltaTime);
 	}
@@ -48,6 +59,10 @@ public class RenderSystem extends IteratingSystem {
 		final Killable k = Mappers.killableMapper.get(entity);
 
 		final float scalingFactor = calculateScalingFactor(r);
+		if (handleFade(entity, r, deltaTime)) {
+			// if true, the entity is invisible and we can ignore it.
+			return;
+		}
 
 		switch (r.type) {
 		case SHAPE: {
@@ -66,6 +81,10 @@ public class RenderSystem extends IteratingSystem {
 
 		case STATIC_TEXTURE: {
 			drawFrame(entity, p, r, k, scalingFactor, r.region);
+			//It's a tower
+			if(Mappers.towerMapper.has(entity)) {
+				this.drawTowerPongProgress(entity, scalingFactor);
+			}
 			break;
 		}
 
@@ -77,12 +96,18 @@ public class RenderSystem extends IteratingSystem {
 
 		case SPRITE: {
 			drawFrame(entity, p, r, k, scalingFactor, r.sprite);
+
+
 			break;
 		}
 
 		default:
 			break;
 		}
+
+
+
+
 	}
 
 	private void drawFrame(final Entity entity, final Position p, final Renderable r, final Killable k,
@@ -107,19 +132,30 @@ public class RenderSystem extends IteratingSystem {
 
 		batch.begin();
 		batch.setProjectionMatrix(camera.combined);
+
+		final Color colorTemp = batch.getColor();
+		if (r.color != null) {
+			batch.setColor(r.color);
+		}
+
 		batch.draw(region, x, y, region.getRegionWidth() / 2.0f, region.getRegionHeight() / 2.0f,
 		        region.getRegionWidth(), region.getRegionHeight(), scalingFactor, scalingFactor, rotationDeg);
+
+		batch.setColor(colorTemp);
+
 		batch.end();
 
 		if (k != null) {
 			drawHealthBar(p.getX(), p.getY(), k, r);
 		}
+
+
 	}
 
 	/**
 	 * Draws a health bar above a position based on the radius of the entity.
 	 * Drawing appropriate regions for remaining health.
-	 * 
+	 *
 	 * @param p
 	 *            position of the entity
 	 * @param k
@@ -170,5 +206,92 @@ public class RenderSystem extends IteratingSystem {
 		} else {
 			return 1.0f;
 		}
+	}
+
+
+	private TextureRegion pong0, pong1, pong2, pong3, pong4, pong5, pong6, pong7, pong8, pong9, pong10;
+
+	private void initPongTextureRegions() {
+		this.pong0 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_ZERO));
+		this.pong1 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_ONE));
+		this.pong2 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_TWO));
+		this.pong3 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_THREE));
+		this.pong4 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_FOUR));
+		this.pong5 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_FIVE));
+		this.pong6 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_SIX));
+		this.pong7 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_SEVEN));
+		this.pong8 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_EIGHT));
+		this.pong9 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_NINE));
+		this.pong10 = new TextureRegion(textureManager.nameMap.get(TextureName.PONG_TEN));
+	}
+
+	private void drawTowerPongProgress(Entity entity, float scalingFactor) {
+		Tower tower = Mappers.towerMapper.get(entity);
+		Position p = Mappers.positionMapper.get(entity);
+
+		TextureRegion region = null;
+
+		switch (tower.pongBonusCounter) {
+			case 0: region = pong0; break;
+			case 1: region = pong1; break;
+			case 2: region = pong2; break;
+			case 3: region = pong3; break;
+			case 4: region = pong4; break;
+			case 5: region = pong5; break;
+			case 6: region = pong6; break;
+			case 7: region = pong7; break;
+			case 8: region = pong8; break;
+			case 9: region = pong9; break;
+			case 10: region = pong10; break;
+		}
+
+
+		final float xOffset = region.getRegionWidth() / 2.0f;
+		final float yOffset = region.getRegionHeight() / 2.0f;
+
+		final float x = p.getX() - xOffset;
+		final float y = p.getY() - yOffset;
+
+		batch.begin();
+		batch.setProjectionMatrix(camera.combined);
+		batch.draw(region, x, y, region.getRegionWidth() / 2.0f, region.getRegionHeight() / 2.0f,
+				region.getRegionWidth(), region.getRegionHeight(), scalingFactor, scalingFactor, 0.0f);
+		batch.end();
+	}
+
+
+
+
+	private boolean handleFade(final Entity entity, final Renderable r, float deltaTime) {
+		final Fade fade = Mappers.fadeMapper.get(entity);
+
+		if (fade != null) {
+			if (r.color == null) {
+				Gdx.app.log("HANDLE_FADE", "Uninit color on a fading object. Fix that.");
+				r.color = Color.WHITE.cpy();
+			}
+
+			fade.timeElapsed += deltaTime;
+
+			final float fadePctage = LDUtil.smoothStep(0.0f, fade.fadeTime, fade.timeElapsed);
+			final float mutatedAlpha = (1.0f - fadePctage * 1.0f);
+
+			if (mutatedAlpha <= fade.targetAlpha) {
+				r.color.a = fade.targetAlpha;
+
+				if (fade.doomAfterFade) {
+					entity.add(new Doomed());
+				}
+
+				if (fade.targetAlpha <= 0.01f) {
+					// basically invisible, not much point rendering
+					return true;
+				}
+			} else {
+				r.color.a = mutatedAlpha;
+			}
+		}
+
+		return false;
 	}
 }

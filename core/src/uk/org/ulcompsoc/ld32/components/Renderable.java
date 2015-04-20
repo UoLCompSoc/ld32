@@ -60,6 +60,11 @@ public class Renderable extends Component {
 		return this;
 	}
 
+	public Renderable setColor(final Color color) {
+		this.color = color.cpy();
+		return this;
+	}
+
 	public float getWidth() {
 		switch (type) {
 		case ANIMATED_TEXTURE:
