@@ -59,7 +59,7 @@ public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHa
 		final float xOffset = r.getMaximumWidth() * xMod;
 
 		final Position p = Position.fromEuclidean(towerPos.getX() + xOffset,
-		        towerPos.getY() + towerRen.getMaximumHeight() / 2.0f - Math.abs(xMod) * 0.75f);
+		        towerPos.getY() + towerRen.getMaximumHeight() / 1.5f - Math.abs(xMod) * 0.75f);
 
 		e.add(p);
 		e.add(r);
