@@ -64,7 +64,7 @@ public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHa
 		e.add(p);
 		e.add(r);
 		e.add(new MouseListener(new UpgradeBallMouseListenerHandler(engine, tower, colour), new Circle(p.getX(), p
-		        .getY(), r.getWidth() * 0.95f)).withInitialCooldown(0.75f));
+		        .getY(), r.getWidth() * 0.95f)).withInitialCooldown(0.25f));
 		e.add(new DoomNotifier(this));
 
 		return e;

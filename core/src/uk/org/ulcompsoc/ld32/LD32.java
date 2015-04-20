@@ -6,7 +6,21 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Vector3;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.*;
+import uk.org.ulcompsoc.ld32.components.Atom;
+import uk.org.ulcompsoc.ld32.components.Damage;
+import uk.org.ulcompsoc.ld32.components.MapRenderable;
+import uk.org.ulcompsoc.ld32.components.MouseListener;
+import uk.org.ulcompsoc.ld32.components.Paddle;
+import uk.org.ulcompsoc.ld32.components.DeathAnimation;
+import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
+import uk.org.ulcompsoc.ld32.components.PathFollower;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Rotatable;
+import uk.org.ulcompsoc.ld32.components.SphericalBound;
+import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.EmptyTowerMouseListenerHandler;
@@ -104,6 +118,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new Positron());
 		paddle.add(new Paddle());
 		paddle.add(new Wallet(1, 0, 0));
+		paddle.add(new Rotatable().matchPhi());
 
 		engine.addEntity(paddle);
 
@@ -130,7 +145,7 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.addEntity(makeAtom());
 		engine.addEntity(makeAtom());
-		//engine.addEntity(makeAtom());
+		// engine.addEntity(makeAtom());
 
 		engine.addEntity(makeEmptyTower());
 		engine.addEntity(makeEmptyTower());
