@@ -27,7 +27,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class EnemySpawningSystem extends IntervalSystem {
 	public static final float MAX_SPAWN_TIME = 10.0f;
-	public static final float MIN_SPAWN_TIME = 1.0f;
+	public static final float MIN_SPAWN_TIME = 0.5f;
 
 	private final CircleMap map;
 	private Engine engine = null;
@@ -40,13 +40,12 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 	private float timeElapsed = 0.0f;
 	// TODO: change this after spawn rate is calculated correctly.
-	private float spawnTime = MAX_SPAWN_TIME / 4.0f;
+	private float spawnTime;
 
 	public EnemySpawningSystem(int priority, float interval, final CircleMap map) {
 		super(interval, priority);
 		this.interval = interval;
 		this.map = map;
-
 		this.greyEnemy = new TextureRegion(LD32.textureManager.nameMap.get(TextureName.ENEMY_GREY));
 	}
 
@@ -64,16 +63,16 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 	@Override
 	protected void updateInterval() {
+		System.out.println("interval: " + interval);
 		timeElapsed += interval;
 
-		if (timeElapsed >= spawnTime) {
-			timeElapsed -= spawnTime;
-			spawnTime = calculateSpawnRate(interval);
+	//	if (timeElapsed >= spawnTime) {
+		//	timeElapsed -= spawnTime;
+			spawnTime = calculateSpawnRate(timeElapsed);
 			// Gdx.app.log("SPAWN_TIME", "Enemy spawn time is now: " +
 			// spawnTime);
 
 			engine.addEntity(generateEnemy());
-		}
 	}
 
 	private Entity generateEnemy() {
@@ -101,13 +100,28 @@ public class EnemySpawningSystem extends IntervalSystem {
 		return entity;
 	}
 
-	private float calculateSpawnRate(float deltaTime) {
-		final float min = MIN_SPAWN_TIME;
-
+	private float calculateSpawnRate(float elapsedTime) {		
+		System.out.println("ElapsedTime: " + elapsedTime);
+		float factor;
+		
+		if(elapsedTime < 60) {
+			factor = 0.1f;
+		} else {
+			factor = 0.5f;
+		}
+		
 		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
-		float spawnRate = (float) Math.max(min, (Math.sqrt(deltaTime) * 0.5) * (1 + (numTowers * 0.1f)));
-
-		// spawnRate = Math.min(spawnRate, max);
+		System.out.println("Num towers: " + numTowers);
+		
+		float scale = (float) (Math.sqrt(elapsedTime) * factor);
+		float percentIncrease = 1 + (numTowers * 0.1f);
+		System.out.println("Scale: " + scale + " percentIncrease: " + percentIncrease);
+		
+		float spawnRate = (float) Math.max(MIN_SPAWN_TIME, (scale*percentIncrease));
+		System.out.println("Spawn rate1: " + spawnRate);
+		spawnRate = Math.min(spawnRate, MAX_SPAWN_TIME);
+		
+		System.out.println("SpawnRate2: " + spawnRate);
 		return spawnRate;
 	}
 
