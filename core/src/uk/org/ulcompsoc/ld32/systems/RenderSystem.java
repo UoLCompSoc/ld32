@@ -1,5 +1,7 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Tower;
@@ -11,6 +13,7 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -44,6 +47,7 @@ public class RenderSystem extends IteratingSystem {
 	@Override
 	public void update(float deltaTime) {
 		batch.setProjectionMatrix(camera.combined);
+		batch.enableBlending();
 
 		super.update(deltaTime);
 	}
@@ -55,6 +59,10 @@ public class RenderSystem extends IteratingSystem {
 		final Killable k = Mappers.killableMapper.get(entity);
 
 		final float scalingFactor = calculateScalingFactor(r);
+		if (handleFade(entity, r, deltaTime)) {
+			// if true, the entity is invisible and we can ignore it.
+			return;
+		}
 
 		switch (r.type) {
 		case SHAPE: {
@@ -124,8 +132,17 @@ public class RenderSystem extends IteratingSystem {
 
 		batch.begin();
 		batch.setProjectionMatrix(camera.combined);
+
+		final Color colorTemp = batch.getColor();
+		if (r.color != null) {
+			batch.setColor(r.color);
+		}
+
 		batch.draw(region, x, y, region.getRegionWidth() / 2.0f, region.getRegionHeight() / 2.0f,
-				region.getRegionWidth(), region.getRegionHeight(), scalingFactor, scalingFactor, rotationDeg);
+		        region.getRegionWidth(), region.getRegionHeight(), scalingFactor, scalingFactor, rotationDeg);
+
+		batch.setColor(colorTemp);
+
 		batch.end();
 
 		if (k != null) {
@@ -240,6 +257,41 @@ public class RenderSystem extends IteratingSystem {
 		batch.draw(region, x, y, region.getRegionWidth() / 2.0f, region.getRegionHeight() / 2.0f,
 				region.getRegionWidth(), region.getRegionHeight(), scalingFactor, scalingFactor, 0.0f);
 		batch.end();
+	}
 
+
+
+
+	private boolean handleFade(final Entity entity, final Renderable r, float deltaTime) {
+		final Fade fade = Mappers.fadeMapper.get(entity);
+
+		if (fade != null) {
+			if (r.color == null) {
+				Gdx.app.log("HANDLE_FADE", "Uninit color on a fading object. Fix that.");
+				r.color = Color.WHITE.cpy();
+			}
+
+			fade.timeElapsed += deltaTime;
+
+			final float fadePctage = LDUtil.smoothStep(0.0f, fade.fadeTime, fade.timeElapsed);
+			final float mutatedAlpha = (1.0f - fadePctage * 1.0f);
+
+			if (mutatedAlpha <= fade.targetAlpha) {
+				r.color.a = fade.targetAlpha;
+
+				if (fade.doomAfterFade) {
+					entity.add(new Doomed());
+				}
+
+				if (fade.targetAlpha <= 0.01f) {
+					// basically invisible, not much point rendering
+					return true;
+				}
+			} else {
+				r.color.a = mutatedAlpha;
+			}
+		}
+
+		return false;
 	}
 }

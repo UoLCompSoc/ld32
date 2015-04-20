@@ -10,6 +10,7 @@ public class Quick_Tower extends Upgrade{
 		this.stage = 2;
 		this.time = 1.2f;
 		this.type = UpgradeRoute.GREENBLUE;
+		name = "Quick_Tower";
 	}
 	
 }
