@@ -81,9 +81,10 @@ public class EnemySpawningSystem extends IntervalSystem {
 	}
 
 	private Entity generateEnemy() {
-		if(totalTimeElapsed > 90) {
-			Enemy.setMultiplier(1 + (totalTimeElapsed/700));
+		if(totalTimeElapsed > 60) {
+			Enemy.setMultiplier(1 + (totalTimeElapsed/200));
 		}
+		System.out.println("EnemyMultiplier: " + Enemy.getMultiplier());
 		final Entity entity = new Entity();
 		final RingSegment firstSegment = map.getFirstSegment();
 

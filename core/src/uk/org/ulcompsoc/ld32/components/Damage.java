@@ -21,6 +21,10 @@ public class Damage extends Component {
 	public float getDamage() {
 		return damage;
 	}
+	
+	public void setDamage(float d) {
+		damage = d;
+	}
 
 	public float getOriginalDamage() {
 		return origDam;

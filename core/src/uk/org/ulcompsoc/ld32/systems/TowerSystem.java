@@ -13,17 +13,17 @@ import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Ascended;
-import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus;
-import uk.org.ulcompsoc.ld32.components.upgrades.Monster_Drops_1;
-import uk.org.ulcompsoc.ld32.components.upgrades.Monster_Drops_2;
-import uk.org.ulcompsoc.ld32.components.upgrades.Mortar;
-import uk.org.ulcompsoc.ld32.components.upgrades.Number_Of_Balls_1;
-import uk.org.ulcompsoc.ld32.components.upgrades.Number_Of_Balls_2;
-import uk.org.ulcompsoc.ld32.components.upgrades.Number_Of_Balls_3;
-import uk.org.ulcompsoc.ld32.components.upgrades.Sniper;
+import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus_1;
+import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus_2;
+import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus_3;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_1;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_2;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_3;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_1;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_2;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_3;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade_Costs;
 import uk.org.ulcompsoc.ld32.mouse.ScaleEffectMouseListenerHandler;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureName;
@@ -151,17 +151,17 @@ public class TowerSystem extends EntitySystem {
 		boolean didUpgrade = false;
 		switch (tower.red.getStage()) {
 		case 0: {
-			tower.red = new Number_Of_Balls_1();
+			tower.red = new Range_Increase_1();
 			didUpgrade = true;
 			break;
 		}
 		case 1: {
-			tower.red = new Number_Of_Balls_2();
+			tower.red = new Range_Increase_2();
 			didUpgrade = true;
 			break;
 		}
 		case 2: {
-			tower.red = new Number_Of_Balls_3();
+			tower.red = new Range_Increase_3();
 			didUpgrade = true;
 			break;
 		}
@@ -192,17 +192,17 @@ public class TowerSystem extends EntitySystem {
 
 		switch (tower.green.getStage()) {
 		case 0: {
-			tower.green = new Monster_Drops_1();
+			tower.green = new Fire_Delay_1();
 			didUpgrade = true;
 			break;
 		}
 		case 1: {
-			tower.green = new Monster_Drops_2();
+			tower.green = new Fire_Delay_2();
 			didUpgrade = true;
 			break;
 		}
 		case 2: {
-			tower.green = new Upgrade_Costs();
+			tower.green = new Fire_Delay_3();
 			didUpgrade = true;
 			break;
 		}
@@ -234,17 +234,17 @@ public class TowerSystem extends EntitySystem {
 
 		switch (tower.blue.getStage()) {
 		case 0: {
-			tower.blue = new Damage_Plus();
+			tower.blue = new Damage_Plus_1();
 			didUpgrade = true;
 			break;
 		}
 		case 1: {
-			tower.blue = new Sniper();
+			tower.blue = new Damage_Plus_2();
 			didUpgrade = true;
 			break;
 		}
 		case 2: {
-			tower.blue = new Mortar();
+			tower.blue = new Damage_Plus_3();
 			didUpgrade = true;
 			break;
 		}
@@ -256,7 +256,6 @@ public class TowerSystem extends EntitySystem {
 			wallet.sub(0, 0, BLUE_UPGRADE_COST);
 			updateCombos(entity);
 			updateTowerStats(entity);
-
 			return true;
 		}
 
@@ -310,6 +309,7 @@ public class TowerSystem extends EntitySystem {
 	private void updateTowerStats(Entity entity) {
 		Tower tower = Mappers.towerMapper.get(entity);
 		Damage damageComp = Mappers.damageMapper.get(entity);
+		resetStats(entity);
 
 		Upgrade[] baseUpgrades = { tower.red, tower.green, tower.blue, tower.ascended };
 
@@ -358,7 +358,6 @@ public class TowerSystem extends EntitySystem {
 	}
 
 	public static boolean pongBonus(Entity entity) {
-		System.out.println("DETECTED");
 		Tower tower = Mappers.towerMapper.get(entity);
 		if (tower.pongBonusCounter >= 10) {
 			return false;
@@ -385,4 +384,13 @@ public class TowerSystem extends EntitySystem {
 		return true;
 	}
 
+	public void resetStats(Entity entity) {
+		Tower tower = Mappers.towerMapper.get(entity);
+		Damage damageComp = Mappers.damageMapper.get(entity);
+		damageComp.setDamage(damageComp.getOriginalDamage());
+		tower.range = Tower.DFLT_RANGE;
+		tower.fireDelay = Tower.DFLT_FIRE_DELAY;
+		tower.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
+		tower.missileCount = Tower.DFLT_MISSLE_COUNT;
+	}
 }

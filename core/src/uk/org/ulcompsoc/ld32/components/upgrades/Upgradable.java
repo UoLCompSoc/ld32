@@ -15,6 +15,24 @@ public class Upgradable extends Component {
 
 	public Upgradable() {
 		upgrades = new HashSet<Upgrade>();
+		upgrades.add(new Ascended());
+		upgrades.add(new BaseUpgrade());
+		
+		upgrades.add(new Damage_Plus_1());
+		upgrades.add(new Damage_Plus_2());
+		upgrades.add(new Damage_Plus_3());
+
+		upgrades.add(new Fire_Delay_1());
+		upgrades.add(new Fire_Delay_2());
+		upgrades.add(new Fire_Delay_3());
+		
+		upgrades.add(new Range_Increase_1());
+		upgrades.add(new Range_Increase_2());
+		upgrades.add(new Range_Increase_3());
+
+		upgrades.add(new Mortar());
+		upgrades.add(new Quick_Tower());
+		upgrades.add(new Sniper());
 	}
 
 	/**
