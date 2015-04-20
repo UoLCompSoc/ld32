@@ -140,7 +140,7 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.addEntity(makeAtom());
 		engine.addEntity(makeAtom());
-		engine.addEntity(makeAtom());
+		//engine.addEntity(makeAtom());
 
 		engine.addEntity(makeEmptyTower());
 		engine.addEntity(makeEmptyTower());
