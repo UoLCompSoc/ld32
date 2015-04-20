@@ -68,13 +68,15 @@ public class DoomedSystem extends IteratingSystem {
 	private void handleDeathAnimation(final Entity entity, float deltaTime) {
 		final DeathAnimation da = Mappers.deathAnimationMapper.get(entity);
 		final Position p = Mappers.positionMapper.get(entity);
+		final Renderable origR = Mappers.renderableMapper.get(entity);
 
 		if (da != null) {
 			final Entity e = new Entity();
-			final Renderable r = new Renderable(da.animation);
+			final Renderable r = new Renderable(da.animation).setScale(origR.scale).setColor(origR.color);
 
 			e.add(Position.fromPolar(p.getR(), p.getPhi()));
 			e.add(r);
+			e.add(new Fade(da.animation.getAnimationDuration(), true));
 
 			engine.addEntity(e);
 		}

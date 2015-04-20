@@ -9,5 +9,4 @@ public class DeathAnimation extends Component {
 	public DeathAnimation(final Animation animation) {
 		this.animation = animation;
 	}
-
 }

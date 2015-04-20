@@ -62,7 +62,10 @@ public class Renderable extends Component {
 	}
 
 	public Renderable setColor(final Color color) {
-		this.color = color.cpy();
+		if (color != null) {
+			this.color = color.cpy();
+		}
+
 		return this;
 	}
 
