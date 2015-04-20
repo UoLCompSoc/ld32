@@ -4,6 +4,7 @@ import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
@@ -53,6 +54,8 @@ public class Mappers {
 	public static final ComponentMapper<Wallet> walletMapper = ComponentMapper.getFor(Wallet.class);
 
 	public static final ComponentMapper<Projectile> projectileMapper = ComponentMapper.getFor(Projectile.class);
+
+	public static final ComponentMapper<Fade> fadeMapper = ComponentMapper.getFor(Fade.class);
 
 	private Mappers() {
 	}

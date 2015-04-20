@@ -13,7 +13,8 @@ public enum TextureName {
 
 	BALL_R("upgrade_balls/red.png"), //
 	BALL_B("upgrade_balls/blue.png"), //
-	BALL_G("upgrade_balls/green.png"),
+	BALL_G("upgrade_balls/green.png"), //
+	BALL_GREY("upgrade_balls/grey.png"), //
 
 	ZERO("numbers/0.png"), //
 	ONE("numbers/1.png"), //

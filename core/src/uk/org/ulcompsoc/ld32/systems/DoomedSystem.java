@@ -6,6 +6,7 @@ import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Drop.Colour;
+import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.util.Mappers;
@@ -16,6 +17,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class DoomedSystem extends IteratingSystem {
@@ -23,18 +25,14 @@ public class DoomedSystem extends IteratingSystem {
 	private final Random random = new Random();
 	final TextureManager textureManager;
 
-	private TextureRegion red;
-	private TextureRegion blue;
-	private TextureRegion green;
+	private TextureRegion ball;
 
 	@SuppressWarnings("unchecked")
 	public DoomedSystem(int priority, final TextureManager textureManager) {
 		super(Family.all(Doomed.class).get(), priority);
 		this.textureManager = textureManager;
 
-		this.red = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
-		this.blue = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
-		this.green = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
+		this.ball = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_GREY));
 	}
 
 	@Override
@@ -70,11 +68,12 @@ public class DoomedSystem extends IteratingSystem {
 				Entity toAdd = new Entity();
 				toAdd.add(new Drop(Colour.RED));
 				toAdd.add(position);
-				toAdd.add(new Renderable(red));
+				toAdd.add(new Renderable(ball).setColor(Color.RED));
+				toAdd.add(new Fade().doomAfterFade());
 				engine.addEntity(toAdd);
 			}
 
-			final boolean blueDrop = shouldItDrop(canItDrop.blueDropChance, CanItDrop.RED_BOOSTER);
+			final boolean blueDrop = shouldItDrop(canItDrop.blueDropChance, CanItDrop.BLUE_BOOSTER);
 
 			if (!blueDrop) {
 				CanItDrop.BLUE_BOOSTER += CanItDrop.DFLT_BOOSTER_INCREASE;
@@ -83,7 +82,8 @@ public class DoomedSystem extends IteratingSystem {
 				Entity toAdd2 = new Entity();
 				toAdd2.add(new Drop(Colour.BLUE));
 				toAdd2.add(position);
-				toAdd2.add(new Renderable(blue));
+				toAdd2.add(new Renderable(ball).setColor(Color.BLUE));
+				toAdd2.add(new Fade().doomAfterFade());
 				engine.addEntity(toAdd2);
 			}
 
@@ -96,7 +96,8 @@ public class DoomedSystem extends IteratingSystem {
 				Entity toAdd3 = new Entity();
 				toAdd3.add(new Drop(Colour.GREEN));
 				toAdd3.add(position);
-				toAdd3.add(new Renderable(green));
+				toAdd3.add(new Renderable(ball).setColor(Color.GREEN));
+				toAdd3.add(new Fade().doomAfterFade());
 				engine.addEntity(toAdd3);
 			}
 		}
