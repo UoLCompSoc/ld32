@@ -17,20 +17,32 @@ public class GUIRenderSystem extends IteratingSystem {
 	final Batch batch;
 	final TextureManager textureManager;
 	private OrthographicCamera camera;
-
+	
+	//different textures 
 	private TextureRegion frame = null;
 	private TextureRegion redBallIcon = null;
 	private TextureRegion blueBallIcon = null;
 	private TextureRegion greenBallIcon = null;
+	
+	private TextureRegion zero = null;
+	private TextureRegion one = null;
+	private TextureRegion two = null;
+	private TextureRegion three = null;
+	private TextureRegion four = null;
+	private TextureRegion five = null;
+	private TextureRegion six = null;
+	private TextureRegion seven = null;
+	private TextureRegion eight = null;
+	private TextureRegion nine = null;
 
-	// alter actual values
+	// Default coordinates for drawing elements in predefined positions
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
 	private final Vector3 DFLT_POSITION_OF_THE_RED_BALL = new Vector3(160.0f, 150.0f, 0.0f);
 	private final Vector3 DFLT_POSITION_OF_THE_BLUE_BALL = new Vector3(160.0f, 250.0f, 0.0f);
 	private final Vector3 DFLT_POSITION_OF_THE_GREEN_BALL = new Vector3(160.0f, 350.f, 0.0f);
 	
-	private final Vector3 DFLT_RED_1_DIGIT_POSITION = null;
-	private final Vector3 DFLT_RED_2_DIGIT_POSITION = null;
+	private final Vector3 DFLT_RED_1_DIGIT_POSITION = new Vector3(140.0f, 160.0f, 0.0f);
+	private final Vector3 DFLT_RED_2_DIGIT_POSITION = new Vector3(160.0f, 160.0f, 0.0f);
 	
 	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION= null;
 	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION= null;
@@ -51,6 +63,18 @@ public class GUIRenderSystem extends IteratingSystem {
 		this.redBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
 		this.blueBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
 		this.greenBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
+		
+		this.zero = new TextureRegion(textureManager.nameMap.get(TextureName.ZERO));
+		this.one = new TextureRegion(textureManager.nameMap.get(TextureName.ONE));
+		this.two = new TextureRegion(textureManager.nameMap.get(TextureName.TWO));
+		this.three = new TextureRegion(textureManager.nameMap.get(TextureName.THREE));
+		this.four = new TextureRegion(textureManager.nameMap.get(TextureName.FOUR));
+		this.five = new TextureRegion(textureManager.nameMap.get(TextureName.FIVE));
+		this.six = new TextureRegion(textureManager.nameMap.get(TextureName.SIX));
+		this.seven = new TextureRegion(textureManager.nameMap.get(TextureName.SEVEN));
+		this.eight = new TextureRegion(textureManager.nameMap.get(TextureName.EIGHT));
+		this.nine = new TextureRegion(textureManager.nameMap.get(TextureName.NINE));
+	
 	}
 
 	@Override
@@ -85,7 +109,34 @@ public class GUIRenderSystem extends IteratingSystem {
 	}
 
 	protected void handleRedCounter(int counter, Batch batch) {
-
+		String toBreakDown;
+		if(counter>9){
+			if(counter>99){
+				toBreakDown = "99";
+			} else {
+				toBreakDown = counter+"";
+			}
+			temp = camera.unproject(DFLT_RED_1_DIGIT_POSITION.cpy());
+			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(0, 1))), temp.x, temp.y);
+			temp = camera.unproject(DFLT_RED_2_DIGIT_POSITION.cpy());
+			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(1))), temp.x, temp.y);
+		} else {
+		}
+	}
+	private TextureRegion getNumber(int number){
+		switch(number){
+		case 0: return this.zero;
+		case 1: return this.one;
+		case 2: return this.two;
+		case 3: return this.three;
+		case 4: return this.four;
+		case 5: return this.five;
+		case 6: return this.six;
+		case 7: return this.seven;
+		case 8: return this.eight;
+		case 9: return this.nine;
+		default: return null;
+		}
 	}
 
 }
