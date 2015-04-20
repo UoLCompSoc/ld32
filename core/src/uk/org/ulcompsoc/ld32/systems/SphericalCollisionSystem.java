@@ -161,8 +161,8 @@ public class SphericalCollisionSystem extends EntitySystem {
 						float x = (float) (Math.cos(Math.toRadians(degrees)));
 						float y = (float) (Math.sin(Math.toRadians(degrees)));
 
-						v.x = x;
-						v.y = y;
+						v.x = x * 2;
+						v.y = y * 2;
 
 						atom.primed = false;
 					} else if (atom != null) {
