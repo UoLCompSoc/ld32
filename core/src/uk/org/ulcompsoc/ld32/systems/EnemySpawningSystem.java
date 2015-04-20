@@ -22,7 +22,6 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
@@ -67,14 +66,14 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 	@Override
 	protected void updateInterval() {
-		System.out.println("interval: " + interval);
 		timeElapsed += interval;
 		totalTimeElapsed += interval;
 
 		if (timeElapsed >= spawnTime) {
 			timeElapsed -= spawnTime;
 			spawnTime = 1.0f / calculateSpawnRate(totalTimeElapsed);
-			Gdx.app.log("SPAWN_TIME", "Enemy spawn time is now: " + spawnTime);
+			// Gdx.app.log("SPAWN_TIME", "Enemy spawn time is now: " +
+			// spawnTime);
 
 			engine.addEntity(generateEnemy());
 		}
@@ -120,7 +119,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 	@SuppressWarnings("unchecked")
 	private float calculateSpawnRate(float elapsedTime) {
-		System.out.println("ElapsedTime: " + elapsedTime);
+		// System.out.println("ElapsedTime: " + elapsedTime);
 		float factor;
 
 		if (elapsedTime < 60.0f) {
