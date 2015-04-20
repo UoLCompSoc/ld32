@@ -8,6 +8,7 @@ import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
+import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -15,6 +16,8 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.Family.Builder;
 import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -73,5 +76,17 @@ public class EnemySpawningSystem extends IntervalSystem {
 		//entity.add(new SphericalBound(5f));
 
 		return entity;
+	}
+	
+	public float calculateSpawnRate(float deltaTime) {
+		float min = 1.0f;
+		float max = 10.0f;
+		
+		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
+		float spawnRate = (float) Math.max(min,(Math.sqrt(deltaTime) * 0.5) * (1 + (numTowers * 0.1f)));
+		
+		spawnRate = Math.min(spawnRate, max);
+		return spawnRate;
+		
 	}
 }

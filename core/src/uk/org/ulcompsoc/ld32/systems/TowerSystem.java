@@ -25,7 +25,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-//TODO ACCESS COLOURED BALLS FROM WALLET/PADDLE
 public class TowerSystem extends EntitySystem {
 	private static final int RED_UPGRADE_COST = 5;
 	private static final int GREEN_UPGRADE_COST = 5;

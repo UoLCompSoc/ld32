@@ -107,7 +107,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 					// If the atom is within roughly the core of the paddle
 					if (atom != null && distance > oneCircle.radius / 4 && !atom.primed
-					        && Mappers.paddleMapper.has(one)) {
+					        && Mappers.paddleMapper.has(one) && !atom.atPaddle) {
 						// System.out.println("atom found");
 
 						// The atom is now housed in the paddle;
@@ -130,7 +130,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 						v.x = x;
 						v.y = y;
 
-					} else if (atom != null && atom.primed && Mappers.paddleMapper.has(one)) {
+					} else if (atom != null && atom.primed && atom.atPaddle && Mappers.paddleMapper.has(one)) {
 
 						/**
 						 * ATOM FIRING
