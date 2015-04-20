@@ -24,7 +24,7 @@ public class GUIRenderSystem extends IteratingSystem {
 	private TextureRegion blueBallIcon = null;
 	private TextureRegion greenBallIcon = null;
 	
-	
+	private TextureRegion zero = null;
 	private TextureRegion one = null;
 	private TextureRegion two = null;
 	private TextureRegion three = null;
@@ -63,6 +63,18 @@ public class GUIRenderSystem extends IteratingSystem {
 		this.redBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
 		this.blueBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
 		this.greenBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
+		
+		this.zero = new TextureRegion(textureManager.nameMap.get(TextureName.ZERO));
+		this.one = new TextureRegion(textureManager.nameMap.get(TextureName.ONE));
+		this.two = new TextureRegion(textureManager.nameMap.get(TextureName.TWO));
+		this.three = new TextureRegion(textureManager.nameMap.get(TextureName.THREE));
+		this.four = new TextureRegion(textureManager.nameMap.get(TextureName.FOUR));
+		this.five = new TextureRegion(textureManager.nameMap.get(TextureName.FIVE));
+		this.six = new TextureRegion(textureManager.nameMap.get(TextureName.SIX));
+		this.seven = new TextureRegion(textureManager.nameMap.get(TextureName.SEVEN));
+		this.eight = new TextureRegion(textureManager.nameMap.get(TextureName.EIGHT));
+		this.nine = new TextureRegion(textureManager.nameMap.get(TextureName.NINE));
+	
 	}
 
 	@Override
