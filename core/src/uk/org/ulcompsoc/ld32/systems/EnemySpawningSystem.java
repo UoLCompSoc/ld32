@@ -21,6 +21,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -66,13 +67,13 @@ public class EnemySpawningSystem extends IntervalSystem {
 		System.out.println("interval: " + interval);
 		timeElapsed += interval;
 
-	//	if (timeElapsed >= spawnTime) {
-		//	timeElapsed -= spawnTime;
-			spawnTime = calculateSpawnRate(timeElapsed);
-			// Gdx.app.log("SPAWN_TIME", "Enemy spawn time is now: " +
-			// spawnTime);
+		if (timeElapsed >= spawnTime) {
+			timeElapsed -= spawnTime;
+			spawnTime = 1.0f / calculateSpawnRate(timeElapsed);
+			Gdx.app.log("SPAWN_TIME", "Enemy spawn time is now: " + spawnTime);
 
 			engine.addEntity(generateEnemy());
+		}
 	}
 
 	private Entity generateEnemy() {
@@ -100,34 +101,28 @@ public class EnemySpawningSystem extends IntervalSystem {
 		return entity;
 	}
 
-<<<<<<< HEAD
-	private float calculateSpawnRate(float elapsedTime) {		
+	@SuppressWarnings("unchecked")
+	private float calculateSpawnRate(float elapsedTime) {
 		System.out.println("ElapsedTime: " + elapsedTime);
 		float factor;
-		
-		if(elapsedTime < 60) {
+
+		if (elapsedTime < 60) {
 			factor = 0.1f;
 		} else {
 			factor = 0.5f;
 		}
-		
-=======
-	@SuppressWarnings("unchecked")
-	private float calculateSpawnRate(float deltaTime) {
-		final float min = MIN_SPAWN_TIME;
 
->>>>>>> db6b45239c92ac37d01397b40697e71fb7f2813d
 		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
 		System.out.println("Num towers: " + numTowers);
-		
+
 		float scale = (float) (Math.sqrt(elapsedTime) * factor);
 		float percentIncrease = 1 + (numTowers * 0.1f);
 		System.out.println("Scale: " + scale + " percentIncrease: " + percentIncrease);
-		
-		float spawnRate = (float) Math.max(MIN_SPAWN_TIME, (scale*percentIncrease));
+
+		float spawnRate = Math.max(MIN_SPAWN_TIME, (scale * percentIncrease));
 		System.out.println("Spawn rate1: " + spawnRate);
 		spawnRate = Math.min(spawnRate, MAX_SPAWN_TIME);
-		
+
 		System.out.println("SpawnRate2: " + spawnRate);
 		return spawnRate;
 	}
