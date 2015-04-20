@@ -102,7 +102,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
 					        + Math.pow(otherCircle.y - oneCircle.y, 2)));
 
-					// If the atom is within roughly the core
+					// If the atom is within roughly the core of the paddle
 					if (atom != null && distance > oneCircle.radius / 4 && !atom.primed && Mappers.paddleMapper.has(one)) {
 						// System.out.println("atom found");
 
