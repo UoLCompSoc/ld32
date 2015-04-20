@@ -126,6 +126,8 @@ public class LD32 extends ApplicationAdapter {
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
+		engine.addEntity(makeAtom());
+		engine.addEntity(makeAtom());
 
 		engine.addEntity(makeEmptyTower());
 		engine.addEntity(makeEmptyTower());
@@ -244,9 +246,11 @@ public class LD32 extends ApplicationAdapter {
 
 		Entity e = new Entity();
 
+		Renderable r = new Renderable(ballAnimation).setScale(0.5f);
+
 		e.add(Position.fromEuclidean(2.0f, 2.0f));
-		e.add(new Renderable(ballAnimation).setScale(0.5f));
-		e.add(new SphericalBound(10.0f));
+		e.add(r);
+		e.add(new SphericalBound(r.getWidth()/2));
 		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
 
