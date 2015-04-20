@@ -5,9 +5,9 @@ public class Double_Shot extends Upgrade {
 		this.costs = 0.95f;
 		this.dmg = 1.15f;
 		this.drops = 1.05f;
-		this.simultanousFire = 0;
+		this.simultanousFire = 1;
 		this.stage = 3;
-		this.time = 1.0f;
+		this.range = 1.3f;
 		this.type = UpgradeRoute.GREENBLUE;
 		name = "Double_Shot";
 	}

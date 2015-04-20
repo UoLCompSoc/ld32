@@ -6,8 +6,8 @@ public class Monster_Drops_1 extends Upgrade{
 	
 	public Monster_Drops_1(){
 		dmg = 1.0f;
-		time = 1.0f;
-		drops = 1.1f;
+		range = 1.0f;
+		drops = 1.3f;
 		costs = 0.95f;
 		simultanousFire = 0;
 		stage = 1;

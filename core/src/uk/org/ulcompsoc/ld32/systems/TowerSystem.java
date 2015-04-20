@@ -203,15 +203,17 @@ public class TowerSystem extends EntitySystem {
 		for (Upgrade up : baseUpgrades) {
 			damageComp.useMultiplier(up.getDamage());
 			tower.dropRate *= up.getDrops();
-			tower.fireDelay *= up.getTimeDelay();
+			tower.fireDelay *= up.getCosts();
+			tower.range *= up.getRange();
 			tower.missileCount = Math.max(tower.missileCount, up.getSimultaneousFire());
 		}
 
 		for (Upgrade up : tower.combinations) {
 			damageComp.useMultiplier(up.getDamage());
 			tower.dropRate *= up.getDrops();
-			tower.fireDelay *= up.getTimeDelay();
+			tower.fireDelay *= up.getCosts();
 			tower.missileCount = Math.max(tower.missileCount, up.getSimultaneousFire());
+			tower.range *= up.getRange();
 		}
 	}
 

@@ -16,7 +16,7 @@ public abstract class Upgrade extends Component{
 	
 	String name;
 	protected float dmg;
-	protected float time;
+	protected float range;
 	protected float drops;
 	protected float costs;
 	protected int simultanousFire;
@@ -78,8 +78,8 @@ public abstract class Upgrade extends Component{
 	public int getSimultaneousFire(){
 		return simultanousFire;
 	}
-	public float getTimeDelay(){
-		return time;
+	public float getRange() {
+		return range ;
 	}
 	
 	public String toString() {

@@ -40,7 +40,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 	private final float interval;
 
 	private float timeElapsed = 0.0f;
-	// TODO: change this after spawn rate is calculated correctly. 
+	// TODO: change this after spawn rate is calculated correctly.
 	private float spawnTime = MAX_SPAWN_TIME / 4.0f;
 
 	public EnemySpawningSystem(int priority, float interval, final CircleMap map, final TextureManager textureManager) {
@@ -101,16 +101,13 @@ public class EnemySpawningSystem extends IntervalSystem {
 		return entity;
 	}
 
-	@SuppressWarnings("unchecked")
-	public float calculateSpawnRate(float deltaTime) {
+	private float calculateSpawnRate(float deltaTime) {
 		final float min = MIN_SPAWN_TIME;
-		final float max = MAX_SPAWN_TIME;
 
-		final int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
-
+		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
 		float spawnRate = (float) Math.max(min, (Math.sqrt(deltaTime) * 0.5) * (1 + (numTowers * 0.1f)));
-		spawnRate = Math.min(spawnRate, max);
 
+		// spawnRate = Math.min(spawnRate, max);
 		return spawnRate;
 	}
 

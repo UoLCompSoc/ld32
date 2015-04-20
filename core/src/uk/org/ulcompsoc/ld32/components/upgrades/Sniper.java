@@ -7,7 +7,7 @@ public class Sniper extends Upgrade {
 	
 	public Sniper() {
 		dmg = 1.5f;
-		time = 0.8f;
+		range = 1.8f;
 		drops = 1;
 		costs = 1;
 		simultanousFire = 0;
