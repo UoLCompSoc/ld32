@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.badlogic.gdx.math.Vector3;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
@@ -135,7 +136,7 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
 		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine, textureManager), new Circle(towerPos
-		        .getX(), towerPos.getY(), towerRen.getHeight())));
+				.getX(), towerPos.getY(), towerRen.getHeight())));
 		tower.add(new SphericalBound(towerRen.getWidth() / 2.0f));
 		engine.addEntity(tower);
 
@@ -155,8 +156,8 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new PaddleInputSystem(1000));
 		engine.addSystem(new MouseListenerSystem(2000, camera));
 		engine.addSystem(new PathFollowingSystem(5000));
-		engine.addSystem(new AtomMovementSystem(5500, new Circle(Gdx.graphics.getWidth() / 2,
-		        Gdx.graphics.getHeight() / 2, map.radius)));
+
+		engine.addSystem(new AtomMovementSystem(5500, new Circle(0, 0, map.radius)));
 		engine.addSystem(new ProjectileMovementSystem(6000));
 		engine.addSystem(new BasicFiringSystem(6500, textureManager));
 		engine.addSystem(new SphericalCollisionSystem(7500, new Circle(Gdx.graphics.getWidth() / 2, Gdx.graphics
