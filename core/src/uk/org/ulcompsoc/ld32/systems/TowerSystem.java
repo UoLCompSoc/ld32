@@ -22,13 +22,12 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class TowerSystem extends EntitySystem {
-	private static final int RED_UPGRADE_COST = 5;
-	private static final int GREEN_UPGRADE_COST = 5;
-	private static final int BLUE_UPGRADE_COST = 5;
+	private static final int RED_UPGRADE_COST = 3;
+	private static final int GREEN_UPGRADE_COST = 3;
+	private static final int BLUE_UPGRADE_COST = 3;
 
 	public Wallet wallet;
 
@@ -63,8 +62,10 @@ public class TowerSystem extends EntitySystem {
 			throw new GdxRuntimeException("Unhandled upgrade type.");
 		}
 
-		Gdx.app.log("TOWER_UPGRADE", String.format("Upgrades (r, g, b) = (%d, %d, %d).", tower.red.getStage(),
-		        tower.green.getStage(), tower.blue.getStage()));
+		// Gdx.app.log("TOWER_UPGRADE",
+		// String.format("Upgrades (r, g, b) = (%d, %d, %d).",
+		// tower.red.getStage(),
+		// tower.green.getStage(), tower.blue.getStage()));
 
 		return ret;
 	}

@@ -7,6 +7,7 @@ import uk.org.ulcompsoc.ld32.components.DeathAnimation;
 import uk.org.ulcompsoc.ld32.components.DoomNotifier;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
+import uk.org.ulcompsoc.ld32.components.EntityLink;
 import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
@@ -58,6 +59,7 @@ public class Mappers {
 	public static final ComponentMapper<DoomNotifier> doomNotifierMapper = ComponentMapper.getFor(DoomNotifier.class);
 	public static final ComponentMapper<DeathAnimation> deathAnimationMapper = ComponentMapper
 	        .getFor(DeathAnimation.class);
+	public static final ComponentMapper<EntityLink> entityLinkMapper = ComponentMapper.getFor(EntityLink.class);
 
 	private Mappers() {
 	}

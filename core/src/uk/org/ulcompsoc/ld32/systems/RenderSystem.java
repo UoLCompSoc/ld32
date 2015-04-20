@@ -153,7 +153,7 @@ public class RenderSystem extends IteratingSystem {
 
 		// Draw the positive health
 		renderer.setColor(POSITIVE_HEALTH_COLOR);
-		renderer.rect(x, y, entityRenderable.getWidth(), entityRenderable.getHeight() / 4.0f);
+		renderer.rect(x, y, entityRenderable.getWidth(), entityRenderable.getHeight() / HEALTH_HEIGHT_POSITION_MODIFIER);
 
 		// Draw the negative health
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);

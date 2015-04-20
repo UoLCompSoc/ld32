@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uk.org.ulcompsoc.ld32.components.Position;
+
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +18,9 @@ public class TextureManager implements Disposable {
 	public final List<Texture> textures = new ArrayList<Texture>();
 	public final Map<TextureName, Texture> nameMap = new HashMap<TextureName, Texture>();
 	public final Map<TextureName, TextureRegion[]> animationRegionMap = new HashMap<TextureName, TextureRegion[]>();
+	public final Map<Character, TextureRegion> mapOfChars = new HashMap<Character, TextureRegion>();
+
+	private Texture temp;
 
 	public TextureManager() {
 	}
@@ -33,6 +39,20 @@ public class TextureManager implements Disposable {
 				        TextureRegion.split(texture, texName.frameWidth, texName.frameHeight)[0]);
 			}
 		}
+		fillCharTextures();
+
+	}
+
+	private void fillCharTextures() {
+		final TextureRegion[] temp = animationRegionMap.get(TextureName.FONT);
+
+		for (int i = 0; i < 25; ++i) {
+			mapOfChars.put((char) ('A' + i), temp[i]);
+		}
+
+		for (int i = 0, j = 26; i < 25; ++i, ++j) {
+			mapOfChars.put((char) ('a' + i), temp[j]);
+		}
 	}
 
 	@Override
@@ -46,4 +66,17 @@ public class TextureManager implements Disposable {
 
 		textures.clear();
 	}
+	
+	/*public Entity[] generateWord(String characters, float x, float y){
+		float xValue = x;
+		float yValue = y;
+		Entity[] toReturn = new Entity[characters.length()];
+		while(!characters.equals("")){
+			char tempChar = characters.charAt(0);
+			characters = characters.substring(1);
+			Entity temp = new Entity();
+			temp.add(Position.fromEuclidean(xValue, yValue));
+			temp.add(component)
+		}
+	}*/
 }

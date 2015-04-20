@@ -9,6 +9,7 @@ import uk.org.ulcompsoc.ld32.components.DoomNotifier;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Drop.Colour;
+import uk.org.ulcompsoc.ld32.components.EntityLink;
 import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
@@ -62,6 +63,7 @@ public class DoomedSystem extends IteratingSystem {
 		handleBonus(entity, deltaTime);
 		handleNotifyDeath(entity, deltaTime);
 		handleDeathAnimation(entity, deltaTime);
+		handleLink(entity, deltaTime);
 
 		engine.removeEntity(entity);
 	}
@@ -105,8 +107,6 @@ public class DoomedSystem extends IteratingSystem {
 			default:
 				throw new GdxRuntimeException("Unhandled drop type in handleBonus in DoomedSystem.");
 			}
-
-			System.out.format("Wallet: (r, g, b) = (%d, %d, %d)\n", wallet.red, wallet.green, wallet.blue);
 		}
 	}
 
@@ -115,6 +115,18 @@ public class DoomedSystem extends IteratingSystem {
 
 		if (dn != null) {
 			dn.notifyOfDeath(entity);
+		}
+	}
+
+	private void handleLink(final Entity entity, float deltaTime) {
+		final EntityLink link = Mappers.entityLinkMapper.get(entity);
+
+		if (link != null) {
+			for (Entity e : link.children) {
+				engine.removeEntity(e);
+			}
+
+			link.children.clear();
 		}
 	}
 

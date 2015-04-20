@@ -1,6 +1,7 @@
 package uk.org.ulcompsoc.ld32.systems;
 
 import uk.org.ulcompsoc.ld32.LD32;
+import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -119,7 +120,7 @@ public class GUIRenderSystem extends IteratingSystem {
 		// scaleX, scaleY, rotation);
 
 		if (selectedTowerEntity != null) {
-			// render!
+			//Tower tower = Mappers.towerMapper.get(entity);
 		}
 	}
 
