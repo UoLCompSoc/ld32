@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-public class Renderable extends Component {
+public class Renderable extends Component implements Comparable<Renderable> {
 	public final RenderableType type;
 
 	public Sprite sprite = null;
@@ -26,6 +26,8 @@ public class Renderable extends Component {
 
 	public float totalScaleAnimTime = 0.25f;
 	public float scaleAnimTimeElapsed = 0.0f;
+
+	private int priority = 0;
 
 	public Renderable(final Color color, final float size) {
 		this.type = RenderableType.SHAPE;
@@ -117,5 +119,19 @@ public class Renderable extends Component {
 
 	public float getMaximumHeight() {
 		return getHeight() * maxScale;
+	}
+
+	public Renderable withPriority(int priority) {
+		this.priority = priority;
+		return this;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
+
+	@Override
+	public int compareTo(Renderable o) {
+		return (int) Math.signum(this.priority - o.priority);
 	}
 }

@@ -209,6 +209,8 @@ public class LD32 extends ApplicationAdapter {
 		// engine.addSystem(new AtomMovementSystem(new
 		// Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2,
 		// map.radius), 2));
+
+		textureManager.makeWord(engine, "h3llo WORLD", 0, 5 + (int) map.radius);
 	}
 
 	private List<Integer> frameCounts = new ArrayList<Integer>();
