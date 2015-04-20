@@ -1,5 +1,6 @@
 package uk.org.ulcompsoc.ld32.mouse;
 
+import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.DoomNotifier;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
@@ -25,9 +26,9 @@ public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHa
 	private boolean childrenAlive = false;
 	private Entity[] children = new Entity[3];
 
-	public RegularTowerMouseListenerHandler(final Engine engine, final TextureManager textureManager) {
+	public RegularTowerMouseListenerHandler(final Engine engine) {
 		this.engine = engine;
-		this.textureManager = textureManager;
+		this.textureManager = LD32.textureManager;
 	}
 
 	@Override

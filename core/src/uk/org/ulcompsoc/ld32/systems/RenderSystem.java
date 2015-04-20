@@ -15,7 +15,6 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -268,11 +267,6 @@ public class RenderSystem extends IteratingSystem {
 		final Fade fade = Mappers.fadeMapper.get(entity);
 
 		if (fade != null) {
-			if (r.color == null) {
-				Gdx.app.log("HANDLE_FADE", "Uninit color on a fading object. Fix that.");
-				r.color = Color.WHITE.cpy();
-			}
-
 			fade.timeElapsed += deltaTime;
 
 			final float fadePctage = LDUtil.smoothStep(0.0f, fade.fadeTime, fade.timeElapsed);

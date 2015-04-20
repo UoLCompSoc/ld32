@@ -1,5 +1,6 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Projectile;
@@ -10,7 +11,6 @@ import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
 import uk.org.ulcompsoc.ld32.util.Mappers;
-import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
@@ -26,15 +26,14 @@ import com.badlogic.gdx.math.Circle;
  * for an entity to fire a single projectile at a single detected enemy.
  */
 public class BasicFiringSystem extends IteratingSystem {
-
 	private Engine engine = null;
 	private TextureRegion ammoSprite = null;
 
 	@SuppressWarnings("unchecked")
-	public BasicFiringSystem(int priority, final TextureManager textureManager) {
+	public BasicFiringSystem(int priority) {
 		super(Family.all(Tower.class, Position.class).get(), priority);
 
-		this.ammoSprite = new TextureRegion(textureManager.nameMap.get(TextureName.AMMO));
+		this.ammoSprite = new TextureRegion(LD32.textureManager.nameMap.get(TextureName.AMMO));
 	}
 
 	@Override
