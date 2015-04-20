@@ -35,6 +35,7 @@ import uk.org.ulcompsoc.ld32.systems.ProjectileLifeTimeSystem;
 import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
 import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
+import uk.org.ulcompsoc.ld32.systems.TowerSystem;
 import uk.org.ulcompsoc.ld32.systems.WalletRenderSystem;
 import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
@@ -161,6 +162,7 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new SphericalCollisionSystem(7500, new Circle(Gdx.graphics.getWidth() / 2, Gdx.graphics
 		        .getHeight() / 2, map.radius)));
 		engine.addSystem(new ProjectileLifeTimeSystem(8000));
+		engine.addSystem(new TowerSystem(9000, paddle.getComponent(Wallet.class)));
 		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
 

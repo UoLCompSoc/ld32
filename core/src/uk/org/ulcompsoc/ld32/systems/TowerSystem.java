@@ -3,6 +3,7 @@ package uk.org.ulcompsoc.ld32.systems;
 import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.components.Damage;
+import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Ascended;
@@ -22,6 +23,7 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 //TODO ACCESS COLOURED BALLS FROM WALLET/PADDLE
 public class TowerSystem extends EntitySystem {
@@ -40,6 +42,22 @@ public class TowerSystem extends EntitySystem {
 	public TowerSystem(int priority, Wallet w) {
 		super(priority);
 		wallet = w;
+	}
+
+	public boolean handleUpgrade(Entity entity, Drop.Colour upgradeColour) {
+		switch (upgradeColour) {
+		case BLUE:
+			return setBlueUpgrade(entity);
+
+		case GREEN:
+			return setGreenUpgrade(entity);
+
+		case RED:
+			return setRedUpgrade(entity);
+
+		default:
+			throw new GdxRuntimeException("Unhandled upgrade type.");
+		}
 	}
 
 	public boolean canAffordRed() {

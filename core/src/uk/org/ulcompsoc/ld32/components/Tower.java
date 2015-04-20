@@ -16,10 +16,10 @@ public class Tower extends Component {
 	private static final float DFLT_RANGE = 100.0f; // starting range
 	private static final float DFLT_FIRE_DELAY = 1f; // default fire delay
 	// the chance for a monster to drop currency
-	private static final float DFLT_MONSTER_DROP_RATE = 5f; 
+	private static final float DFLT_MONSTER_DROP_RATE = 5f;
 	public static final float DFLT_DMG = 5.0f; // base damage of the tower
 	// how many bullets/missiles the tower fires of at
-    // once or with a slight delay between.
+	// once or with a slight delay between.
 	private static final int DFLT_MISSLE_COUNT = 1;
 
 	public float range;
@@ -46,11 +46,10 @@ public class Tower extends Component {
 		this.missileCount = Tower.DFLT_MISSLE_COUNT;
 		pongBonusCounter = 0;
 
-
-		//red = new BaseUpgrade();
-		//blue = new BaseUpgrade();
-		//green = new BaseUpgrade();
-		//ascended = new BaseUpgrade();
+		red = new BaseUpgrade();
+		blue = new BaseUpgrade();
+		green = new BaseUpgrade();
+		ascended = new BaseUpgrade();
 
 		this.elapsedTime = 0;
 
@@ -75,7 +74,6 @@ public class Tower extends Component {
 		this.elapsedTime = 0;
 	}
 
-
 	/**
 	 * For upgrade cooldown
 	 */
@@ -83,7 +81,7 @@ public class Tower extends Component {
 	public float upgradeDelay = 3.0f;
 
 	public boolean canUpgrade() {
-		if(this.upgradeElapsedTime >= this.upgradeDelay)
+		if (this.upgradeElapsedTime >= this.upgradeDelay)
 			return true;
 		else
 			return false;
@@ -92,8 +90,5 @@ public class Tower extends Component {
 	public void upgraded() {
 		this.upgradeElapsedTime = 0;
 	}
-
-
-
 
 }

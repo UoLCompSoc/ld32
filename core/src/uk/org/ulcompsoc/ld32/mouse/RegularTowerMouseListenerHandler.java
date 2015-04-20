@@ -38,14 +38,16 @@ public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHa
 			childrenAlive = true;
 			int index = 0;
 			for (Drop.Colour color : Drop.Colour.values()) {
-				children[index] = generateSelectionEntity(towerPos, towerRen, color);
+				children[index] = generateSelectionEntity(tower, towerPos, towerRen, color);
 				engine.addEntity(children[index]);
 				++index;
 			}
 		}
 	}
 
-	private Entity generateSelectionEntity(final Position towerPos, final Renderable towerRen, Drop.Colour colour) {
+	// pass towerPos & towerRen to save having to retrieve multiple times
+	private Entity generateSelectionEntity(final Entity tower, final Position towerPos, final Renderable towerRen,
+	        Drop.Colour colour) {
 		final Entity e = new Entity();
 
 		final Renderable r = new Renderable(
@@ -60,8 +62,8 @@ public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHa
 
 		e.add(p);
 		e.add(r);
-		e.add(new MouseListener(new UpgradeBallMouseListenerHandler(e, this), new Circle(p.getX(), p.getY(), r
-		        .getWidth() * 0.95f)).withInitialCooldown(0.75f));
+		e.add(new MouseListener(new UpgradeBallMouseListenerHandler(engine, tower, colour, this), new Circle(p.getX(),
+		        p.getY(), r.getWidth() * 0.95f)).withInitialCooldown(0.75f));
 
 		return e;
 	}
@@ -70,6 +72,7 @@ public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHa
 	public void notifyOfDeath(Entity entity) {
 		childrenAlive = false;
 		for (int i = 0; i < children.length; ++i) {
+			((UpgradeBallMouseListenerHandler) Mappers.mouseListenerMapper.get(children[i]).handler).notifyGroupDying();
 			children[i].add(new Doomed());
 			children[i] = null;
 		}
