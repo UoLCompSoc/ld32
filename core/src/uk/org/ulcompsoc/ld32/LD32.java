@@ -6,19 +6,7 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Vector3;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.components.Atom;
-import uk.org.ulcompsoc.ld32.components.Damage;
-import uk.org.ulcompsoc.ld32.components.MapRenderable;
-import uk.org.ulcompsoc.ld32.components.MouseListener;
-import uk.org.ulcompsoc.ld32.components.Paddle;
-import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
-import uk.org.ulcompsoc.ld32.components.PathFollower;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.SphericalBound;
-import uk.org.ulcompsoc.ld32.components.Tower;
-import uk.org.ulcompsoc.ld32.components.Velocity;
-import uk.org.ulcompsoc.ld32.components.Wallet;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.EmptyTowerMouseListenerHandler;
@@ -268,6 +256,7 @@ public class LD32 extends ApplicationAdapter {
 		e.add(new SphericalBound(r.getWidth() / 2));
 		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
+		e.add(new DeathAnimation(ballAnimation));
 
 		return e;
 	}
