@@ -114,9 +114,8 @@ public class TowerSystem extends EntitySystem {
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(greenStage,blueStage), UpgradeRoute.GREENBLUE));
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage,Math.min(blueStage, greenStage)), UpgradeRoute.REDGREENBLUE));
 
-		if(tower.ascended == null && Math.min(redStage, Math.min(greenStage, blueStage)) >= 4) {
+		if(tower.ascended.getStage() == 0 && Math.min(redStage, Math.min(greenStage, blueStage)) >= 3) {
 			tower.ascended = new Ascended();
-			tower.combinations.add(tower.ascended);
 		}
 	}
 
@@ -167,7 +166,8 @@ public class TowerSystem extends EntitySystem {
 		}
 	}
 
-	public boolean pongBonus(Entity entity) {
+	public static boolean pongBonus(Entity entity) {
+		System.out.println("DETECTED");
 		Tower tower = Mappers.towerMapper.get(entity);
 		if(tower.pongBonusCounter >= 10) {
 			return false;

@@ -9,5 +9,6 @@ public class Double_Shot extends Upgrade {
 		this.stage = 3;
 		this.time = 1.0f;
 		this.type = UpgradeRoute.GREENBLUE;
+		name = "Double_Shot";
 	}
 }

@@ -10,5 +10,6 @@ public class Ball_Give_Drops extends Upgrade{
 		this.stage = 2;
 		this.time = 1.05f;
 		this.type = UpgradeRoute.REDGREEN;
+		name = "Ball_Give_Drops";
 	}
 }

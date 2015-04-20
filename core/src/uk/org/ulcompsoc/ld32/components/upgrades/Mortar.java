@@ -13,5 +13,6 @@ public class Mortar extends Upgrade {
 		simultanousFire = 0;
 		stage = 3;
 		type = UpgradeRoute.BLUE;
+		name = "Mortar";
 	}
 }
