@@ -7,6 +7,7 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
@@ -17,11 +18,13 @@ public class PositionDebugSystem extends IteratingSystem {
 	public PositionDebugSystem(int priority, final ShapeRenderer renderer) {
 		super(Family.all(Position.class, Renderable.class).get(), priority);
 		this.renderer = renderer;
+		System.out.println("PositionDebugSystem created: are you sure you meant to do this?");
 	}
 
 	@Override
 	public void update(float deltaTime) {
 		renderer.begin(ShapeType.Line);
+		renderer.setColor(Color.BLACK);
 
 		super.update(deltaTime);
 

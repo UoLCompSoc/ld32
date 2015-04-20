@@ -29,7 +29,6 @@ import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
 import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
-import uk.org.ulcompsoc.ld32.systems.PositionDebugSystem;
 import uk.org.ulcompsoc.ld32.systems.ProjectileLifeTimeSystem;
 import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.RenderSystem;
@@ -162,7 +161,7 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new WalletRenderSystem(25000, spriteBatch, camera, textureManager,
 		        Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.95f));
 
-		engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
+		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
 		engine.addSystem(new DoomedSystem(100000, textureManager));
 		engine.addSystem(new GUIRenderSystem(spriteBatch, textureManager, camera, 90000));
