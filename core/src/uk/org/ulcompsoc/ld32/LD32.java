@@ -253,10 +253,7 @@ public class LD32 extends ApplicationAdapter {
 
 	public Entity makeAtom() {
 		if (ballAnimation == null) {
-			final TextureRegion[] regions = TextureRegion.split(textureManager.nameMap.get(TextureName.BALL_ANIM), 64,
-			        64)[0];
-
-			ballAnimation = new Animation(0.15f, regions);
+			ballAnimation = new Animation(0.15f, textureManager.animationRegionMap.get(TextureName.BALL_ANIM));
 			ballAnimation.setPlayMode(PlayMode.LOOP);
 		}
 

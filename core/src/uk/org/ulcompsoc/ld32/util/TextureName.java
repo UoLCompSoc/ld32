@@ -2,9 +2,9 @@ package uk.org.ulcompsoc.ld32.util;
 
 public enum TextureName {
 	PADDLE("paddle.png"), //
-	BALL_ANIM("ball.png"), //
+	BALL_ANIM("ball.png", 64, 64), // 64x64 animation
 
-	INVALID_ACTION("invalid.png"), //
+	INVALID_ACTION("invalid.png", 32, 32), // 32x32 animation
 
 	EMPTY_TOWER("towers/tower_empty.png"), //
 	BASIC_TOWER("towers/tower_0.png"), //
@@ -47,8 +47,23 @@ public enum TextureName {
 
 	public final String assetName;
 
+	public final boolean isAnimated;
+
+	public final int frameWidth;
+	public final int frameHeight;
+
 	private TextureName(final String name) {
 		this.assetName = name;
+		this.isAnimated = false;
+		this.frameWidth = this.frameHeight = -1;
 	}
 
+	private TextureName(final String name, int frameWidth, int frameHeight) {
+		this.assetName = name;
+
+		this.isAnimated = true;
+
+		this.frameWidth = frameWidth;
+		this.frameHeight = frameHeight;
+	}
 }

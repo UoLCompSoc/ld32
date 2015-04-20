@@ -53,8 +53,7 @@ public class UpgradeBallMouseListenerHandler extends ScaleEffectMouseListenerHan
 		invalid.add(Position.fromEuclidean(x, y));
 		invalid.add(new Fade(1.0f, true));
 
-		final TextureRegion[] regions = TextureRegion.split(
-		        LD32.textureManager.nameMap.get(TextureName.INVALID_ACTION), 32, 32)[0];
+		final TextureRegion[] regions = LD32.textureManager.animationRegionMap.get(TextureName.INVALID_ACTION);
 		final Renderable r = new Renderable(new Animation(fadeLength / regions.length, regions)).setScale(0.3f);
 		invalid.add(r);
 
