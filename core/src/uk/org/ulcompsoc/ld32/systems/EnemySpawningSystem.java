@@ -6,6 +6,7 @@ import uk.org.ulcompsoc.ld32.CircleMap;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
+import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
@@ -101,25 +102,25 @@ public class EnemySpawningSystem extends IntervalSystem {
 			entity.add(pos);
 			entity.add(new Killable(pos.health));
 			entity.add(new PathFollower(firstSegment, 1 / pos.speed).continueToNull().killWhenDone());
-
+			entity.add(new Damage(pos.damage));
 		} else if (type == EnemyType.BLUE) {
 			Antiproton antiP = new Antiproton();
 			entity.add(antiP);
 			entity.add(new Killable(antiP.health));
 			entity.add(new PathFollower(firstSegment, 1 / antiP.speed).continueToNull().killWhenDone());
-
+			entity.add(new Damage(antiP.damage));
 		} else if (type == EnemyType.GREEN) {
 			Antineutron antiN = new Antineutron();
 			entity.add(antiN);
 			entity.add(new Killable(antiN.health));
 			entity.add(new PathFollower(firstSegment, 1 / antiN.speed).continueToNull().killWhenDone());
+			entity.add(new Damage(antiN.damage));
 		}
+
 		entity.add(new CanItDrop());
 		entity.add(new DeathAnimation(greyEnemy));
 
 		entity.add(new SphericalBound(r.getWidth() / 2));
-
-		// entity.add(new SphericalBound(5f));
 
 		return entity;
 	}
