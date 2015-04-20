@@ -1,10 +1,12 @@
 package uk.org.ulcompsoc.ld32;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.audio.AudioManager;
+import uk.org.ulcompsoc.ld32.audio.AudioName;
+import uk.org.ulcompsoc.ld32.audio.IAudioManagement;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
@@ -39,7 +41,6 @@ import uk.org.ulcompsoc.ld32.systems.RenderSystem;
 import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
 import uk.org.ulcompsoc.ld32.systems.TowerSystem;
 import uk.org.ulcompsoc.ld32.systems.WalletRenderSystem;
-import uk.org.ulcompsoc.ld32.util.AudioManager;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
@@ -65,6 +66,7 @@ public class LD32 extends ApplicationAdapter {
 	private final OrthographicCamera camera;
 
 	public static final TextureManager textureManager = new TextureManager();
+	public static final IAudioManagement audioManager = new AudioManager();
 
 	private final Entity paddle = new Entity();
 	private TextureRegion paddleSprite = null;
@@ -100,6 +102,8 @@ public class LD32 extends ApplicationAdapter {
 		this.shapeRenderer = new ShapeRenderer();
 		this.spriteBatch = new SpriteBatch();
 		textureManager.load();
+		audioManager.load();
+		audioManager.play(AudioName.ABSTRACTION);
 
 		paddleSprite = new TextureRegion(textureManager.nameMap.get(TextureName.PADDLE));
 		final float paddleScale = 0.2f;
@@ -173,19 +177,14 @@ public class LD32 extends ApplicationAdapter {
 		engine.addSystem(new WalletRenderSystem(25000, spriteBatch, camera, Gdx.graphics.getWidth() * 0.9f,
 		        Gdx.graphics.getHeight() * 0.95f));
 
+		engine.addSystem(new DoomedSystem(100000, paddle));
+
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
-		engine.addSystem(new DoomedSystem(100000, paddle));
 		// engine.addSystem(new BoundingDebugSystem(5000, shapeRenderer));
-
-		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
-
 		// engine.addSystem(new AtomMovementSystem(new
 		// Circle(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2,
 		// map.radius), 2));
-
-		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
-
 	}
 
 	private List<Integer> frameCounts = new ArrayList<Integer>();
@@ -221,6 +220,7 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.removeAllEntities();
 
+		audioManager.dispose();
 		textureManager.dispose();
 
 		if (shapeRenderer != null) {
@@ -232,25 +232,6 @@ public class LD32 extends ApplicationAdapter {
 			spriteBatch.dispose();
 			spriteBatch = null;
 		}
-	}
-
-	public AudioManager audioTest() {
-		HashMap<String, String> files = new HashMap<String, String>();
-		files.put("drop", "data/drop.mp3");
-		files.put("woosh", "data/woosh.mp3");
-
-		AudioManager x = new AudioManager(files);
-
-		x.queue("drop");
-		x.queue("drop");
-		x.queue("drop");
-		// x.loop("woosh");
-		x.queue("woosh");
-		x.queue("drop");
-		x.queue("drop");
-		x.clear("woosh");
-
-		return x;
 	}
 
 	public Entity makeAtom() {

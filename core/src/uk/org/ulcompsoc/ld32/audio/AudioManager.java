@@ -1,4 +1,4 @@
-package uk.org.ulcompsoc.ld32.util;
+package uk.org.ulcompsoc.ld32.audio;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,30 +6,28 @@ import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.audio.Music.OnCompletionListener;
 
 /**
  * Created by Samy Narrainen on 18/04/2015.
  */
-public class AudioManager implements Disposable {
-	private static final float DEFAULT_VOLUME = 0.25f;
-	// Will only work with the queue if the AudioManager is active.
-	private static final boolean ACTIVE = true;
-
-	// Hashmap allows us to play audio given the audio name, more meaningful
-	private HashMap<String, Music> loadedAudio = new HashMap<String, Music>();
+public class AudioManager implements IAudioManagement, OnCompletionListener {
+	private HashMap<AudioName, Music> loadedAudio = new HashMap<AudioName, Music>();
 	private Queue<Music> playing = new LinkedList<Music>();
 
-	public AudioManager(HashMap<String, String> files) {
+	public AudioManager() {
+	}
 
-		for (String key : files.keySet()) {
+	@Override
+	public void load() {
+		for (AudioName audioName : AudioName.values()) {
+			final Music m = Gdx.audio.newMusic(Gdx.files.internal(audioName.fileName));
 
-			Music m = Gdx.audio.newMusic(Gdx.files.internal(files.get(key)));
+			m.setVolume(audioName.volume);
+			m.setLooping(audioName.loopByDefault);
+			m.setOnCompletionListener(this);
 
-			m.setVolume(DEFAULT_VOLUME);
-			m.setLooping(false);
-
-			loadedAudio.put(key, m);
+			loadedAudio.put(audioName, m);
 		}
 	}
 
@@ -39,12 +37,13 @@ public class AudioManager implements Disposable {
 	 * @param key
 	 *            , the key for the sound
 	 */
-	public void queue(String key) {
+	@Override
+	public void queue(AudioName audioName) {
 		if (playing.isEmpty()) {
-			loadedAudio.get(key).play();
-			playing.add((loadedAudio.get(key)));
+			loadedAudio.get(audioName).play();
+			playing.add(loadedAudio.get(audioName));
 		} else {
-			playing.add((loadedAudio.get(key)));
+			playing.add(loadedAudio.get(audioName));
 		}
 	}
 
@@ -54,7 +53,8 @@ public class AudioManager implements Disposable {
 	 * @param key
 	 *            , the key for the sound
 	 */
-	public void play(String key) {
+	@Override
+	public void play(AudioName key) {
 		loadedAudio.get(key).play();
 	}
 
@@ -64,7 +64,8 @@ public class AudioManager implements Disposable {
 	 * @param key
 	 *            , the key for the sound
 	 */
-	public void loop(String key) {
+	@Override
+	public void loop(AudioName key) {
 		loadedAudio.get(key).setLooping(true);
 		loadedAudio.get(key).play();
 	}
@@ -75,7 +76,8 @@ public class AudioManager implements Disposable {
 	 * @param key
 	 *            , the key for the sound
 	 */
-	public void stop(String key) {
+	@Override
+	public void stop(AudioName key) {
 		loadedAudio.get(key).stop();
 	}
 
@@ -83,7 +85,8 @@ public class AudioManager implements Disposable {
 	 * Stops a sound, and removes the request for it to be played in the queue,
 	 * if it exists there.
 	 */
-	public void clear(String key) {
+	@Override
+	public void clear(AudioName key) {
 		stop(key);
 		playing.remove(loadedAudio.get(key));
 	}
@@ -93,8 +96,8 @@ public class AudioManager implements Disposable {
 
 		} else {
 			// It's done
-			playing.remove(); // README used to pause here, but this
-			                  // could conflict new methods
+			playing.remove();
+			// README used to pause here, but this could conflict new methods
 
 			// play the next
 			if (!playing.isEmpty()) {
@@ -111,5 +114,10 @@ public class AudioManager implements Disposable {
 
 		loadedAudio.clear();
 		playing.clear();
+	}
+
+	@Override
+	public void onCompletion(Music music) {
+		playing.remove(music);
 	}
 }

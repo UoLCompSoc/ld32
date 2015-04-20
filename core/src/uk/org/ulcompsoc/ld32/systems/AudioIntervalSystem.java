@@ -1,6 +1,6 @@
 package uk.org.ulcompsoc.ld32.systems;
 
-import uk.org.ulcompsoc.ld32.util.AudioManager;
+import uk.org.ulcompsoc.ld32.audio.AudioManager;
 
 import com.badlogic.ashley.systems.IntervalSystem;
 
