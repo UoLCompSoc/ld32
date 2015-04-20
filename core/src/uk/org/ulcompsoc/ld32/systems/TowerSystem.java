@@ -12,7 +12,13 @@ import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Ascended;
 import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_1;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_2;
+import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_3;
 import uk.org.ulcompsoc.ld32.components.upgrades.Mortar;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_1;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_2;
+import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_3;
 import uk.org.ulcompsoc.ld32.components.upgrades.Sniper;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
@@ -135,17 +141,17 @@ public class TowerSystem extends EntitySystem {
 		boolean didUpgrade = false;
 		switch (tower.red.getStage()) {
 		case 0: {
-		//	tower.red = new Number_Of_Balls_1();
+			tower.red = new Range_Increase_1();
 			didUpgrade = true;
 			break;
 		}
 		case 1: {
-		//	tower.red = new Number_Of_Balls_2();
+			tower.red = new Range_Increase_2();
 			didUpgrade = true;
 			break;
 		}
 		case 2: {
-	//		tower.red = new Number_Of_Balls_3();
+			tower.red = new Range_Increase_3();
 			didUpgrade = true;
 			break;
 		}
@@ -176,17 +182,17 @@ public class TowerSystem extends EntitySystem {
 
 		switch (tower.green.getStage()) {
 		case 0: {
-		//	tower.green = new Monster_Drops_1();
+			tower.green = new Fire_Delay_1();
 			didUpgrade = true;
 			break;
 		}
 		case 1: {
-	//		tower.green = new Monster_Drops_2();
+			tower.green = new Fire_Delay_2();
 			didUpgrade = true;
 			break;
 		}
 		case 2: {
-			tower.green = new Upgrade_Costs();
+			tower.green = new Fire_Delay_3();
 			didUpgrade = true;
 			break;
 		}

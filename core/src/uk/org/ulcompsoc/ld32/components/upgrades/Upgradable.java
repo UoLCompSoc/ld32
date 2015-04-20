@@ -18,7 +18,7 @@ public class Upgradable extends Component {
 		upgrades.add(new Ascended());
 		upgrades.add(new BaseUpgrade());
 		upgrades.add(new Damage_Plus());
-		upgrades.add(new Fire_Delay());
+		upgrades.add(new Fire_Delay_1());
 		upgrades.add(new Mortar());
 		upgrades.add(new Quick_Tower());
 		upgrades.add(new Sniper());
