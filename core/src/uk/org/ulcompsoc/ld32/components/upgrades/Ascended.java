@@ -12,5 +12,6 @@ public class Ascended extends Upgrade{
 		this.simultanousFire = 0;
 		this.stage = 4;
 		this.type = UpgradeRoute.ASCENDED;
+		name = "Ascended";
 	}
 }

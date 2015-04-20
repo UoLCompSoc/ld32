@@ -10,5 +10,6 @@ public class Ball_Splits extends Upgrade {
 		this.stage = 3;
 		this.time = 1.05f;
 		this.type = UpgradeRoute.REDGREEN;
+		name = "Ball_Splits";
 	}
 }
