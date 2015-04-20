@@ -84,6 +84,8 @@ public class EnemySpawningSystem extends IntervalSystem {
 	private Entity generateEnemy() {
 		if(totalTimeElapsed > 60) {
 			Enemy.setMultiplier(1 + (totalTimeElapsed/200));
+		} else if (totalTimeElapsed > 150) {
+			Enemy.setMultiplier(1+ (totalTimeElapsed/100));
 		}
 		System.out.println("EnemyMultiplier: " + Enemy.getMultiplier());
 		final Entity entity = new Entity();
