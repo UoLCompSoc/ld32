@@ -13,6 +13,7 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class UpgradeBallMouseListenerHandler extends ScaleEffectMouseListenerHandler {
@@ -33,9 +34,8 @@ public class UpgradeBallMouseListenerHandler extends ScaleEffectMouseListenerHan
 	@Override
 	public void handleButtonDown(Entity thisEntity, MouseButtons button, float mouseX, float mouseY) {
 		if (!dying) {
-			if (!engine.getSystem(TowerSystem.class).handleUpgrade(tower, upgradeColour)) {
-				engine.addEntity(makeInvalidAnimationEntity(mouseX, mouseY));
-			}
+			engine.addEntity(makeClickResponseEntity(
+			        !engine.getSystem(TowerSystem.class).handleUpgrade(tower, upgradeColour), mouseX, mouseY));
 
 			thisEntity.add(new Doomed());
 		}
@@ -45,18 +45,30 @@ public class UpgradeBallMouseListenerHandler extends ScaleEffectMouseListenerHan
 		this.dying = true;
 	}
 
-	private Entity makeInvalidAnimationEntity(float x, float y) {
-		final Entity invalid = new Entity();
+	private Entity makeClickResponseEntity(boolean isInvalid, float x, float y) {
+		final Entity e = new Entity();
 
 		final float fadeLength = 1.0f;
 
-		invalid.add(Position.fromEuclidean(x, y));
-		invalid.add(new Fade(1.0f, true));
+		e.add(Position.fromEuclidean(x, y));
+		e.add(new Fade(fadeLength, true));
 
-		final TextureRegion[] regions = LD32.textureManager.animationRegionMap.get(TextureName.INVALID_ACTION);
-		final Renderable r = new Renderable(new Animation(fadeLength / regions.length, regions)).setScale(0.3f);
-		invalid.add(r);
+		final TextureName name = (isInvalid ? TextureName.INVALID_ACTION : TextureName.SPARKLE);
 
-		return invalid;
+		final TextureRegion[] regions = LD32.textureManager.animationRegionMap.get(name);
+
+		final Renderable r;
+		if (!isInvalid) {
+			final Animation anim = new Animation(0.25f, regions);
+			anim.setPlayMode(PlayMode.LOOP_PINGPONG);
+
+			r = new Renderable(anim).setScale(0.5f);
+		} else {
+			r = new Renderable(new Animation(fadeLength / regions.length, regions)).setScale(0.3f);
+		}
+
+		e.add(r);
+
+		return e;
 	}
 }
