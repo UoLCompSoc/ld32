@@ -1,6 +1,9 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import uk.org.ulcompsoc.ld32.LD32;
+import uk.org.ulcompsoc.ld32.components.Player;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.util.Mappers;
@@ -14,6 +17,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+
+import java.util.ArrayList;
 
 public class GUIRenderSystem extends IteratingSystem {
 	private final Batch batch;
@@ -115,13 +120,22 @@ public class GUIRenderSystem extends IteratingSystem {
 		this.handleACounter(redcount, batch, DFLT_RED_1_DIGIT_POSITION.cpy(), DFLT_RED_2_DIGIT_POSITION.cpy());
 		this.handleACounter(bluecount, batch, DFLT_BLUE_1_DIGIT_POSITION.cpy(), DFLT_BLUE_2_DIGIT_POSITION.cpy());
 		this.handleACounter(greencount, batch, DFLT_GREEN_1_DIGIT_POSITION.cpy(), DFLT_GREEN_2_DIGIT_POSITION.cpy());
-		batch.end();
+
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
 
 		if (selectedTowerEntity != null) {
 			//Tower tower = Mappers.towerMapper.get(entity);
 		}
+
+		/**
+		 * Score
+		 */
+		handleScore(batch);
+
+
+
+		batch.end();
 	}
 
 	protected void handleACounter(int counter, Batch batch, final Vector3 vector1, final Vector3 vector2) {
@@ -146,6 +160,33 @@ public class GUIRenderSystem extends IteratingSystem {
 			temp = camera.unproject(vector2);
 			batch.draw(this.getNumber(counter), temp.x, (temp.y - newWidth), newWidth, newHeight);
 		}
+	}
+
+	protected void handleScore(Batch batch) {
+		float scalefactor = 0.1f;
+		float newWidth = zero.getRegionWidth() * scalefactor;
+		float newHeight = zero.getRegionHeight() * scalefactor;
+
+		int score = Player.score;
+		//System.out.println(Player.score);
+
+		ArrayList<Integer> characters = new ArrayList<>();
+
+		while(score > 0) {
+			characters.add(score % 10);
+			score /= 10;
+		}
+
+		Vector3 start = camera.unproject(new Vector3(Gdx.graphics.getWidth() /2 - newWidth * characters.size(), Gdx.graphics.getHeight() / 10, 0.0f));
+		float SPACER_MULTIPLIER = newWidth;
+		float space = 0.0f;
+
+
+		for(int i = characters.size() -1 ; i >= 0; i--) {
+			batch.draw(this.getNumber(characters.get(i)), start.x + space, (start.y), newWidth, newHeight);
+			space += SPACER_MULTIPLIER;
+		}
+
 	}
 
 	private TextureRegion getNumber(int number) {

@@ -3,17 +3,9 @@ package uk.org.ulcompsoc.ld32.systems;
 import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.LD32;
-import uk.org.ulcompsoc.ld32.components.CanItDrop;
-import uk.org.ulcompsoc.ld32.components.DeathAnimation;
-import uk.org.ulcompsoc.ld32.components.DoomNotifier;
-import uk.org.ulcompsoc.ld32.components.Doomed;
-import uk.org.ulcompsoc.ld32.components.Drop;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.components.Drop.Colour;
-import uk.org.ulcompsoc.ld32.components.EntityLink;
-import uk.org.ulcompsoc.ld32.components.Fade;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Renderable;
-import uk.org.ulcompsoc.ld32.components.Wallet;
+import uk.org.ulcompsoc.ld32.components.enemies.Enemy;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
@@ -64,6 +56,7 @@ public class DoomedSystem extends IteratingSystem {
 		handleNotifyDeath(entity, deltaTime);
 		handleDeathAnimation(entity, deltaTime);
 		handleLink(entity, deltaTime);
+		handleScore(entity, deltaTime);
 
 		engine.removeEntity(entity);
 	}
@@ -182,6 +175,19 @@ public class DoomedSystem extends IteratingSystem {
 				toAdd3.add(new Fade().doomAfterFade());
 				engine.addEntity(toAdd3);
 			}
+		}
+	}
+
+	/**
+	 * Increments the player score by the enemy which was doomed
+	 * @param entity
+	 * @param deltaTime
+	 */
+	private void handleScore(Entity entity, float deltaTime) {
+		if(Mappers.enemyMapper.has(entity)) {
+			Enemy enemy = Mappers.enemyMapper.get(entity);
+
+			Player.score += enemy.score;
 		}
 	}
 
