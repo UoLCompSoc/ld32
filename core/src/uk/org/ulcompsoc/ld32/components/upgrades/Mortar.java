@@ -6,7 +6,7 @@ public class Mortar extends Upgrade {
 	
 	
 	public Mortar() {
-		dmg = 1.3f;
+		dmg = 1.7f;
 		time = 0.7f;
 		drops = 1;
 		costs = 1;

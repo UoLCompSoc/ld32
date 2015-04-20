@@ -30,13 +30,11 @@ public class TowerSystem extends EntitySystem {
 		}
 		
 		tower.redBalls = tower.redBalls - 5;
-		if (tower.red == null) {
-			tower.red = new Number_Of_Balls_1();
-			updateCombos(entity);
-			return true;
-		}
-
 		switch (tower.red.getStage()) {
+			case 0: {
+				tower.red = new Number_Of_Balls_1();
+				break;
+			}
 			case 1: {
 				tower.red = new Number_Of_Balls_2();
 				break;
@@ -48,6 +46,7 @@ public class TowerSystem extends EntitySystem {
 			default: return false;
 		}
 		updateCombos(entity);
+		updateTowerStats(entity);
 		return true;
 	}
 	
@@ -57,12 +56,11 @@ public class TowerSystem extends EntitySystem {
 			return false;
 		}
 		tower.blueBalls = tower.blueBalls - 5;
-		if (tower.blue == null) {
-			tower.blue = new Damage_Plus();
-			updateCombos(entity);
-			return true;
-		}
 		switch(tower.blue.getStage()) {
+			case 0: {
+				tower.blue = new Damage_Plus();
+				break;
+			}
 			case 1: {
 				tower.blue = new Sniper();
 				break;
@@ -74,23 +72,22 @@ public class TowerSystem extends EntitySystem {
 			default: return false;
 		}
 		updateCombos(entity);
+		updateTowerStats(entity);
 		return true;
 	}
 	
-	public boolean setGreenUpgrade(Entity e) {
-		Tower tower = e.getComponent(Tower.class);
+	public boolean setGreenUpgrade(Entity entity) {
+		Tower tower = Mappers.towerMapper.get(entity);
 		
 		if(tower.greenBalls < 5) {
 			return false;
 		}
 		tower.greenBalls = tower.greenBalls -5;
-		
-		if(tower.green == null) {
-			tower.green = new Monster_Drops_1();
-			updateCombos(e);
-			return true;
-		}
 		switch(tower.green.getStage()) {
+			case 0: {
+				tower.green = new Monster_Drops_1();
+				break;
+			}
 			case 1: {
 				tower.green = new Monster_Drops_2();
 				break;
@@ -101,14 +98,13 @@ public class TowerSystem extends EntitySystem {
 			}
 			default: return false;
 		}
-		updateCombos(e);
+		updateCombos(entity);
+		updateTowerStats(entity);
 		return true;
 	}
 	
-	
 	private void updateCombos(Entity entity) {
 		Tower tower = Mappers.towerMapper.get(entity);
-		
 		int redStage = tower.red.getStage();
 		int greenStage = tower.green.getStage();
 		int blueStage = tower.blue.getStage();
@@ -117,12 +113,11 @@ public class TowerSystem extends EntitySystem {
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage,blueStage), UpgradeRoute.REDBLUE));
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(greenStage,blueStage), UpgradeRoute.GREENBLUE));
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage,Math.min(blueStage, greenStage)), UpgradeRoute.REDGREENBLUE));
-		
+
 		if(tower.ascended == null && Math.min(redStage, Math.min(greenStage, blueStage)) >= 4) {
 			tower.ascended = new Ascended();
 			tower.combinations.add(tower.ascended);
 		}
-		updateTowerStats(entity);
 	}
 
 	private void updateTowerStats(Entity entity) {

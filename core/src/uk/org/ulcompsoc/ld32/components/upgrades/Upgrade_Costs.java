@@ -11,5 +11,6 @@ public class Upgrade_Costs extends Upgrade{
 		this.costs = 0.7f;
 		this.simultanousFire = 0;
 		this.stage = 3;
+		name = "Upgrade_Costs";
 	}
 }

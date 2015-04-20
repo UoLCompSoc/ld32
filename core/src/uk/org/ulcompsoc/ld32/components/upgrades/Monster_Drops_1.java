@@ -12,5 +12,6 @@ public class Monster_Drops_1 extends Upgrade{
 		simultanousFire = 0;
 		stage = 1;
 		type = UpgradeRoute.GREEN;
+		name = "Monster_Drops_1";
 	}
 }
