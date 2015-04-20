@@ -1,6 +1,7 @@
 package uk.org.ulcompsoc.ld32.mouse;
 
 import uk.org.ulcompsoc.ld32.LD32;
+import uk.org.ulcompsoc.ld32.audio.AudioName;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Fade;
@@ -34,8 +35,10 @@ public class UpgradeBallMouseListenerHandler extends ScaleEffectMouseListenerHan
 	@Override
 	public void handleButtonDown(Entity thisEntity, MouseButtons button, float mouseX, float mouseY) {
 		if (!dying) {
-			engine.addEntity(makeClickResponseEntity(
-			        !engine.getSystem(TowerSystem.class).handleUpgrade(tower, upgradeColour), mouseX, mouseY));
+			final boolean isInvalid = !engine.getSystem(TowerSystem.class).handleUpgrade(tower, upgradeColour);
+			engine.addEntity(makeClickResponseEntity(isInvalid, mouseX, mouseY));
+
+			LD32.audioManager.play((isInvalid ? AudioName.WOOSH : AudioName.DROP));
 
 			thisEntity.add(new Doomed());
 		}
