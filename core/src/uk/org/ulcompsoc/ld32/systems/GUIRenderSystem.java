@@ -37,12 +37,12 @@ public class GUIRenderSystem extends IteratingSystem {
 
 	// Default coordinates for drawing elements in predefined positions
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
-	private final Vector3 DFLT_POSITION_OF_THE_RED_BALL = new Vector3(160.0f, 150.0f, 0.0f);
-	private final Vector3 DFLT_POSITION_OF_THE_BLUE_BALL = new Vector3(160.0f, 250.0f, 0.0f);
-	private final Vector3 DFLT_POSITION_OF_THE_GREEN_BALL = new Vector3(160.0f, 350.f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_RED_BALL = new Vector3(120.0f, 150.0f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_BLUE_BALL = new Vector3(120.0f, 250.0f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_GREEN_BALL = new Vector3(120.0f, 350.f, 0.0f);
 	
-	private final Vector3 DFLT_RED_1_DIGIT_POSITION = new Vector3(140.0f, 160.0f, 0.0f);
-	private final Vector3 DFLT_RED_2_DIGIT_POSITION = new Vector3(160.0f, 160.0f, 0.0f);
+	private final Vector3 DFLT_RED_1_DIGIT_POSITION = new Vector3(120.0f, 72.0f, 0.0f);
+	private final Vector3 DFLT_RED_2_DIGIT_POSITION = new Vector3(155.0f, 72.0f, 0.0f);
 	
 	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION= null;
 	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION= null;
@@ -112,7 +112,7 @@ public class GUIRenderSystem extends IteratingSystem {
 	}
 
 	protected void handleRedCounter(int counter, Batch batch) {
-		float scalefactor = 0.75f;
+		float scalefactor = 0.5f;
 		float newWidth = zero.getRegionWidth()*scalefactor;
 		float newHeight = zero.getRegionHeight()*scalefactor;
 		
@@ -124,12 +124,12 @@ public class GUIRenderSystem extends IteratingSystem {
 				toBreakDown = counter+"";
 			}
 			temp = camera.unproject(DFLT_RED_1_DIGIT_POSITION.cpy());
-			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(0, 1))), temp.x, temp.y, newWidth, newHeight);
+			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(0, 1))), temp.x, (temp.y-newWidth), newWidth, newHeight);
 			temp = camera.unproject(DFLT_RED_2_DIGIT_POSITION.cpy());
-			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(1))), temp.x, temp.y ,newWidth, newHeight);
+			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(1))), temp.x, (temp.y-newWidth) ,newWidth, newHeight);
 		} else {
 			temp = camera.unproject(DFLT_RED_2_DIGIT_POSITION.cpy());
-			batch.draw(this.getNumber(counter), temp.x, temp.y,newWidth, newHeight);
+			batch.draw(this.getNumber(counter), temp.x, (temp.y-newWidth),newWidth, newHeight);
 		}
 	}
 	private TextureRegion getNumber(int number){
