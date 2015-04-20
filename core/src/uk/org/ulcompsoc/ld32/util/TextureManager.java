@@ -15,6 +15,9 @@ public class TextureManager implements Disposable {
 	public final List<Texture> textures = new ArrayList<Texture>();
 	public final Map<TextureName, Texture> nameMap = new HashMap<TextureName, Texture>();
 	public final Map<TextureName, TextureRegion[]> animationRegionMap = new HashMap<TextureName, TextureRegion[]>();
+	public final Map<Character, TextureRegion> mapOfChars = new HashMap<Character, TextureRegion>();
+	
+	private Texture temp;
 
 	public TextureManager() {
 	}
@@ -32,6 +35,19 @@ public class TextureManager implements Disposable {
 				animationRegionMap.put(texName,
 				        TextureRegion.split(texture, texName.frameWidth, texName.frameHeight)[0]);
 			}
+		}
+		fillCharTextures();
+		
+		
+	}
+	
+	private void fillCharTextures() {
+		TextureRegion[] temp = animationRegionMap.get(TextureName.FONT);
+		for(int i = 0; i<25; i++){
+			mapOfChars.put((char)((int)'A'+i), temp[i]);
+		}
+		for(int i=0,j=26; i<25; i++, j++){
+			mapOfChars.put((char)((int)'a'+i), temp[j]);
 		}
 	}
 
