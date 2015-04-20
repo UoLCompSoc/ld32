@@ -12,7 +12,7 @@ import com.badlogic.gdx.audio.Music.OnCompletionListener;
  * Created by Samy Narrainen on 18/04/2015.
  */
 public class AudioManager implements IAudioManagement, OnCompletionListener {
-	private HashMap<AudioName, Music> loadedAudio = new HashMap<AudioName, Music>();
+	protected HashMap<AudioName, Music> loadedAudio = new HashMap<AudioName, Music>();
 	private Queue<Music> playing = new LinkedList<Music>();
 
 	public AudioManager() {

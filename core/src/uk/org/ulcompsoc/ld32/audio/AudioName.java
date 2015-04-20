@@ -1,7 +1,7 @@
 package uk.org.ulcompsoc.ld32.audio;
 
 public enum AudioName {
-	ABSTRACTION("data/abstraction.ogg", true), //
+	ABSTRACTION("data/abstraction.ogg", true, true, 0.3f), //
 	DROP("data/drop.mp3"), //
 	WOOSH("data/woosh.mp3");
 

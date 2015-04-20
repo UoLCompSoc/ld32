@@ -3,36 +3,25 @@ package uk.org.ulcompsoc.ld32.audio;
 /**
  * Intentionally left blank so we have sweet peace and quiet while debugging.
  */
-public class SilentAudioManager implements IAudioManagement {
+public class SilentAudioManager extends AudioManager {
+	public final boolean muteAll;
 
-	public SilentAudioManager() {
+	/**
+	 * @param muteAll
+	 *            if true, mute all sound, otherwise just mute music
+	 */
+	public SilentAudioManager(boolean muteAll) {
+		this.muteAll = muteAll;
 	}
 
 	@Override
 	public void load() {
-	}
+		super.load();
 
-	@Override
-	public void queue(AudioName key) {
-	}
-
-	@Override
-	public void play(AudioName key) {
-	}
-
-	@Override
-	public void loop(AudioName key) {
-	}
-
-	@Override
-	public void stop(AudioName key) {
-	}
-
-	@Override
-	public void clear(AudioName key) {
-	}
-
-	@Override
-	public void dispose() {
+		for (AudioName m : loadedAudio.keySet()) {
+			if (muteAll || m.isMusic) {
+				loadedAudio.get(m).setVolume(0.0f);
+			}
+		}
 	}
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
-import uk.org.ulcompsoc.ld32.audio.AudioManager;
 import uk.org.ulcompsoc.ld32.audio.AudioName;
 import uk.org.ulcompsoc.ld32.audio.IAudioManagement;
+import uk.org.ulcompsoc.ld32.audio.SilentAudioManager;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
@@ -22,7 +22,6 @@ import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.Wallet;
-import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.EmptyTowerMouseListenerHandler;
 import uk.org.ulcompsoc.ld32.mouse.RegularTowerMouseListenerHandler;
@@ -66,7 +65,9 @@ public class LD32 extends ApplicationAdapter {
 	private final OrthographicCamera camera;
 
 	public static final TextureManager textureManager = new TextureManager();
-	public static final IAudioManagement audioManager = new AudioManager();
+
+	// public static final IAudioManagement audioManager = new AudioManager();
+	public static final IAudioManagement audioManager = new SilentAudioManager(false);
 
 	private final Entity paddle = new Entity();
 	private TextureRegion paddleSprite = null;

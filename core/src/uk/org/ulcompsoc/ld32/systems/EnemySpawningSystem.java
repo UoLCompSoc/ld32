@@ -16,7 +16,6 @@ import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.enemies.Antineutron;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
-import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
@@ -26,7 +25,7 @@ import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 
 public class EnemySpawningSystem extends IntervalSystem {
 	public static final float MAX_SPAWN_TIME = 10.0f;
@@ -35,7 +34,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 	private final CircleMap map;
 	private Engine engine = null;
 
-	private final TextureRegion greyEnemy;
+	private final Animation greyEnemy;
 
 	private final Random random = new Random();
 
@@ -50,7 +49,8 @@ public class EnemySpawningSystem extends IntervalSystem {
 		super(interval, priority);
 		this.interval = interval;
 		this.map = map;
-		this.greyEnemy = new TextureRegion(LD32.textureManager.nameMap.get(TextureName.ENEMY_GREY));
+		this.greyEnemy = new Animation(0.15f, LD32.textureManager.animationRegionMap.get(TextureName.ENEMY_ANIM));
+		this.greyEnemy.setPlayMode(PlayMode.LOOP_PINGPONG);
 	}
 
 	@Override
@@ -91,25 +91,25 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 		Renderable r = new Renderable(greyEnemy).setScale(0.25f).setColor(type.renderColor);
 		entity.add(r);
-		
-		if(type == EnemyType.YELLOW) {
+
+		if (type == EnemyType.YELLOW) {
 			Positron pos = new Positron();
 			entity.add(pos);
 			entity.add(new Killable(pos.health));
-			
-		} else if(type == EnemyType.BLUE) {
+
+		} else if (type == EnemyType.BLUE) {
 			Antiproton antiP = new Antiproton();
 			entity.add(antiP);
 			entity.add(new Killable(antiP.health));
 
-		} else if(type == EnemyType.GREEN){
+		} else if (type == EnemyType.GREEN) {
 			Antineutron antiN = new Antineutron();
 			entity.add(antiN);
 			entity.add(new Killable(antiN.health));
 
 		}
 		entity.add(new CanItDrop());
-		entity.add(new DeathAnimation(new Animation(0.5f, greyEnemy)));
+		entity.add(new DeathAnimation(greyEnemy));
 
 		entity.add(new SphericalBound(r.getWidth() / 2));
 
@@ -130,27 +130,33 @@ public class EnemySpawningSystem extends IntervalSystem {
 		}
 
 		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
-		System.out.println("Num towers: " + numTowers);
+		// System.out.println("Num towers: " + numTowers);
 
-		float scale = (float) (Math.sqrt(elapsedTime) * factor);
-		float percentIncrease = 1 + (numTowers * 0.1f);
-		System.out.println("Scale: " + scale + " percentIncrease: " + percentIncrease);
+		final float scale = (float) (Math.sqrt(elapsedTime) * factor);
+		final float percentIncrease = 1 + (numTowers * 0.1f);
 
-		//float spawnRate = Math.max(MIN_SPAWN_TIME, (scale * percentIncrease));
+		// System.out.println("Scale: " + scale + " percentIncrease: " +
+		// percentIncrease);
+
+		// float spawnRate = Math.max(MIN_SPAWN_TIME, (scale *
+		// percentIncrease));
+
 		float spawnRate = scale * percentIncrease;
-		System.out.println("Spawn rate1: " + spawnRate);
+
+		// System.out.println("Spawn rate1: " + spawnRate);
+
 		spawnRate = Math.min(spawnRate, MAX_SPAWN_TIME);
 
-		System.out.println("SpawnRate2: " + spawnRate);
+		// System.out.println("SpawnRate2: " + spawnRate);
 		return spawnRate;
 	}
 
 	public static enum EnemyType {
-	//	RED(Color.RED.cpy()), //
+		// RED(Color.RED.cpy()), //
 		GREEN(Color.GREEN.cpy()), //
 		BLUE(Color.BLUE.cpy()), //
 		YELLOW(Color.YELLOW.cpy()); //
-	//	PURPLE(Color.PURPLE.cpy());
+		// PURPLE(Color.PURPLE.cpy());
 
 		public final Color renderColor;
 

@@ -11,6 +11,7 @@ public enum TextureName {
 	BASIC_TOWER("towers/tower_0.png"), //
 
 	ENEMY_GREY("enemies/enemy_grey.png"), //
+	ENEMY_ANIM("enemies/enemy_anim.png", 64, 64), // 64x64 animation
 
 	BALL_R("upgrade_balls/red.png"), //
 	BALL_B("upgrade_balls/blue.png"), //
@@ -29,6 +30,9 @@ public enum TextureName {
 	SEVEN("numbers/7.png"), //
 	EIGHT("numbers/8.png"), //
 	NINE("numbers/9.png"), //
+
+	// not animated, but a collection of 32x32 letter sprites
+	FONT("font.png", 32, 32),
 
 	PONG_ZERO("pong_level/pong0.png"), //
 	PONG_ONE("pong_level/pong1.png"), //
