@@ -3,7 +3,7 @@ package uk.org.ulcompsoc.ld32.components;
 import com.badlogic.ashley.core.Component;
 
 public class CanItDrop extends Component {
-	private static final float DFLT_CURRENCY_DROP_CHANCE = 0.15f;
+	private static final float DFLT_CURRENCY_DROP_CHANCE = 0.10f;
 	private static final float DFLT_ATOM_DROP_CHANCE = 0.025f;
 
 	public float redDropChance = DFLT_CURRENCY_DROP_CHANCE;
