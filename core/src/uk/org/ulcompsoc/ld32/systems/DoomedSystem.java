@@ -16,7 +16,6 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class DoomedSystem extends IteratingSystem {
@@ -27,12 +26,12 @@ public class DoomedSystem extends IteratingSystem {
 	private TextureRegion red;
 	private TextureRegion blue;
 	private TextureRegion green;
-	
+
 	@SuppressWarnings("unchecked")
-	public DoomedSystem(int priority,final TextureManager textureManager) {
+	public DoomedSystem(int priority, final TextureManager textureManager) {
 		super(Family.all(Doomed.class).get(), priority);
 		this.textureManager = textureManager;
-		
+
 		this.red = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
 		this.blue = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
 		this.green = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
@@ -52,10 +51,18 @@ public class DoomedSystem extends IteratingSystem {
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
-		CanItDrop canItDrop = Mappers.dropMapper.get(entity);
-		Position position = Mappers.positionMapper.get(entity);
+		handleDrop(entity, deltaTime);
+
+		engine.removeEntity(entity);
+	}
+
+	private void handleDrop(Entity entity, float deltaTime) {
+		final CanItDrop canItDrop = Mappers.dropMapper.get(entity);
+		final Position position = Mappers.positionMapper.get(entity);
+
 		if (canItDrop != null) {
-			boolean redDrop = shouldItDrop(canItDrop.redDropChance, CanItDrop.RED_BOOSTER);
+			final boolean redDrop = shouldItDrop(canItDrop.redDropChance, CanItDrop.RED_BOOSTER);
+
 			if (!redDrop) {
 				CanItDrop.RED_BOOSTER += CanItDrop.DFLT_BOOSTER_INCREASE;
 			} else {
@@ -66,7 +73,9 @@ public class DoomedSystem extends IteratingSystem {
 				toAdd.add(new Renderable(red));
 				engine.addEntity(toAdd);
 			}
-			boolean blueDrop = shouldItDrop(canItDrop.blueDropChance, CanItDrop.RED_BOOSTER);
+
+			final boolean blueDrop = shouldItDrop(canItDrop.blueDropChance, CanItDrop.RED_BOOSTER);
+
 			if (!blueDrop) {
 				CanItDrop.BLUE_BOOSTER += CanItDrop.DFLT_BOOSTER_INCREASE;
 			} else {
@@ -77,7 +86,9 @@ public class DoomedSystem extends IteratingSystem {
 				toAdd2.add(new Renderable(blue));
 				engine.addEntity(toAdd2);
 			}
-			boolean greenDrop = shouldItDrop(canItDrop.greenDropChance, CanItDrop.GREEN_BOOSTER);
+
+			final boolean greenDrop = shouldItDrop(canItDrop.greenDropChance, CanItDrop.GREEN_BOOSTER);
+
 			if (!greenDrop) {
 				CanItDrop.GREEN_BOOSTER += CanItDrop.DFLT_BOOSTER_INCREASE;
 			} else {
@@ -87,38 +98,38 @@ public class DoomedSystem extends IteratingSystem {
 				toAdd3.add(position);
 				toAdd3.add(new Renderable(green));
 				engine.addEntity(toAdd3);
-
 			}
 		}
-
-		engine.removeEntity(entity);
 	}
 
 	private boolean shouldItDrop(float chance, float booster) {
 		// if booster doesn't equal 0
 		int toprint;
 		float topri;
+
 		if (booster > 0) {
 			// if chance with booster will go beyond 1.0f - we want to create
 			// infinite upgrades
 			if (chance + booster >= 1.0f) {
 				int temp = (int) (chance + booster);
+
 				toprint = random.nextInt(temp);
 				topri = random.nextFloat();
 				// System.out.println("the requirement:"+(toprint+topri)+" , dropchance: "+(chance+booster));
 				if (toprint + topri < chance + booster) {
 					return true;
-				} else
+				} else {
 					return false;
-
+				}
 			} else {
 				// if chance with booster is below 1.0f
 				topri = random.nextFloat();
 				// System.out.println("the requirement:"+topri+" dropchance:"+(chance+booster));
 				if (topri < chance + booster) {
 					return true;
-				} else
+				} else {
 					return false;
+				}
 			}
 			// if booster equals zero
 		} else {
@@ -130,16 +141,18 @@ public class DoomedSystem extends IteratingSystem {
 				// System.out.println("the requirement:"+(topri+toprint)+" dropchance:"+chance);
 				if (toprint + topri < chance) {
 					return true;
-				} else
+				} else {
 					return false;
+				}
 			} else {
 				// if chance is below 1.0f
 				topri = random.nextFloat();
 				// System.out.println("the requirement:"+topri+" dropchance:"+chance);
 				if (topri < chance) {
 					return true;
-				} else
+				} else {
 					return false;
+				}
 			}
 		}
 	}
