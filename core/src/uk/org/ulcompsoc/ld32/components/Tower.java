@@ -82,4 +82,5 @@ public class Tower extends Component {
 	public void shotHasBeenFired() {
 		this.elapsedTime = 0;
 	}
+
 }
