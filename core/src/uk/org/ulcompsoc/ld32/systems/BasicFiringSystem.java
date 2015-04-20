@@ -90,8 +90,9 @@ public class BasicFiringSystem extends IteratingSystem {
 					// Create a projectile to send towards the enemy.
 					// TODO IMPLEMENT A POOLEDENGINE FOR THIS?
 					Entity projectile = new Entity();
-
-					projectile.add(new Projectile(damageComp.getDamageDealt()));
+					float dam = damageComp.getDamageDealt();
+					System.out.println("Damage: " + dam);
+					projectile.add(new Projectile(dam));
 					projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
 					Renderable r = new Renderable(ammoSprite).setScale(0.5f);
 					projectile.add(r);

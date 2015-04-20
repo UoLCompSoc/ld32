@@ -6,7 +6,7 @@ public class Monster_Drops_1 extends Upgrade {
 		dmg = 1.0f;
 		range = 1.0f;
 		drops = 1.3f;
-		costs = 0.95f;
+		costs = 1f;
 		simultanousFire = 0;
 		stage = 1;
 		type = UpgradeRoute.GREEN;

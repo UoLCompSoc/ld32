@@ -182,7 +182,11 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 						// IT'S KILLABLE!
 						if (isEnemyKillable != null) {
+							float healthBefore = isEnemyKillable.getHealth();
+
 							isEnemyKillable.removeHealth(projectile.damage);
+							float healthAfter = isEnemyKillable.getHealth();
+							assert(healthBefore > healthAfter);
 
 							// If the enemy has 'death' hp then it's doomed,
 							// send it to die
@@ -198,8 +202,12 @@ public class SphericalCollisionSystem extends EntitySystem {
 						Killable isEnemyKillable = Mappers.killableMapper.get(entities.get(j));
 
 						if (isEnemyKillable != null) {
+							float healthBefore = isEnemyKillable.getHealth();
 							isEnemyKillable.removeHealth(projectile2.damage);
-
+							
+							float healthAfter = isEnemyKillable.getHealth();
+							assert(healthBefore > healthAfter);
+									
 							if (isEnemyKillable.getHealth() <= 0) {
 								entities.get(j).add(new Doomed());
 

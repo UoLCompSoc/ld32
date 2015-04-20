@@ -5,7 +5,7 @@ public class Mortar extends Upgrade {
 		dmg = 1.7f;
 		range = 0.8f;
 		drops = 1;
-		costs = 1;
+		costs = 1.2f;
 		simultanousFire = 0;
 		stage = 3;
 		type = UpgradeRoute.BLUE;

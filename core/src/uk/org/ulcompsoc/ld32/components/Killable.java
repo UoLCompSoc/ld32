@@ -32,6 +32,13 @@ public class Killable extends Component {
     }
 
     public void removeHealth(float h) {
+    	if(h < 0) {
+    		try {
+				throw new Exception("Negative damage");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
         health -= h;
         if(health < 0) {
             health = 0;

@@ -2,7 +2,7 @@ package uk.org.ulcompsoc.ld32.components.upgrades;
 
 public class Ball_Damages_Enemies extends Upgrade {
 	public Ball_Damages_Enemies() {
-		this.costs = 1.1f;
+		this.costs = 1f;
 		this.dmg = 1.3f;
 		this.drops = 1.0f;
 		this.simultanousFire = 0;
