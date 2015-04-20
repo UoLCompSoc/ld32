@@ -8,13 +8,13 @@ import com.badlogic.ashley.core.Component;
 public abstract class Upgrade extends Component{
 	
 	public static enum UpgradeRoute {
+		NONE, //no upgrade, BaseUpgrade
 		RED, GREEN, BLUE, ASCENDED, //single
 		REDGREEN, REDBLUE, GREENBLUE, //double
 		REDGREENBLUE; //triple
-
-
 	}
 	
+	String name;
 	protected float dmg;
 	protected float time;
 	protected float drops;
@@ -67,19 +67,23 @@ public abstract class Upgrade extends Component{
 		return type;
 	}
 	public float getDamage(){
-		return this.dmg;
+		return dmg;
 	}
 	public float getCosts(){
-		return this.costs;
+		return costs;
 	}
 	public float getDrops(){
-		return this.drops;
+		return drops;
 	}
 	public int getSimultaneousFire(){
-		return this.simultanousFire;
+		return simultanousFire;
 	}
 	public float getTimeDelay(){
-		return this.time;
+		return time;
+	}
+	
+	public String toString() {
+		return name;
 	}
 	
 }

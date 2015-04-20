@@ -12,5 +12,6 @@ public class Number_Of_Balls_1 extends Upgrade {
 		simultanousFire = 1;
 		stage = 1;
 		type = UpgradeRoute.RED;
+		name= "Number_Of_Balls_1";
 	}
 }

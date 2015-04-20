@@ -10,5 +10,6 @@ public class All_In_AoE extends Upgrade {
 		this.stage = 3;
 		this.time = 1.05f;
 		this.type = UpgradeRoute.REDGREENBLUE;
+		this.name = "All_In_AoE";
 	}
 }
