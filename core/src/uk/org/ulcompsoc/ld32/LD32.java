@@ -12,6 +12,8 @@ import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
+import uk.org.ulcompsoc.ld32.components.MouseListener.MouseButtons;
+import uk.org.ulcompsoc.ld32.components.MouseListener.MouseListenerHandler;
 import uk.org.ulcompsoc.ld32.components.Paddle;
 import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
@@ -25,6 +27,7 @@ import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.EmptyTowerMouseListenerHandler;
 import uk.org.ulcompsoc.ld32.mouse.RegularTowerMouseListenerHandler;
+import uk.org.ulcompsoc.ld32.systems.AtomCollisionSystem;
 import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
@@ -41,6 +44,7 @@ import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
 import uk.org.ulcompsoc.ld32.systems.TowerSystem;
 import uk.org.ulcompsoc.ld32.systems.WalletRenderSystem;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
+import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
@@ -121,6 +125,26 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new Paddle());
 		paddle.add(new Wallet(0, 0, 0));
 		paddle.add(new Rotatable().matchPhi());
+		paddle.add(new MouseListener(new MouseListenerHandler() {
+			@Override
+			public void handleMouseLeave(Entity tower, float mouseX, float mouseY) {
+			}
+
+			@Override
+			public void handleMouseIn(Entity tower, float mouseX, float mouseY) {
+			}
+
+			@Override
+			public void handleMouseEnter(Entity tower, float mouseX, float mouseY) {
+			}
+
+			@Override
+			public void handleButtonDown(Entity tower, MouseButtons button, float mouseX, float mouseY) {
+				if (button.equals(MouseButtons.MIDDLE)) {
+					Mappers.walletMapper.get(paddle).add(1, 1, 1);
+				}
+			}
+		}, new Circle(paddlePosition.getX(), paddlePosition.getY(), paddleRenderable.getWidth() * 0.5f)));
 
 		engine.addEntity(paddle);
 
@@ -142,7 +166,6 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Upgradable());
 		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(), towerPos
 		        .getY(), towerRen.getHeight())));
-		tower.add(new SphericalBound(towerRen.getWidth() / 2.0f));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
@@ -178,6 +201,7 @@ public class LD32 extends ApplicationAdapter {
 		        Gdx.graphics.getHeight() * 0.95f));
 
 		engine.addSystem(new DoomedSystem(100000, paddle));
+		engine.addSystem(new AtomCollisionSystem(7500));
 
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
