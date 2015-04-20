@@ -1,14 +1,17 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
+import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
+
 public class Ball_Damages_Enemies extends Upgrade {
+	
 	public Ball_Damages_Enemies() {
-		this.costs = 1f;
-		this.dmg = 1.3f;
-		this.drops = 1.0f;
-		this.simultanousFire = 0;
-		this.stage = 3;
-		this.range = 1.1f;
-		this.type = UpgradeRoute.REDBLUE;
-		name = "Ball_Damage_Enemies";
+		dmg = 1;
+		range = 1;
+		drops = 1;
+		costs = 1;
+		simultanousFire = 0;
+		stage = 2;
+		type = UpgradeRoute.REDGREEN;
+		name = "Ball_Damages_Enemies";
 	}
 }

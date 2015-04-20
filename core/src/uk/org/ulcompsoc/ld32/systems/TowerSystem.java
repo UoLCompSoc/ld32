@@ -199,7 +199,6 @@ public class TowerSystem extends EntitySystem {
 			wallet.sub(0, 0, BLUE_UPGRADE_COST);
 			updateCombos(entity);
 			updateTowerStats(entity);
-
 			return true;
 		}
 
@@ -214,8 +213,7 @@ public class TowerSystem extends EntitySystem {
 
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage, greenStage), UpgradeRoute.REDGREEN));
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage, blueStage), UpgradeRoute.REDBLUE));
-		tower.combinations
-		        .addAll(tower.upgrades.getUpgradesFor(Math.min(greenStage, blueStage), UpgradeRoute.GREENBLUE));
+		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(greenStage, blueStage), UpgradeRoute.GREENBLUE));
 		tower.combinations.addAll(tower.upgrades.getUpgradesFor(Math.min(redStage, Math.min(blueStage, greenStage)),
 		        UpgradeRoute.REDGREENBLUE));
 
@@ -227,6 +225,7 @@ public class TowerSystem extends EntitySystem {
 	private void updateTowerStats(Entity entity) {
 		Tower tower = Mappers.towerMapper.get(entity);
 		Damage damageComp = Mappers.damageMapper.get(entity);
+		resetStats(entity);
 
 		Upgrade[] baseUpgrades = { tower.red, tower.green, tower.blue, tower.ascended };
 
@@ -275,7 +274,6 @@ public class TowerSystem extends EntitySystem {
 	}
 
 	public static boolean pongBonus(Entity entity) {
-		System.out.println("DETECTED");
 		Tower tower = Mappers.towerMapper.get(entity);
 		if (tower.pongBonusCounter >= 10) {
 			return false;
@@ -302,4 +300,13 @@ public class TowerSystem extends EntitySystem {
 		return true;
 	}
 
+	public void resetStats(Entity entity) {
+		Tower tower = Mappers.towerMapper.get(entity);
+		Damage damageComp = Mappers.damageMapper.get(entity);
+		damageComp.setDamage(damageComp.getOriginalDamage());
+		tower.range = Tower.DFLT_RANGE;
+		tower.fireDelay = Tower.DFLT_FIRE_DELAY;
+		tower.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
+		tower.missileCount = Tower.DFLT_MISSLE_COUNT;
+	}
 }

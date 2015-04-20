@@ -61,7 +61,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 		ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class,
 		        Renderable.class).get());
 
-		final List<Circle> bounds = new ArrayList<>();
+		final List<Circle> bounds = new ArrayList<Circle>();
 
 		for (int i = 0; i < entities.size(); i++) {
 			final float x = Mappers.positionMapper.get(entities.get(i)).getX();

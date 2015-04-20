@@ -13,14 +13,14 @@ import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade;
 import com.badlogic.ashley.core.Component;
 
 public class Tower extends Component {
-	private static final float DFLT_RANGE = 100.0f; // starting range
-	private static final float DFLT_FIRE_DELAY = 1f; // default fire delay
+	public static final float DFLT_RANGE = 100.0f; // starting range
+	public static final float DFLT_FIRE_DELAY = 1f; // default fire delay
 	// the chance for a monster to drop currency
-	private static final float DFLT_MONSTER_DROP_RATE = 5f;
+	public static final float DFLT_MONSTER_DROP_RATE = 5f;
 	public static final float DFLT_DMG = 10f; // base damage of the tower
 	// how many bullets/missiles the tower fires of at
 	// once or with a slight delay between.
-	private static final int DFLT_MISSLE_COUNT = 1;
+	public static final int DFLT_MISSLE_COUNT = 1;
 
 	public float range;
 	public float fireDelay;

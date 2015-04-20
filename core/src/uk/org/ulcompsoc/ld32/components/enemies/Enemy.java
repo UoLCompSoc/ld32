@@ -14,7 +14,7 @@ public abstract class Enemy extends Component {
 	public float speed;
 	public float health;
 	
-	static float multiplier = NORMAL;
+	protected static float multiplier = NORMAL;
 	
 	public float score;
 	public Enemy() {
@@ -22,5 +22,9 @@ public abstract class Enemy extends Component {
 
 	public static void setMultiplier(float m) {
 		multiplier = m;
+	}
+	
+	public static float getMultiplier() {
+		return multiplier;
 	}
 }
