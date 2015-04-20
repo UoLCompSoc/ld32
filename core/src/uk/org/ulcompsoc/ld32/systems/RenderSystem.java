@@ -4,11 +4,13 @@ import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Fade;
 import uk.org.ulcompsoc.ld32.components.Killable;
 import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
+import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.Mappers;
+import uk.org.ulcompsoc.ld32.util.TextureManager;
+import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -20,8 +22,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import uk.org.ulcompsoc.ld32.util.TextureManager;
-import uk.org.ulcompsoc.ld32.util.TextureName;
 
 public class RenderSystem extends IteratingSystem {
 	private final Batch batch;
@@ -81,8 +81,8 @@ public class RenderSystem extends IteratingSystem {
 
 		case STATIC_TEXTURE: {
 			drawFrame(entity, p, r, k, scalingFactor, r.region);
-			//It's a tower
-			if(Mappers.towerMapper.has(entity)) {
+			// It's a tower
+			if (Mappers.towerMapper.has(entity)) {
 				this.drawTowerPongProgress(entity, scalingFactor, deltaTime);
 			}
 			break;
@@ -97,16 +97,12 @@ public class RenderSystem extends IteratingSystem {
 		case SPRITE: {
 			drawFrame(entity, p, r, k, scalingFactor, r.sprite);
 
-
 			break;
 		}
 
 		default:
 			break;
 		}
-
-
-
 
 	}
 
@@ -148,7 +144,6 @@ public class RenderSystem extends IteratingSystem {
 		if (k != null) {
 			drawHealthBar(p.getX(), p.getY(), k, r);
 		}
-
 
 	}
 
@@ -194,8 +189,9 @@ public class RenderSystem extends IteratingSystem {
 			if (sc.scaleAnimTimeElapsed <= 0.0f) {
 				sc.scale = sc.baseScale;
 			} else {
-				sc.scale = sc.baseScale
-				        * (1.0f + LDUtil.normalCurve(0.0f, sc.totalScaleAnimTime, sc.scaleAnimTimeElapsed, true));
+				final float scalePctage = 1.0f + LDUtil.normalCurve(0.0f, sc.totalScaleAnimTime,
+				        sc.scaleAnimTimeElapsed, true);
+				sc.scale = sc.baseScale * (scalePctage >= sc.maxScale ? sc.maxScale : scalePctage);
 				// System.out.format("Scale = %f, tE = %f, tAT = %f\n",
 				// sc.scale, sc.timeElapsed, sc.totalAnimTime);
 			}
@@ -205,7 +201,6 @@ public class RenderSystem extends IteratingSystem {
 			return 1.0f;
 		}
 	}
-
 
 	private TextureRegion pong0, pong1, pong2, pong3, pong4, pong5, pong6, pong7, pong8, pong9, pong10;
 
@@ -231,19 +226,40 @@ public class RenderSystem extends IteratingSystem {
 		TextureRegion region = null;
 
 		switch (tower.pongBonusCounter) {
-			case 0: region = pong0; break;
-			case 1: region = pong1; break;
-			case 2: region = pong2; break;
-			case 3: region = pong3; break;
-			case 4: region = pong4; break;
-			case 5: region = pong5; break;
-			case 6: region = pong6; break;
-			case 7: region = pong7; break;
-			case 8: region = pong8; break;
-			case 9: region = pong9; break;
-			case 10: region = pong10; break;
+		case 0:
+			region = pong0;
+			break;
+		case 1:
+			region = pong1;
+			break;
+		case 2:
+			region = pong2;
+			break;
+		case 3:
+			region = pong3;
+			break;
+		case 4:
+			region = pong4;
+			break;
+		case 5:
+			region = pong5;
+			break;
+		case 6:
+			region = pong6;
+			break;
+		case 7:
+			region = pong7;
+			break;
+		case 8:
+			region = pong8;
+			break;
+		case 9:
+			region = pong9;
+			break;
+		case 10:
+			region = pong10;
+			break;
 		}
-
 
 		final float xOffset = region.getRegionWidth() / 2.0f;
 		final float yOffset = region.getRegionHeight() / 2.0f;
@@ -254,12 +270,9 @@ public class RenderSystem extends IteratingSystem {
 		batch.begin();
 		batch.setProjectionMatrix(camera.combined);
 		batch.draw(region, x, y, region.getRegionWidth() / 2.0f, region.getRegionHeight() / 2.0f,
-				region.getRegionWidth(), region.getRegionHeight(), scalingFactor, scalingFactor, 0.0f);
+		        region.getRegionWidth(), region.getRegionHeight(), scalingFactor, scalingFactor, 0.0f);
 		batch.end();
 	}
-
-
-
 
 	private boolean handleFade(final Entity entity, final Renderable r, float deltaTime) {
 		final Fade fade = Mappers.fadeMapper.get(entity);

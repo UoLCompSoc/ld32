@@ -33,6 +33,11 @@ public class MouseListener extends Component {
 		}
 	}
 
+	public MouseListener withInitialCooldown(float cooldown) {
+		this.clickCooldownRemaining = cooldown;
+		return this;
+	}
+
 	public static interface MouseListenerHandler {
 		public void handleButtonDown(final Entity tower, MouseButtons button, float mouseX, float mouseY);
 
