@@ -9,15 +9,14 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 public class GUIRenderSystem extends IteratingSystem {
-	final Batch batch;
-	final TextureManager textureManager;
+	private final Batch batch;
+	private final TextureManager textureManager;
 	private OrthographicCamera camera;
 
 	// different textures
@@ -36,6 +35,8 @@ public class GUIRenderSystem extends IteratingSystem {
 	private TextureRegion seven = null;
 	private TextureRegion eight = null;
 	private TextureRegion nine = null;
+
+	public static Entity selectedTowerEntity = null;
 
 	// Default coordinates for drawing elements in predefined positions
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
@@ -59,7 +60,7 @@ public class GUIRenderSystem extends IteratingSystem {
 		this.batch = batch;
 		this.textureManager = LD32.textureManager;
 		this.camera = cam;
-		
+
 		this.frame = new TextureRegion(textureManager.nameMap.get(TextureName.FRAME_1));
 		this.redBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
 		this.blueBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
@@ -81,9 +82,9 @@ public class GUIRenderSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		Wallet wallet = Mappers.walletMapper.get(entity);
-		
-		//int screenWidth = Gdx.graphics.getWidth();
-		//int screenHeight = Gdx.graphics.getHeight();
+
+		// int screenWidth = Gdx.graphics.getWidth();
+		// int screenHeight = Gdx.graphics.getHeight();
 
 		camera.update();
 		temp = camera.unproject(DFLT_POSITION_OF_THE_FRAME.cpy());
@@ -97,8 +98,8 @@ public class GUIRenderSystem extends IteratingSystem {
 		final float h = frame.getRegionHeight() * scale;
 
 		batch.begin();
-		//batch.draw(frame, temp.x, temp.y-h , screenWidth*0.1f, h);
-		
+		// batch.draw(frame, temp.x, temp.y-h , screenWidth*0.1f, h);
+
 		batch.draw(frame, temp.x, temp.y - h, w, h);
 
 		temp = camera.unproject(DFLT_POSITION_OF_THE_RED_BALL.cpy());
@@ -116,6 +117,10 @@ public class GUIRenderSystem extends IteratingSystem {
 		batch.end();
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
+
+		if (selectedTowerEntity != null) {
+			// render!
+		}
 	}
 
 	protected void handleACounter(int counter, Batch batch, final Vector3 vector1, final Vector3 vector2) {

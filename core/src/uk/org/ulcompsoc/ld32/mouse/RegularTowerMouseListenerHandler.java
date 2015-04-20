@@ -19,7 +19,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 
-public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHandler implements DeathListener {
+public class RegularTowerMouseListenerHandler extends BaseTowerMouseListenerHandler implements DeathListener {
 	private final Engine engine;
 	private final TextureManager textureManager;
 
