@@ -9,7 +9,7 @@ public class Fire_Delay_3 extends Upgrade {
 		this.dmg = 1f;
 		this.drops = 1f;
 		this.simultanousFire = 0;
-		this.stage = 1;
+		this.stage = 3;
 		this.range = 1.2f;
 		this.type = UpgradeRoute.GREEN;
 		name = "Fire_Delay_3";

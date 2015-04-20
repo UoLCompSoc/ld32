@@ -10,19 +10,8 @@ import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
-import uk.org.ulcompsoc.ld32.components.upgrades.Ascended;
-import uk.org.ulcompsoc.ld32.components.upgrades.Damage_Plus;
-import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_1;
-import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_2;
-import uk.org.ulcompsoc.ld32.components.upgrades.Fire_Delay_3;
-import uk.org.ulcompsoc.ld32.components.upgrades.Mortar;
-import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_1;
-import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_2;
-import uk.org.ulcompsoc.ld32.components.upgrades.Range_Increase_3;
-import uk.org.ulcompsoc.ld32.components.upgrades.Sniper;
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade;
+import uk.org.ulcompsoc.ld32.components.upgrades.*;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade_Costs;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
@@ -224,17 +213,17 @@ public class TowerSystem extends EntitySystem {
 
 		switch (tower.blue.getStage()) {
 		case 0: {
-			tower.blue = new Damage_Plus();
+			tower.blue = new Damage_Plus_1();
 			didUpgrade = true;
 			break;
 		}
 		case 1: {
-			tower.blue = new Sniper();
+			tower.blue = new Damage_Plus_2();
 			didUpgrade = true;
 			break;
 		}
 		case 2: {
-			tower.blue = new Mortar();
+			tower.blue = new Damage_Plus_3();
 			didUpgrade = true;
 			break;
 		}

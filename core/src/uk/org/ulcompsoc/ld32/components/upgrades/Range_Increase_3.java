@@ -9,7 +9,7 @@ public class Range_Increase_3 extends Upgrade {
 		this.dmg = 1.1f;
 		this.drops = 1f;
 		this.simultanousFire = 0;
-		this.stage = 1;
+		this.stage = 3;
 		this.range = 1.5f;
 		this.type = UpgradeRoute.RED;
 		name = "Range_Increase_3";
