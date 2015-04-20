@@ -74,4 +74,25 @@ public class Tower extends Component {
 		this.elapsedTime = 0;
 	}
 
+
+	/**
+	 * For upgrade cooldown
+	 */
+	public float upgradeElapsedTime = 0.0f;
+	public float upgradeDelay = 3.0f;
+
+	public boolean canUpgrade() {
+		if(this.upgradeElapsedTime >= this.upgradeDelay)
+			return true;
+		else
+			return false;
+	}
+
+	public void upgraded() {
+		this.upgradeElapsedTime = 0;
+	}
+
+
+
+
 }
