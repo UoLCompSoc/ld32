@@ -145,8 +145,10 @@ public class LD32 extends ApplicationAdapter {
 		engine.addEntity(makeAtom());
 		// engine.addEntity(makeAtom());
 
-		engine.addEntity(makeEmptyTower());
-		engine.addEntity(makeEmptyTower());
+		float phi = 3 * (LDUtil.PI / 2.0f);
+		for (int i = 0; i < 3; ++i) {
+			engine.addEntity(makeEmptyTower(phi + i * (LDUtil.PI / 2.0f)));
+		}
 
 		mapEntity.add(Position.fromEuclidean(0.0f, 0.0f));
 		mapEntity.add(new MapRenderable(map));
@@ -272,17 +274,16 @@ public class LD32 extends ApplicationAdapter {
 		return e;
 	}
 
-	public Entity makeEmptyTower() {
+	public Entity makeEmptyTower(float phi) {
 		final Entity e = new Entity();
-		final Position towerPos = Position.fromPolar(map.radius, 2 * LDUtil.PI * (float) Math.random());
+		final Position towerPos = Position.fromPolar(map.radius, phi);
 		final Renderable towerRen = new Renderable(new TextureRegion(
 		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
 		e.add(new SphericalBound(towerRen.getWidth() / 2));
 		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(engine, paddle), new Circle(towerPos.getX(),
-		        towerPos.getY(), towerRen.getHeight())));
+		        towerPos.getY(), towerRen.getHeight() * 0.95f)));
 		return e;
 	}
-
 }
