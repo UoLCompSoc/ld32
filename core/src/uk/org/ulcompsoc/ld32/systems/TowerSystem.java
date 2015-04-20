@@ -4,6 +4,7 @@ import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.*;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 import uk.org.ulcompsoc.ld32.util.Mappers;
@@ -12,24 +13,28 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 
+//TODO ACCESS COLOURED BALLS FROM WALLET/PADDLE
 public class TowerSystem extends EntitySystem {
 	private Engine engine = null;
 	
-	public TowerSystem() {
-		this(0);
+	public Wallet wallet;
+	
+	public TowerSystem(Wallet w) {
+		this(0, w);
 	}
 	
-	public TowerSystem(int priority) {
+	public TowerSystem(int priority, Wallet w) {
 		super(priority);
+		wallet = w;
 	}
 	
 	public boolean setRedUpgrade(Entity entity) {
 		Tower tower = Mappers.towerMapper.get(entity);
-		if (tower.redBalls < 5) {
+		if (wallet.red < 5) {
 			return false;
 		}
 		
-		tower.redBalls = tower.redBalls - 5;
+		wallet.red = wallet.red - 5;
 		switch (tower.red.getStage()) {
 			case 0: {
 				tower.red = new Number_Of_Balls_1();
@@ -52,10 +57,10 @@ public class TowerSystem extends EntitySystem {
 	
 	public boolean setBlueUpgrade(Entity entity) {
 		Tower tower = Mappers.towerMapper.get(entity);
-		if (tower.blueBalls < 5) {
+		if (wallet.blue < 5) {
 			return false;
 		}
-		tower.blueBalls = tower.blueBalls - 5;
+		wallet.blue = wallet.blue - 5;
 		switch(tower.blue.getStage()) {
 			case 0: {
 				tower.blue = new Damage_Plus();
@@ -79,10 +84,10 @@ public class TowerSystem extends EntitySystem {
 	public boolean setGreenUpgrade(Entity entity) {
 		Tower tower = Mappers.towerMapper.get(entity);
 		
-		if(tower.greenBalls < 5) {
+		if(wallet.green < 5) {
 			return false;
 		}
-		tower.greenBalls = tower.greenBalls -5;
+		wallet.green = wallet.green -5;
 		switch(tower.green.getStage()) {
 			case 0: {
 				tower.green = new Monster_Drops_1();
