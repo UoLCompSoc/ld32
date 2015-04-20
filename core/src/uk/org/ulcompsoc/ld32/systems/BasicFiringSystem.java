@@ -9,7 +9,9 @@ import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.enemies.Antineutron;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
+import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
@@ -68,7 +70,7 @@ public class BasicFiringSystem extends IteratingSystem {
 			// Get all enemies in the engine
 			@SuppressWarnings("unchecked")
 			ImmutableArray<Entity> enemies = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class)
-			        .one(Antiproton.class).get());
+			        .one(Antiproton.class, Antineutron.class, Positron.class).get());
 
 			// Iterate finding one to fire at
 			for (int i = 0; i < enemies.size(); i++) {
