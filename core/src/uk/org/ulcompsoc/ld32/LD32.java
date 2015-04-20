@@ -27,7 +27,22 @@ import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.EmptyTowerMouseListenerHandler;
 import uk.org.ulcompsoc.ld32.mouse.RegularTowerMouseListenerHandler;
-import uk.org.ulcompsoc.ld32.systems.*;
+import uk.org.ulcompsoc.ld32.systems.AtomCollisionSystem;
+import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
+import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
+import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
+import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
+import uk.org.ulcompsoc.ld32.systems.GUIRenderSystem;
+import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
+import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
+import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
+import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
+import uk.org.ulcompsoc.ld32.systems.ProjectileLifeTimeSystem;
+import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
+import uk.org.ulcompsoc.ld32.systems.RenderSystem;
+import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
+import uk.org.ulcompsoc.ld32.systems.TowerSystem;
+import uk.org.ulcompsoc.ld32.systems.WalletRenderSystem;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -129,7 +144,7 @@ public class LD32 extends ApplicationAdapter {
 					Mappers.walletMapper.get(paddle).add(1, 1, 1);
 				}
 			}
-		}, new Circle(paddlePosition.getX(), paddlePosition.getY(), paddleRenderable.getWidth())));
+		}, new Circle(paddlePosition.getX(), paddlePosition.getY(), paddleRenderable.getWidth() * 0.5f)));
 
 		engine.addEntity(paddle);
 
