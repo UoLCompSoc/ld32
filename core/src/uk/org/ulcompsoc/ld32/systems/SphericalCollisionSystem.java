@@ -64,7 +64,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 		ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class,
 		        Renderable.class).get());
 
-		ArrayList<Circle> bounds = new ArrayList<Circle>();
+		ArrayList<Circle> bounds = new ArrayList<>();
 
 		for (int i = 0; i < entities.size(); i++) {
 			final float x = posMapper.get(entities.get(i)).getX();
@@ -97,9 +97,9 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 					// yep, it's collided with a tower.
 					if (tower != null && atom != null) {
-						if (tower.canUpgrade()) {
+						if (tower.canUpgrade())
 							TowerSystem.pongBonus(one);
-						}
+
 					}
 
 					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
@@ -161,8 +161,8 @@ public class SphericalCollisionSystem extends EntitySystem {
 						float x = (float) (Math.cos(Math.toRadians(degrees)));
 						float y = (float) (Math.sin(Math.toRadians(degrees)));
 
-						v.x = x * 2;
-						v.y = y * 2;
+						v.x = x * 3;
+						v.y = y * 3;
 
 						atom.primed = false;
 					} else if (atom != null) {
@@ -173,6 +173,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 					 * PROJECTILE COLLISION
 					 */
 					Projectile projectile = Mappers.projectileMapper.get(entities.get(j));
+					Projectile projectile2 = Mappers.projectileMapper.get(entities.get(i));
 
 					if (projectile != null) {
 
@@ -191,6 +192,20 @@ public class SphericalCollisionSystem extends EntitySystem {
 							}
 
 							engine.removeEntity(entities.get(j));
+
+						}
+					} else if(projectile2 != null) {
+						Killable isEnemyKillable = Mappers.killableMapper.get(entities.get(j));
+
+						if (isEnemyKillable != null) {
+							isEnemyKillable.removeHealth(projectile2.damage);
+
+							if (isEnemyKillable.getHealth() <= 0) {
+								entities.get(j).add(new Doomed());
+
+							}
+
+							engine.removeEntity(entities.get(i));
 
 						}
 					}
