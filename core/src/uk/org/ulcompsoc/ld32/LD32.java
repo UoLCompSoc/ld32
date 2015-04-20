@@ -134,8 +134,8 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
 		tower.add(new SphericalBound(towerRen.getWidth()));
-		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(), towerPos
-		        .getY(), towerRen.getHeight())));
+		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(),
+		        towerPos.getY(), towerRen.getHeight())));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
