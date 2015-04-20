@@ -4,6 +4,7 @@ import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Projectile;
 import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
@@ -93,7 +94,8 @@ public class BasicFiringSystem extends IteratingSystem {
 					projectile.add(Position.fromEuclidean(towerPos.getX(), towerPos.getY()));
 					Renderable r = new Renderable(ammoSprite).setScale(0.5f);
 					projectile.add(r);
-					projectile.add(new SphericalBound(r.getWidth()/2));
+					projectile.add(new SphericalBound(r.getWidth() / 2));
+					projectile.add(new Rotatable().animateRotation(1.0f));
 
 					float deltaX = (float) ((enemyPos.getR() * Math.cos(enemyPos.getPhi()) - towerPos.getX()));
 					float deltaY = (float) ((enemyPos.getR() * Math.sin(enemyPos.getPhi())) - towerPos.getY());
@@ -118,11 +120,7 @@ public class BasicFiringSystem extends IteratingSystem {
 					// Update the tower to be fired
 					tower.shotHasBeenFired();
 				}
-
 			}
-
 		}
-
 	}
-
 }

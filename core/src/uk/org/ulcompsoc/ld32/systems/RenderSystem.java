@@ -80,7 +80,7 @@ public class RenderSystem extends IteratingSystem {
 		}
 
 		case STATIC_TEXTURE: {
-			drawFrame(entity, p, r, k, scalingFactor, r.region);
+			drawFrame(entity, p, r, k, scalingFactor, r.region, deltaTime);
 			// It's a tower
 			if (Mappers.towerMapper.has(entity)) {
 				this.drawTowerPongProgress(entity, scalingFactor, deltaTime);
@@ -90,12 +90,12 @@ public class RenderSystem extends IteratingSystem {
 
 		case ANIMATED_TEXTURE: {
 			r.animTime += deltaTime;
-			drawFrame(entity, p, r, k, scalingFactor, r.animation.getKeyFrame(r.animTime));
+			drawFrame(entity, p, r, k, scalingFactor, r.animation.getKeyFrame(r.animTime), deltaTime);
 			break;
 		}
 
 		case SPRITE: {
-			drawFrame(entity, p, r, k, scalingFactor, r.sprite);
+			drawFrame(entity, p, r, k, scalingFactor, r.sprite, deltaTime);
 
 			break;
 		}
@@ -107,18 +107,8 @@ public class RenderSystem extends IteratingSystem {
 	}
 
 	private void drawFrame(final Entity entity, final Position p, final Renderable r, final Killable k,
-	        float scalingFactor, final TextureRegion region) {
-		final Rotatable rot = Mappers.rotatableMapper.get(entity);
-
-		final float rotationRad;
-		final float rotationDeg;
-		if (Mappers.paddleMapper.has(entity)) {
-			rotationRad = p.getPhi();
-		} else {
-			rotationRad = (rot != null ? rot.rotation : 0.0f);
-		}
-
-		rotationDeg = (float) Math.toDegrees(rotationRad);
+	        float scalingFactor, final TextureRegion region, float deltaTime) {
+		final float rotationDeg = handleRotation(entity, p, deltaTime);
 
 		final float xOffset = region.getRegionWidth() / 2.0f;
 		final float yOffset = region.getRegionHeight() / 2.0f;
@@ -305,5 +295,38 @@ public class RenderSystem extends IteratingSystem {
 		}
 
 		return false;
+	}
+
+	/**
+	 * 
+	 * @param entity
+	 * @param p
+	 * @param deltaTime
+	 * @return rotation IN DEGREES
+	 */
+	private float handleRotation(final Entity entity, final Position p, float deltaTime) {
+		final Rotatable rot = Mappers.rotatableMapper.get(entity);
+
+		final float rotation;
+		if (rot != null) {
+			if (rot.matchPhi) {
+				rotation = p.getPhi();
+			} else {
+				if (rot.animatedRotation) {
+					rot.animTime += deltaTime;
+					if (rot.animTime >= rot.timeToRotate) {
+						rot.animTime -= rot.timeToRotate;
+					}
+
+					rot.rotation = Math.min(2 * LDUtil.PI * rot.animTime / rot.timeToRotate, LDUtil.PI * 2);
+				}
+
+				rotation = rot.rotation;
+			}
+		} else {
+			rotation = 0.0f;
+		}
+
+		return (float) Math.toDegrees(rotation);
 	}
 }

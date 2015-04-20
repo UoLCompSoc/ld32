@@ -14,6 +14,7 @@ import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
@@ -115,6 +116,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(new Positron());
 		paddle.add(new Paddle());
 		paddle.add(new Wallet(1, 0, 0));
+		paddle.add(new Rotatable().matchPhi());
 
 		engine.addEntity(paddle);
 
@@ -141,7 +143,7 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.addEntity(makeAtom());
 		engine.addEntity(makeAtom());
-		//engine.addEntity(makeAtom());
+		// engine.addEntity(makeAtom());
 
 		engine.addEntity(makeEmptyTower());
 		engine.addEntity(makeEmptyTower());
