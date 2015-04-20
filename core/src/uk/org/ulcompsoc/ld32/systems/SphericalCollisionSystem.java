@@ -113,19 +113,23 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 					} else if(atom != null && atom.primed) {
 
+						/**
+						 * ATOM FIRING
+						 */
+
 						//Launch in opposite direction of the paddle.
 						Position atomPos = Mappers.positionMapper.get(entities.get(j));
 						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
 
 						Position oppositePaddlePos = Position.fromPolar(paddlePos.getR(), paddlePos.getPhi());
-						oppositePaddlePos.movePolarAngle(180.0f);
+						oppositePaddlePos.movePolarAngle((float) Math.toRadians(180.0f));//Add 180 to get opposite
 
 						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
 
 						float deltaX = (float) ((oppositePaddlePos.getR() * Math.cos(oppositePaddlePos.getPhi()) - atomPos.getX()));
 						float deltaY = (float) ((oppositePaddlePos.getR() * Math.sin(oppositePaddlePos.getPhi())) - atomPos.getY());
 
-						float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0/Math.PI)); //Add 180 to get opposite
+						float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0/Math.PI));
 
 						float degrees = (radPrime + 360) % 360;
 
@@ -158,7 +162,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 							//If the enemy has 'death' hp then it's doomed, send it to die
 							if(isEnemyKillable.getHealth() <= 0) {
 								entities.get(i).add(new Doomed());
-								System.out.println("DOOMED");
+								//System.out.println("DOOMED");
 							}
 
 
