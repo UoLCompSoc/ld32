@@ -17,13 +17,25 @@ public class GUIRenderSystem extends IteratingSystem {
 	final Batch batch;
 	final TextureManager textureManager;
 	private OrthographicCamera camera;
-
+	
+	//different textures 
 	private TextureRegion frame = null;
 	private TextureRegion redBallIcon = null;
 	private TextureRegion blueBallIcon = null;
 	private TextureRegion greenBallIcon = null;
+	
+	
+	private TextureRegion one = null;
+	private TextureRegion two = null;
+	private TextureRegion three = null;
+	private TextureRegion four = null;
+	private TextureRegion five = null;
+	private TextureRegion six = null;
+	private TextureRegion seven = null;
+	private TextureRegion eight = null;
+	private TextureRegion nine = null;
 
-	// alter actual values
+	// Default coordinates for drawing elements in predefined positions
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
 	private final Vector3 DFLT_POSITION_OF_THE_RED_BALL = new Vector3(160.0f, 150.0f, 0.0f);
 	private final Vector3 DFLT_POSITION_OF_THE_BLUE_BALL = new Vector3(160.0f, 250.0f, 0.0f);
@@ -85,7 +97,9 @@ public class GUIRenderSystem extends IteratingSystem {
 	}
 
 	protected void handleRedCounter(int counter, Batch batch) {
-
+		if(counter>9){
+			String toBreakDown = counter+"";
+		}
 	}
 
 }
