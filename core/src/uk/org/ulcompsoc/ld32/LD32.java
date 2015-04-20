@@ -1,6 +1,8 @@
 package uk.org.ulcompsoc.ld32;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.components.Atom;
@@ -133,7 +135,7 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Upgradable());
 		tower.add(new SphericalBound(towerRen.getWidth()));
 		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(), new Circle(towerPos.getX(),
-				towerPos.getY(), towerRen.getHeight())));
+		        towerPos.getY(), towerRen.getHeight())));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
@@ -145,7 +147,8 @@ public class LD32 extends ApplicationAdapter {
 		mapEntity.add(new MapRenderable(map));
 		engine.addEntity(mapEntity);
 
-		engine.addSystem(new EnemySpawningSystem(500, 3.0f, map, textureManager));
+		engine.addSystem(new GUIRenderSystem(spriteBatch, textureManager, camera, -100));
+		engine.addSystem(new EnemySpawningSystem(500, 1.0f, map, textureManager));
 		engine.addSystem(new PaddleInputSystem(1000));
 		engine.addSystem(new MouseListenerSystem(2000, camera));
 		engine.addSystem(new PathFollowingSystem(5000));
@@ -164,8 +167,7 @@ public class LD32 extends ApplicationAdapter {
 
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
-		engine.addSystem(new DoomedSystem(100000, textureManager));
-		engine.addSystem(new GUIRenderSystem(spriteBatch, textureManager, camera, 90000));
+		engine.addSystem(new DoomedSystem(100000, paddle, textureManager));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
@@ -177,9 +179,25 @@ public class LD32 extends ApplicationAdapter {
 
 	}
 
+	private List<Integer> frameCounts = new ArrayList<Integer>();
+
 	@Override
 	public void render() {
 		final float deltaTime = Gdx.graphics.getDeltaTime();
+		frameCounts.add(Gdx.graphics.getFramesPerSecond());
+
+		if (frameCounts.size() > 100) {
+			int total = 0;
+
+			for (int i : frameCounts) {
+				total += i;
+			}
+
+			final float fps = (float) total / (float) frameCounts.size();
+
+			frameCounts.clear();
+			Gdx.app.log("FPS", "Average FPS: " + fps);
+		}
 
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -249,14 +267,12 @@ public class LD32 extends ApplicationAdapter {
 	public Entity makeEmptyTower() {
 		final Entity e = new Entity();
 		final Position towerPos = Position.fromPolar(map.radius, 2 * LDUtil.PI * (float) Math.random());
-		final float towerScale = 0.25f;
 		final Renderable towerRen = new Renderable(new TextureRegion(
-		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(towerScale);
+		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
-		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager), new Circle(towerPos.getX(),
+		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager, paddle), new Circle(towerPos.getX(),
 		        towerPos.getY(), towerRen.getHeight())));
-
 		return e;
 	}
 

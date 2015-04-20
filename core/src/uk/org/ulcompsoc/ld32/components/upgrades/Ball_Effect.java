@@ -10,5 +10,6 @@ public class Ball_Effect extends Upgrade {
 		this.stage = 3;
 		this.time = 1.1f;
 		this.type = UpgradeRoute.REDBLUE;
+		name = "Ball_Effect";
 	}
 }

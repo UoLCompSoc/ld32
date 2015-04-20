@@ -10,6 +10,7 @@ public class Fire_Delay extends Upgrade {
 		this.stage = 3;
 		this.time = 1.3f;
 		this.type = UpgradeRoute.GREENBLUE;
+		name = "FireDelay";
 	}
 	
 }

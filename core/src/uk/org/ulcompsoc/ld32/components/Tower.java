@@ -15,14 +15,12 @@ import com.badlogic.ashley.core.Component;
 public class Tower extends Component {
 	private static final float DFLT_RANGE = 100.0f; // starting range
 	private static final float DFLT_FIRE_DELAY = 1f; // default fire delay
-	private static final float DFLT_MONSTER_DROP_RATE = 5f; // the chance for a
-	                                                        // monster to drop
-	                                                        // currency
-	public static final float DFLT_DMG = 5.0f; // base damge of the tower
-	private static final int DFLT_MISSLE_COUNT = 1; // how many bullets/misslies
-	                                                // the tower fires of at
-	                                                // once or with a slight
-	                                                // delay between.
+	// the chance for a monster to drop currency
+	private static final float DFLT_MONSTER_DROP_RATE = 5f; 
+	public static final float DFLT_DMG = 5.0f; // base damage of the tower
+	// how many bullets/missiles the tower fires of at
+    // once or with a slight delay between.
+	private static final int DFLT_MISSLE_COUNT = 1;
 
 	public float range;
 	public float fireDelay;
@@ -31,10 +29,6 @@ public class Tower extends Component {
 
 	// attributes associated with firing
 	public float elapsedTime;
-
-	public int redBalls;
-	public int blueBalls; // heeeeeeeyooooo :D
-	public int greenBalls;
 	public int pongBonusCounter;
 
 	public List<RingSegment> listOfPointsToScan;
@@ -50,10 +44,8 @@ public class Tower extends Component {
 		this.fireDelay = Tower.DFLT_FIRE_DELAY;
 		this.dropRate = Tower.DFLT_MONSTER_DROP_RATE;
 		this.missileCount = Tower.DFLT_MISSLE_COUNT;
-		this.redBalls = 0;
-		this.blueBalls = 0;
-		this.greenBalls = 0;
 		pongBonusCounter = 0;
+
 
 		//red = new BaseUpgrade();
 		//blue = new BaseUpgrade();
@@ -82,4 +74,26 @@ public class Tower extends Component {
 	public void shotHasBeenFired() {
 		this.elapsedTime = 0;
 	}
+
+
+	/**
+	 * For upgrade cooldown
+	 */
+	public float upgradeElapsedTime = 0.0f;
+	public float upgradeDelay = 3.0f;
+
+	public boolean canUpgrade() {
+		if(this.upgradeElapsedTime >= this.upgradeDelay)
+			return true;
+		else
+			return false;
+	}
+
+	public void upgraded() {
+		this.upgradeElapsedTime = 0;
+	}
+
+
+
+
 }

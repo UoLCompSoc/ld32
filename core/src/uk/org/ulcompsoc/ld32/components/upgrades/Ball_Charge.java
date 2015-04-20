@@ -12,5 +12,6 @@ public class Ball_Charge extends Upgrade {
 		simultanousFire = 0;
 		stage = 2;
 		type = UpgradeRoute.REDBLUE;
+		name = "Ball_Charge";
 	}
 }
