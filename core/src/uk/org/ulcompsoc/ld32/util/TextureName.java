@@ -50,4 +50,5 @@ public enum TextureName {
 	private TextureName(final String name) {
 		this.assetName = name;
 	}
+	
 }

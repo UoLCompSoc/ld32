@@ -1,5 +1,6 @@
 package uk.org.ulcompsoc.ld32.mouse;
 
+import uk.org.ulcompsoc.ld32.components.DoomNotifier;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Drop.Colour;
@@ -54,16 +55,17 @@ public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHa
 		        new TextureRegion(textureManager.nameMap.get(TextureName.UPGRADE_BALL_GREY))).setColor(
 		        colour.renderColor).setScale(0.5f);
 
-		final float xMod = (colour == Colour.RED ? -1.5f : colour == Colour.GREEN ? 0.0f : 1.5f);
+		final float xMod = (colour == Colour.RED ? -1.25f : colour == Colour.GREEN ? 0.0f : 1.25f);
 		final float xOffset = r.getMaximumWidth() * xMod;
 
 		final Position p = Position.fromEuclidean(towerPos.getX() + xOffset,
-		        towerPos.getY() + towerRen.getMaximumHeight() / 2.0f - Math.abs(xMod) * 0.75f);
+		        towerPos.getY() + towerRen.getMaximumHeight() / 1.5f - Math.abs(xMod) * 0.75f);
 
 		e.add(p);
 		e.add(r);
-		e.add(new MouseListener(new UpgradeBallMouseListenerHandler(engine, tower, colour, this), new Circle(p.getX(),
-		        p.getY(), r.getWidth() * 0.95f)).withInitialCooldown(0.75f));
+		e.add(new MouseListener(new UpgradeBallMouseListenerHandler(engine, tower, colour), new Circle(p.getX(), p
+		        .getY(), r.getWidth() * 0.95f)).withInitialCooldown(0.75f));
+		e.add(new DoomNotifier(this));
 
 		return e;
 	}
@@ -72,9 +74,12 @@ public class RegularTowerMouseListenerHandler extends ScaleEffectMouseListenerHa
 	public void notifyOfDeath(Entity entity) {
 		childrenAlive = false;
 		for (int i = 0; i < children.length; ++i) {
-			((UpgradeBallMouseListenerHandler) Mappers.mouseListenerMapper.get(children[i]).handler).notifyGroupDying();
-			children[i].add(new Doomed());
-			children[i] = null;
+			if (children[i] != null) {
+				((UpgradeBallMouseListenerHandler) Mappers.mouseListenerMapper.get(children[i]).handler)
+				        .notifyGroupDying();
+				children[i].add(new Doomed());
+				children[i] = null;
+			}
 		}
 	}
 }

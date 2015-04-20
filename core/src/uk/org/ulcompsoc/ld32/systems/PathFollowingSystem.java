@@ -10,6 +10,7 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalIteratingSystem;
+import com.badlogic.gdx.Gdx;
 
 public class PathFollowingSystem extends IntervalIteratingSystem {
 	public final static float DEFAULT_INTERVAL = 0.01f;
@@ -30,6 +31,11 @@ public class PathFollowingSystem extends IntervalIteratingSystem {
 		pf.timeWaited += interval;
 
 		if (pf.timeWaited >= pf.wanderTime) {
+			if (pf.segment.next == null) {
+				Gdx.app.log("AAH", "Bad next!");
+				return;
+			}
+
 			p.setPolar(pf.segment.next.middleR, pf.segment.next.middlePhi);
 
 			if (pf.checkAndResetContinue()) {
