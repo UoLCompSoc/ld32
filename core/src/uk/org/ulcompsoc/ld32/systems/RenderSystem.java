@@ -159,12 +159,11 @@ public class RenderSystem extends IteratingSystem {
 		renderer.setColor(NEGATIVE_HEALTH_COLOR);
 
 		float remaningHealth = k.getHealth() / k.getOrigHealth();
-
 		// If there's no difference, default to 0
-		if (remaningHealth == 1 && k.getHealth() >= 0) {
-			remaningHealth = 0;
-		} else if (k.getHealth() <= 0) {
-			remaningHealth = 1;
+		if (remaningHealth >= 1.0f) {
+			remaningHealth = 0.0f;
+		} else {
+			remaningHealth = 1.0f - remaningHealth;
 		}
 
 		renderer.rect(x, y, entityRenderable.getWidth() * remaningHealth, entityRenderable.getHeight()

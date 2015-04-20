@@ -39,6 +39,6 @@ public class TempPositionDebugSystem extends IteratingSystem {
         final Position p = Mappers.positionMapper.get(entity);
 
         renderer.point(p.getX(), p.getY(), 0.0f);
-        renderer.circle(p.getX(), p.getY(), bound.getWidth()/2);
+        renderer.circle(p.getX(), p.getY(), bound.getWidth()/4);
     }
 }

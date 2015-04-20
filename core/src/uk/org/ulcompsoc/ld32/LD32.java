@@ -164,7 +164,6 @@ public class LD32 extends ApplicationAdapter {
 
 		engine.addSystem(new DoomedSystem(100000, paddle));
 		engine.addSystem(new AtomCollisionSystem(7500));
-		engine.addSystem(new TempPositionDebugSystem(9000,shapeRenderer));
 
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 

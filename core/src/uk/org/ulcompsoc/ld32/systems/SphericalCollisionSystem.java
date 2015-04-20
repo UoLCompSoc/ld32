@@ -16,7 +16,6 @@ import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -61,7 +60,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 		ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class,
 				Renderable.class).get());
 
-		final List<Circle> bounds = new ArrayList<>();
+		final List<Circle> bounds = new ArrayList<Circle>();
 
 		for (int i = 0; i < entities.size(); i++) {
 			final float x = Mappers.positionMapper.get(entities.get(i)).getX();
@@ -81,33 +80,30 @@ public class SphericalCollisionSystem extends EntitySystem {
 				// Collision
 				if (oneCircle.overlaps(otherCircle)) {
 
-
 					/**
 					 * Atom to killable collision
 					 */
 					if (Mappers.atomMapper.has(one) && Mappers.killableMapper.has(other)) {
 						Killable killable = Mappers.killableMapper.get(other);
 						killable.removeHealth(Atom.DAMAGE);
-						//System.out.println("HIT");
+						// System.out.println("HIT");
 
 						if (killable.getHealth() <= 0) {
 							other.add(new Doomed());
 						}
 					}
 
-
-
 					Atom atom = Mappers.atomMapper.get(entities.get(j));
 
 					/**
 					 * Meta Atom collision
 					 */
+
 					if(atom != null) {
 
 
-
 						float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
-								+ Math.pow(otherCircle.y - oneCircle.y, 2)));
+						        + Math.pow(otherCircle.y - oneCircle.y, 2)));
 
 						// If the atom is within roughly the core of the paddle
 						if (distance > oneCircle.radius / 4 && Mappers.paddleMapper.has(one) && !atom.atPaddle) {
@@ -150,9 +146,9 @@ public class SphericalCollisionSystem extends EntitySystem {
 							Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
 
 							float deltaX = (float) ((oppositePaddlePos.getR() * Math.cos(oppositePaddlePos.getPhi()) - atomPos
-									.getX()));
+							        .getX()));
 							float deltaY = (float) ((oppositePaddlePos.getR() * Math.sin(oppositePaddlePos.getPhi())) - atomPos
-									.getY());
+							        .getY());
 
 							float radPrime = (float) (Math.atan2(deltaY, deltaX) * (180.0 / Math.PI));
 
@@ -217,7 +213,6 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 						}
 					}
-
 
 				}
 			}
