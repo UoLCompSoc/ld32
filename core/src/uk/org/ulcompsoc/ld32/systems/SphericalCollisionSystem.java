@@ -94,11 +94,22 @@ public class SphericalCollisionSystem extends EntitySystem {
 					// Check if the atom has collided with a tower
 					Tower tower = Mappers.towerMapper.get(one);
 
+<<<<<<< HEAD
+					//yep, it's collided with a tower.
+
+					if(tower != null) {
+						//tower.pongBonusCounter();
+
+
+					if(tower != null && atom != null) {
+						TowerSystem.pongBonus(one);
+=======
 					// yep, it's collided with a tower.
 					if (tower != null && atom != null) {
 						if(tower.canUpgrade()) {
 							TowerSystem.pongBonus(one);
 						}
+>>>>>>> 1577f5c19a90412f61a3729c554059fb0875c768
 					}
 
 					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
@@ -197,5 +208,5 @@ public class SphericalCollisionSystem extends EntitySystem {
 			}
 		}
 	}
-
+	}
 }
