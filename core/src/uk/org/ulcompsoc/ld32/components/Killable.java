@@ -17,7 +17,6 @@ public class Killable extends Component {
 	public Killable(float health) {
 		this.health = health;
 		this.originalHealth = health;
-		this.id = nextID++;
 	}
 
 	public boolean isDead() {
@@ -33,7 +32,6 @@ public class Killable extends Component {
 	}
 
 	public void removeHealth(float h) {
-		System.out.format("%d: Health was %f, now %f.\n", id, health, health - h);
 		health -= h;
 
 		if (health < 0) {

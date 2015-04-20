@@ -15,6 +15,7 @@ import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.enemies.Antineutron;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
+import uk.org.ulcompsoc.ld32.components.enemies.Enemy;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
@@ -80,13 +81,15 @@ public class EnemySpawningSystem extends IntervalSystem {
 	}
 
 	private Entity generateEnemy() {
+		if(totalTimeElapsed > 90) {
+			Enemy.setMultiplier(1 + (totalTimeElapsed/700));
+		}
 		final Entity entity = new Entity();
 		final RingSegment firstSegment = map.getFirstSegment();
 
 		final EnemyType type = EnemyType.getRandomType(random);
 
 		entity.add(Position.fromPolar(firstSegment.middleR, firstSegment.middlePhi));
-		entity.add(new PathFollower(firstSegment).continueToNull().killWhenDone());
 
 		Renderable r = new Renderable(greyEnemy).setScale(0.25f).setColor(type.renderColor);
 		entity.add(r);
@@ -95,17 +98,20 @@ public class EnemySpawningSystem extends IntervalSystem {
 			Positron pos = new Positron();
 			entity.add(pos);
 			entity.add(new Killable(pos.health));
+			entity.add(new PathFollower(firstSegment, 1/pos.speed).continueToNull().killWhenDone());
 
 		} else if (type == EnemyType.BLUE) {
 			Antiproton antiP = new Antiproton();
 			entity.add(antiP);
 			entity.add(new Killable(antiP.health));
+			entity.add(new PathFollower(firstSegment, 1/antiP.speed).continueToNull().killWhenDone());
+
 
 		} else if (type == EnemyType.GREEN) {
 			Antineutron antiN = new Antineutron();
 			entity.add(antiN);
 			entity.add(new Killable(antiN.health));
-
+			entity.add(new PathFollower(firstSegment, 1/antiN.speed).continueToNull().killWhenDone());
 		}
 		entity.add(new CanItDrop());
 		entity.add(new DeathAnimation(greyEnemy));

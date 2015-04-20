@@ -5,7 +5,7 @@ public class Damage_Plus extends Upgrade {
 		dmg = 1.3f;
 		range = 1;
 		drops = 1;
-		costs = 1;
+		costs = 0.95f;
 		simultanousFire = 0;
 		stage = 1;
 		type = UpgradeRoute.BLUE;

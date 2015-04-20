@@ -10,6 +10,7 @@ public abstract class Enemy extends Component {
 	public static final float EASY = 0.5f;
 	public static final float NORMAL = 1f;
 	public static final float HARD = 1.5f;
+	//segments per second
 	public float speed;
 	public float health;
 	
