@@ -13,6 +13,9 @@ public class MouseListener extends Component {
 	public boolean isIn = false;
 	public float timeIn = 0.0f;
 
+	public float clickCooldownRemaining = 0.0f;
+	public float clickCooldown = 0.25f;
+
 	public MouseListener(final MouseListenerHandler handler, final Circle region) {
 		this.handler = handler;
 		this.region = region;

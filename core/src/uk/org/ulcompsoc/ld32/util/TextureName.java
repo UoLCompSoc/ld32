@@ -1,9 +1,11 @@
 package uk.org.ulcompsoc.ld32.util;
 
 public enum TextureName {
-	BASIC_TOWER("towers/tower_0.png"), //
 	PADDLE("paddle.png"), //
 	BALL_ANIM("ball.png"), //
+
+	EMPTY_TOWER("towers/tower_empty.png"), //
+	BASIC_TOWER("towers/tower_0.png"), //
 
 	ENEMY_R("enemies/enemy_0r.png"), //
 	ENEMY_G("enemies/enemy_0g.png"), //

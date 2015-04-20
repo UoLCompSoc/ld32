@@ -18,7 +18,8 @@ import uk.org.ulcompsoc.ld32.components.Velocity;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
-import uk.org.ulcompsoc.ld32.mouse.TowerMouseListener;
+import uk.org.ulcompsoc.ld32.mouse.EmptyTowerMouseListenerHandler;
+import uk.org.ulcompsoc.ld32.mouse.RegularTowerMouseListenerHandler;
 import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
 import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
@@ -106,7 +107,7 @@ public class LD32 extends ApplicationAdapter {
 		paddle.add(paddlePosition);
 		final int[] leftKeys = { Keys.LEFT, Keys.A };
 		final int[] rightKeys = { Keys.RIGHT, Keys.D };
-		final int[] fireKeys = {Keys.UP, Keys.SPACE};
+		final int[] fireKeys = { Keys.UP, Keys.SPACE };
 		paddle.add(new PaddleInputListener(leftKeys, rightKeys, fireKeys));
 		paddle.add(new SphericalBound(30f));
 		paddle.add(new Positron());
@@ -131,11 +132,14 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Tower(new Upgradable()));
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
-		tower.add(new MouseListener(new TowerMouseListener(), new Circle(towerPos.getX(), towerPos.getY(), towerRen
-		        .getHeight())));
+		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(), new Circle(towerPos.getX(),
+		        towerPos.getY(), towerRen.getHeight())));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
+
+		engine.addEntity(makeEmptyTower());
+		engine.addEntity(makeEmptyTower());
 
 		mapEntity.add(Position.fromEuclidean(0.0f, 0.0f));
 		mapEntity.add(new MapRenderable(map));
@@ -238,6 +242,20 @@ public class LD32 extends ApplicationAdapter {
 		e.add(new SphericalBound(10.0f));
 		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
+
+		return e;
+	}
+
+	public Entity makeEmptyTower() {
+		final Entity e = new Entity();
+		final Position towerPos = Position.fromPolar(map.radius, 2 * LDUtil.PI * (float) Math.random());
+		final float towerScale = 0.25f;
+		final Renderable towerRen = new Renderable(new TextureRegion(
+		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(towerScale);
+		e.add(towerPos);
+		e.add(towerRen);
+		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager), new Circle(towerPos.getX(),
+		        towerPos.getY(), towerRen.getHeight())));
 
 		return e;
 	}

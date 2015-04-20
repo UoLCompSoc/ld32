@@ -8,15 +8,9 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Entity;
 
-public class TowerMouseListener implements MouseListenerHandler {
-	public TowerMouseListener() {
-
-	}
-
+public abstract class BaseTowerMouseListenerHandler implements MouseListenerHandler {
 	@Override
-	public void handleClick(final Entity tower, MouseButtons button, float mouseX, float mouseY) {
-		System.out.format("Click (%s) at (%f, %f)\n", button.name(), mouseX, mouseY);
-	}
+	abstract public void handleClick(final Entity tower, MouseButtons button, float mouseX, float mouseY);
 
 	@Override
 	public void handleMouseEnter(final Entity tower, float mouseX, float mouseY) {

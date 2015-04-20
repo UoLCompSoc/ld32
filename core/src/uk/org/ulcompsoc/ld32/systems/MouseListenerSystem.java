@@ -53,12 +53,25 @@ public class MouseListenerSystem extends IteratingSystem {
 				ml.handler.handleMouseIn(entity, mouseX, mouseY);
 			}
 
-			if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
-				ml.handler.handleClick(entity, MouseButtons.LEFT, mouseX, mouseY);
-			} else if (Gdx.input.isButtonPressed(Buttons.MIDDLE)) {
-				ml.handler.handleClick(entity, MouseButtons.MIDDLE, mouseX, mouseY);
-			} else if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
-				ml.handler.handleClick(entity, MouseButtons.RIGHT, mouseX, mouseY);
+			if (ml.clickCooldownRemaining <= 0.0f) {
+				boolean clicked = false;
+
+				if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+					ml.handler.handleClick(entity, MouseButtons.LEFT, mouseX, mouseY);
+					clicked = true;
+				} else if (Gdx.input.isButtonPressed(Buttons.MIDDLE)) {
+					ml.handler.handleClick(entity, MouseButtons.MIDDLE, mouseX, mouseY);
+					clicked = true;
+				} else if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
+					ml.handler.handleClick(entity, MouseButtons.RIGHT, mouseX, mouseY);
+					clicked = true;
+				}
+
+				if (clicked) {
+					ml.clickCooldownRemaining = ml.clickCooldown;
+				}
+			} else {
+				ml.clickCooldownRemaining -= deltaTime;
 			}
 		} else {
 			if (ml.isIn) {
