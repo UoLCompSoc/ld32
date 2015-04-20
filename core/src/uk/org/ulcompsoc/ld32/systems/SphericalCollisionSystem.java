@@ -70,7 +70,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 		}
 
 		for (int i = 0; i < bounds.size() - 1; i++) {
-			//Entity one = entities.get(i);
+			Entity one = entities.get(i);
 			Circle oneCircle = bounds.get(i);
 
 			for (int j = i + 1; j < bounds.size(); j++) {
@@ -85,6 +85,21 @@ public class SphericalCollisionSystem extends EntitySystem {
 					/**
 					 * Atom collision
 					 */
+					//Check if the atom has collided with a tower
+					Tower tower = Mappers.towerMapper.get(one);
+
+					//yep, it's collided with a tower.
+					if(tower != null) {
+						tower.pongBonusCounter();
+
+					}
+
+
+
+
+
+
+
 					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x,2) + Math.pow(otherCircle.y - oneCircle.y,2)));
 
 					//If the atom is within roughly the core
