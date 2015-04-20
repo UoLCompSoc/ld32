@@ -3,6 +3,7 @@ package uk.org.ulcompsoc.ld32.systems;
 import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
+import uk.org.ulcompsoc.ld32.components.DoomNotifier;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Drop.Colour;
@@ -56,6 +57,7 @@ public class DoomedSystem extends IteratingSystem {
 	protected void processEntity(Entity entity, float deltaTime) {
 		handleDrop(entity, deltaTime);
 		handleBonus(entity, deltaTime);
+		handleNotifyDeath(entity, deltaTime);
 
 		engine.removeEntity(entity);
 	}
@@ -85,7 +87,14 @@ public class DoomedSystem extends IteratingSystem {
 
 			System.out.format("Wallet: (r, g, b) = (%d, %d, %d)\n", wallet.red, wallet.green, wallet.blue);
 		}
+	}
 
+	private void handleNotifyDeath(final Entity entity, float deltaTime) {
+		final DoomNotifier dn = Mappers.doomNotifierMapper.get(entity);
+
+		if (dn != null) {
+			dn.notifyOfDeath(entity);
+		}
 	}
 
 	/**

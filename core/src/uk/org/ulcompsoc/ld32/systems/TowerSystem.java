@@ -20,17 +20,15 @@ import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade_Costs;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class TowerSystem extends EntitySystem {
 	private static final int RED_UPGRADE_COST = 5;
 	private static final int GREEN_UPGRADE_COST = 5;
 	private static final int BLUE_UPGRADE_COST = 5;
-
-	private Engine engine = null;
 
 	public Wallet wallet;
 
@@ -44,19 +42,31 @@ public class TowerSystem extends EntitySystem {
 	}
 
 	public boolean handleUpgrade(Entity entity, Drop.Colour upgradeColour) {
+		boolean ret = false;
+
+		final Tower tower = Mappers.towerMapper.get(entity);
+
 		switch (upgradeColour) {
 		case BLUE:
-			return setBlueUpgrade(entity);
+			ret = setBlueUpgrade(entity, tower);
+			break;
 
 		case GREEN:
-			return setGreenUpgrade(entity);
+			ret = setGreenUpgrade(entity, tower);
+			break;
 
 		case RED:
-			return setRedUpgrade(entity);
+			ret = setRedUpgrade(entity, tower);
+			break;
 
 		default:
 			throw new GdxRuntimeException("Unhandled upgrade type.");
 		}
+
+		Gdx.app.log("TOWER_UPGRADE", String.format("Upgrades (r, g, b) = (%d, %d, %d).", tower.red.getStage(),
+		        tower.green.getStage(), tower.blue.getStage()));
+
+		return ret;
 	}
 
 	public boolean canAffordRed() {
@@ -72,8 +82,10 @@ public class TowerSystem extends EntitySystem {
 	}
 
 	public boolean setRedUpgrade(Entity entity) {
-		final Tower tower = Mappers.towerMapper.get(entity);
+		return setRedUpgrade(entity, Mappers.towerMapper.get(entity));
+	}
 
+	public boolean setRedUpgrade(Entity entity, Tower tower) {
 		if (!canAffordRed()) {
 			return false;
 		}
@@ -101,8 +113,10 @@ public class TowerSystem extends EntitySystem {
 	}
 
 	public boolean setGreenUpgrade(Entity entity) {
-		final Tower tower = Mappers.towerMapper.get(entity);
+		return setGreenUpgrade(entity, Mappers.towerMapper.get(entity));
+	}
 
+	public boolean setGreenUpgrade(Entity entity, Tower tower) {
 		if (!canAffordGreen()) {
 			return false;
 		}
@@ -132,8 +146,10 @@ public class TowerSystem extends EntitySystem {
 	}
 
 	public boolean setBlueUpgrade(Entity entity) {
-		final Tower tower = Mappers.towerMapper.get(entity);
+		return setBlueUpgrade(entity, Mappers.towerMapper.get(entity));
+	}
 
+	public boolean setBlueUpgrade(Entity entity, Tower tower) {
 		if (!canAffordBlue()) {
 			return false;
 		}

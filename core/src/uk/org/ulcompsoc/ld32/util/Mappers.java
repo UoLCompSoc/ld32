@@ -3,6 +3,7 @@ package uk.org.ulcompsoc.ld32.util;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
+import uk.org.ulcompsoc.ld32.components.DoomNotifier;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Drop;
 import uk.org.ulcompsoc.ld32.components.Fade;
@@ -57,6 +58,8 @@ public class Mappers {
 	public static final ComponentMapper<Projectile> projectileMapper = ComponentMapper.getFor(Projectile.class);
 
 	public static final ComponentMapper<Fade> fadeMapper = ComponentMapper.getFor(Fade.class);
+
+	public static final ComponentMapper<DoomNotifier> doomNotifierMapper = ComponentMapper.getFor(DoomNotifier.class);
 
 	private Mappers() {
 	}
