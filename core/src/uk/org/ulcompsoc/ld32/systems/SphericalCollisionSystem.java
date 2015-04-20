@@ -102,8 +102,8 @@ public class SphericalCollisionSystem extends EntitySystem {
 					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
 					        + Math.pow(otherCircle.y - oneCircle.y, 2)));
 
-					// If the atom is within roughly the core
-					if (atom != null && distance > oneCircle.radius / 4 && !atom.primed) {
+					// If the atom is within roughly the core of the paddle
+					if (atom != null && distance > oneCircle.radius / 4 && !atom.primed && Mappers.paddleMapper.has(one)) {
 						// System.out.println("atom found");
 
 						// The atom is now housed in the paddle;
@@ -111,7 +111,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 						Position atomPos = Mappers.positionMapper.get(entities.get(j));
 						Position paddlePos = Mappers.positionMapper.get(entities.get(i));
-						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
+						Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
 
 						float deltaX = (float) ((paddlePos.getR() * Math.cos(paddlePos.getPhi()) - atomPos.getX()));
 						float deltaY = (float) ((paddlePos.getR() * Math.sin(paddlePos.getPhi())) - atomPos.getY());
@@ -126,7 +126,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 						v.x = x;
 						v.y = y;
 
-					} else if (atom != null && atom.primed) {
+					} else if (atom != null && atom.primed && Mappers.paddleMapper.has(one)) {
 
 						/**
 						 * ATOM FIRING
@@ -143,7 +143,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 																						 // get
 																						 // opposite
 
-						Vector2 v = Mappers.velMapper.get(entities.get(j)).velocity;
+						Vector2 v = Mappers.velocityMapper.get(entities.get(j)).velocity;
 
 						float deltaX = (float) ((oppositePaddlePos.getR() * Math.cos(oppositePaddlePos.getPhi()) - atomPos
 						        .getX()));

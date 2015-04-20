@@ -31,7 +31,7 @@ public class ProjectileMovementSystem extends IteratingSystem {
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         Position p = Mappers.positionMapper.get(entity);
-        Vector2 v = Mappers.velMapper.get(entity).velocity;
+        Vector2 v = Mappers.velocityMapper.get(entity).velocity;
 
         p.setX(p.getX() + v.x);
         p.setY(p.getY() + v.y);

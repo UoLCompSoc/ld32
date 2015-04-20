@@ -135,7 +135,7 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Upgradable());
 		tower.add(new SphericalBound(towerRen.getWidth()));
 		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(), new Circle(towerPos.getX(),
-				towerPos.getY(), towerRen.getHeight())));
+		        towerPos.getY(), towerRen.getHeight())));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
@@ -167,7 +167,7 @@ public class LD32 extends ApplicationAdapter {
 
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
-		engine.addSystem(new DoomedSystem(100000, textureManager));
+		engine.addSystem(new DoomedSystem(100000, paddle, textureManager));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
