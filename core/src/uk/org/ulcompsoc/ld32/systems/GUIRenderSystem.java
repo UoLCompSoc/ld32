@@ -103,12 +103,19 @@ public class GUIRenderSystem extends IteratingSystem {
 		
 		temp = camera.unproject(DFLT_POSITION_OF_THE_GREEN_BALL.cpy());
 		batch.draw(greenBallIcon, temp.x, temp.y);
+		
+		
+		this.handleRedCounter(redcount, batch);
 		batch.end();
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
 	}
 
 	protected void handleRedCounter(int counter, Batch batch) {
+		float scalefactor = 0.75f;
+		float newWidth = zero.getRegionWidth()*scalefactor;
+		float newHeight = zero.getRegionHeight()*scalefactor;
+		
 		String toBreakDown;
 		if(counter>9){
 			if(counter>99){
@@ -117,10 +124,12 @@ public class GUIRenderSystem extends IteratingSystem {
 				toBreakDown = counter+"";
 			}
 			temp = camera.unproject(DFLT_RED_1_DIGIT_POSITION.cpy());
-			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(0, 1))), temp.x, temp.y);
+			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(0, 1))), temp.x, temp.y, newWidth, newHeight);
 			temp = camera.unproject(DFLT_RED_2_DIGIT_POSITION.cpy());
-			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(1))), temp.x, temp.y);
+			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(1))), temp.x, temp.y ,newWidth, newHeight);
 		} else {
+			temp = camera.unproject(DFLT_RED_2_DIGIT_POSITION.cpy());
+			batch.draw(this.getNumber(counter), temp.x, temp.y,newWidth, newHeight);
 		}
 	}
 	private TextureRegion getNumber(int number){
