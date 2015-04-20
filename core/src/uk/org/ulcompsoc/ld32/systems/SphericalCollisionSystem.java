@@ -90,7 +90,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 					//yep, it's collided with a tower.
 					if(tower != null) {
-						tower.pongBonusCounter();
+						//tower.pongBonusCounter();
 
 					}
 

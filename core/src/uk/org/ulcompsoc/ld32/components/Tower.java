@@ -54,10 +54,10 @@ public class Tower extends Component {
 		this.greenBalls = 0;
 		pongBonusCounter = 0;
 
-		red = new BaseUpgrade();
-		blue = new BaseUpgrade();
-		green = new BaseUpgrade();
-		ascended = new BaseUpgrade();
+		//red = new BaseUpgrade();
+		//blue = new BaseUpgrade();
+		//green = new BaseUpgrade();
+		//ascended = new BaseUpgrade();
 
 		this.elapsedTime = 0;
 
