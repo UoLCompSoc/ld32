@@ -8,9 +8,9 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Entity;
 
-public abstract class BaseTowerMouseListenerHandler implements MouseListenerHandler {
+public abstract class ScaleEffectMouseListenerHandler implements MouseListenerHandler {
 	@Override
-	abstract public void handleClick(final Entity tower, MouseButtons button, float mouseX, float mouseY);
+	abstract public void handleButtonDown(final Entity tower, MouseButtons button, float mouseX, float mouseY);
 
 	@Override
 	public void handleMouseEnter(final Entity tower, float mouseX, float mouseY) {

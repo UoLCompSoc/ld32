@@ -26,6 +26,8 @@ public class MouseListenerSystem extends IteratingSystem {
 	private float mouseX = 0.0f;
 	private float mouseY = 0.0f;
 
+	private boolean leftPressed = false, middlePressed = false, rightPressed = false;
+
 	@Override
 	public void update(float deltaTime) {
 		// mouse coords are in screen coords, need to unproject into world
@@ -36,12 +38,21 @@ public class MouseListenerSystem extends IteratingSystem {
 		mouseTemp = camera.unproject(mouseTemp);
 		mouseX = mouseTemp.x;
 		mouseY = mouseTemp.y;
+
+		leftPressed = Gdx.input.isButtonPressed(Buttons.LEFT);
+		middlePressed = Gdx.input.isButtonPressed(Buttons.MIDDLE);
+		rightPressed = Gdx.input.isButtonPressed(Buttons.RIGHT);
+
 		super.update(deltaTime);
 	}
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		final MouseListener ml = Mappers.mouseListenerMapper.get(entity);
+
+		ml.buttonMap.put(MouseButtons.LEFT, leftPressed);
+		ml.buttonMap.put(MouseButtons.MIDDLE, middlePressed);
+		ml.buttonMap.put(MouseButtons.RIGHT, rightPressed);
 
 		if (ml.region.contains(mouseX, mouseY)) {
 			ml.timeIn += deltaTime;
@@ -56,14 +67,14 @@ public class MouseListenerSystem extends IteratingSystem {
 			if (ml.clickCooldownRemaining <= 0.0f) {
 				boolean clicked = false;
 
-				if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
-					ml.handler.handleClick(entity, MouseButtons.LEFT, mouseX, mouseY);
+				if (leftPressed) {
+					ml.handler.handleButtonDown(entity, MouseButtons.LEFT, mouseX, mouseY);
 					clicked = true;
-				} else if (Gdx.input.isButtonPressed(Buttons.MIDDLE)) {
-					ml.handler.handleClick(entity, MouseButtons.MIDDLE, mouseX, mouseY);
+				} else if (middlePressed) {
+					ml.handler.handleButtonDown(entity, MouseButtons.MIDDLE, mouseX, mouseY);
 					clicked = true;
-				} else if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
-					ml.handler.handleClick(entity, MouseButtons.RIGHT, mouseX, mouseY);
+				} else if (rightPressed) {
+					ml.handler.handleButtonDown(entity, MouseButtons.RIGHT, mouseX, mouseY);
 					clicked = true;
 				}
 

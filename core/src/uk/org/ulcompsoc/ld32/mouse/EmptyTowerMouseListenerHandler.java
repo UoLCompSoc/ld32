@@ -12,21 +12,26 @@ import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 
-public class EmptyTowerMouseListenerHandler extends BaseTowerMouseListenerHandler {
+public class EmptyTowerMouseListenerHandler extends ScaleEffectMouseListenerHandler {
 	private final TextureManager textureManager;
+
+	private final Engine engine;
 	private final Entity player;
 
-	public EmptyTowerMouseListenerHandler(final TextureManager textureManager, final Entity player) {
+	public EmptyTowerMouseListenerHandler(final TextureManager textureManager, final Engine engine, final Entity player) {
 		this.textureManager = textureManager;
+
+		this.engine = engine;
 		this.player = player;
 	}
 
 	@Override
-	public void handleClick(Entity tower, MouseButtons button, float mouseX, float mouseY) {
+	public void handleButtonDown(Entity tower, MouseButtons button, float mouseX, float mouseY) {
 		final Wallet wallet = Mappers.walletMapper.get(player);
 
 		if (wallet.checkBalance(1, 1, 1)) {
@@ -43,8 +48,8 @@ public class EmptyTowerMouseListenerHandler extends BaseTowerMouseListenerHandle
 			tower.remove(Renderable.class);
 			tower.remove(MouseListener.class);
 			tower.add(towerRen);
-			tower.add(new MouseListener(new RegularTowerMouseListenerHandler(), new Circle(towerPos.getX(), towerPos
-			        .getY(), towerRen.getHeight())));
+			tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(),
+			        towerPos.getY(), towerRen.getHeight())));
 		}
 	}
 }

@@ -134,8 +134,8 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
 		tower.add(new SphericalBound(towerRen.getWidth()));
-		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(), new Circle(towerPos.getX(),
-		        towerPos.getY(), towerRen.getHeight())));
+		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(), towerPos
+		        .getY(), towerRen.getHeight())));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
@@ -271,8 +271,8 @@ public class LD32 extends ApplicationAdapter {
 		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
-		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager, paddle), new Circle(towerPos.getX(),
-		        towerPos.getY(), towerRen.getHeight())));
+		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager, engine, paddle), new Circle(towerPos
+		        .getX(), towerPos.getY(), towerRen.getHeight())));
 		return e;
 	}
 
