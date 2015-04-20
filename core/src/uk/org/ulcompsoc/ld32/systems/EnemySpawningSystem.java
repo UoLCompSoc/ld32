@@ -13,8 +13,10 @@ import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
+import uk.org.ulcompsoc.ld32.components.enemies.Antineutron;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
+import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
@@ -89,10 +91,23 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 		Renderable r = new Renderable(greyEnemy).setScale(0.25f).setColor(type.renderColor);
 		entity.add(r);
-		entity.add(new Positron());
-		// entity.add(new Enemy());
-		entity.add(new Antiproton());
-		entity.add(new Killable(5)); // TODO GIVE PROPER HEALTH
+		
+		if(type == EnemyType.YELLOW) {
+			Positron pos = new Positron();
+			entity.add(pos);
+			entity.add(new Killable(pos.health));
+			
+		} else if(type == EnemyType.BLUE) {
+			Antiproton antiP = new Antiproton();
+			entity.add(antiP);
+			entity.add(new Killable(antiP.health));
+
+		} else if(type == EnemyType.GREEN){
+			Antineutron antiN = new Antineutron();
+			entity.add(antiN);
+			entity.add(new Killable(antiN.health));
+
+		}
 		entity.add(new CanItDrop());
 		entity.add(new DeathAnimation(new Animation(0.5f, greyEnemy)));
 
@@ -121,7 +136,8 @@ public class EnemySpawningSystem extends IntervalSystem {
 		float percentIncrease = 1 + (numTowers * 0.1f);
 		System.out.println("Scale: " + scale + " percentIncrease: " + percentIncrease);
 
-		float spawnRate = Math.max(MIN_SPAWN_TIME, (scale * percentIncrease));
+		//float spawnRate = Math.max(MIN_SPAWN_TIME, (scale * percentIncrease));
+		float spawnRate = scale * percentIncrease;
 		System.out.println("Spawn rate1: " + spawnRate);
 		spawnRate = Math.min(spawnRate, MAX_SPAWN_TIME);
 
@@ -130,11 +146,11 @@ public class EnemySpawningSystem extends IntervalSystem {
 	}
 
 	public static enum EnemyType {
-		RED(Color.RED.cpy()), //
+	//	RED(Color.RED.cpy()), //
 		GREEN(Color.GREEN.cpy()), //
 		BLUE(Color.BLUE.cpy()), //
-		YELLOW(Color.YELLOW.cpy()), //
-		PURPLE(Color.PURPLE.cpy());
+		YELLOW(Color.YELLOW.cpy()); //
+	//	PURPLE(Color.PURPLE.cpy());
 
 		public final Color renderColor;
 
