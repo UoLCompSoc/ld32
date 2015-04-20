@@ -53,6 +53,10 @@ public class GUIRenderSystem extends IteratingSystem {
 
 	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION = new Vector3(120.0f, 295.0f, 0.0f);
 	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION = new Vector3(155.0f, 295.0f, 0.0f);
+	
+	private final Vector3 DFLT_TOWER_STAT_RED = null;
+	private final Vector3 DFLT_TOWER_STAT_BLUE = null;
+	private final Vector3 DFLT_TOWER_STAT_GREEN = null;
 	private Vector3 temp;
 
 	@SuppressWarnings("unchecked")
@@ -115,13 +119,17 @@ public class GUIRenderSystem extends IteratingSystem {
 		this.handleACounter(redcount, batch, DFLT_RED_1_DIGIT_POSITION.cpy(), DFLT_RED_2_DIGIT_POSITION.cpy());
 		this.handleACounter(bluecount, batch, DFLT_BLUE_1_DIGIT_POSITION.cpy(), DFLT_BLUE_2_DIGIT_POSITION.cpy());
 		this.handleACounter(greencount, batch, DFLT_GREEN_1_DIGIT_POSITION.cpy(), DFLT_GREEN_2_DIGIT_POSITION.cpy());
-		batch.end();
+		
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
 
 		if (selectedTowerEntity != null) {
-			//Tower tower = Mappers.towerMapper.get(entity);
+		//	Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
+		//	if(tower.red!=null){
+		//		handleACounter(tower.red.getStage(),batch, new Vector3(110.0f, 350.0f, 0.0f), new Vector3 (130.0f, 350.0f, 0.0f));
+		//	}
 		}
+		batch.end();
 	}
 
 	protected void handleACounter(int counter, Batch batch, final Vector3 vector1, final Vector3 vector2) {
