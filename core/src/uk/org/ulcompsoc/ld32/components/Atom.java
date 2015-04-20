@@ -12,4 +12,6 @@ public class Atom extends Component {
     //Means the atom is nested in the paddle
     public boolean atPaddle = false;
 
+    public static final float DAMAGE = 100.0f;
+
 }

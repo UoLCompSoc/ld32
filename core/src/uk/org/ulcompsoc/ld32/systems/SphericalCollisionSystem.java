@@ -84,7 +84,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 			Circle oneCircle = bounds.get(i);
 
 			for (int j = i + 1; j < bounds.size(); j++) {
-				// Entity other = entities.get(j);
+				Entity other = entities.get(j);
 				Circle otherCircle = bounds.get(j);
 
 				// Collision
@@ -105,12 +105,21 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 					}
 
+					if(Mappers.atomMapper.has(one) && Mappers.killableMapper.has(other)) {
+						Killable killable = Mappers.killableMapper.get(other);
+						killable.removeHealth(Atom.DAMAGE);
+						System.out.println("HIT");
+
+						if (killable.getHealth() <= 0) {
+							other.add(new Doomed());
+						}
+					}
+
 					float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
 					        + Math.pow(otherCircle.y - oneCircle.y, 2)));
 
 					// If the atom is within roughly the core of the paddle
-					if (atom != null && distance > oneCircle.radius / 4 && !atom.primed
-					        && Mappers.paddleMapper.has(one) && !atom.atPaddle) {
+					if (atom != null && distance > oneCircle.radius / 4 && Mappers.paddleMapper.has(one) && !atom.atPaddle) {
 						// System.out.println("atom found");
 
 						// The atom is now housed in the paddle;
@@ -176,7 +185,6 @@ public class SphericalCollisionSystem extends EntitySystem {
 					Projectile projectile2 = Mappers.projectileMapper.get(entities.get(i));
 
 					if (projectile != null) {
-
 						// Check if other is killable
 						Killable isEnemyKillable = Mappers.killableMapper.get(entities.get(i));
 
@@ -209,6 +217,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 
 						}
 					}
+
 
 				}
 			}
