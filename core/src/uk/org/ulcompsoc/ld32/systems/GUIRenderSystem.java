@@ -25,7 +25,18 @@ public class GUIRenderSystem extends IteratingSystem {
 
 	// alter actual values
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
-	private final Vector3 DFLT_POSITION_OF_THE_RED_BALL = new Vector3(30.0f, 100.0f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_RED_BALL = new Vector3(160.0f, 150.0f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_BLUE_BALL = new Vector3(160.0f, 250.0f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_GREEN_BALL = new Vector3(160.0f, 350.f, 0.0f);
+	
+	private final Vector3 DFLT_RED_1_DIGIT_POSITION = null;
+	private final Vector3 DFLT_RED_2_DIGIT_POSITION = null;
+	
+	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION= null;
+	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION= null;
+	
+	private final Vector3 DFLT_GREEN_1_DIGIT_POSITION = null;
+	private final Vector3 DFLT_GREEN_2_DIGIT_POSITION = null;
 	private Vector3 temp;
 
 	@SuppressWarnings("unchecked")
@@ -59,8 +70,15 @@ public class GUIRenderSystem extends IteratingSystem {
 
 		batch.begin();
 		batch.draw(frame, temp.x, temp.y - h, w, h);
+		
 		temp = camera.unproject(DFLT_POSITION_OF_THE_RED_BALL.cpy());
 		batch.draw(redBallIcon, temp.x, temp.y);
+		
+		temp = camera.unproject(DFLT_POSITION_OF_THE_BLUE_BALL.cpy());
+		batch.draw(blueBallIcon, temp.x, temp.y);
+		
+		temp = camera.unproject(DFLT_POSITION_OF_THE_GREEN_BALL.cpy());
+		batch.draw(greenBallIcon, temp.x, temp.y);
 		batch.end();
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
