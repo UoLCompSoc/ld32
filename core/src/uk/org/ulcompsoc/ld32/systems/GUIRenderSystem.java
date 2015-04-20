@@ -168,7 +168,6 @@ public class GUIRenderSystem extends IteratingSystem {
 		float newHeight = zero.getRegionHeight() * scalefactor;
 
 		int score = Player.score;
-		//System.out.println(Player.score);
 
 		ArrayList<Integer> characters = new ArrayList<>();
 
@@ -178,6 +177,7 @@ public class GUIRenderSystem extends IteratingSystem {
 		}
 
 		Vector3 start = camera.unproject(new Vector3(Gdx.graphics.getWidth() /2 - newWidth * characters.size(), Gdx.graphics.getHeight() / 10, 0.0f));
+
 		float SPACER_MULTIPLIER = newWidth;
 		float space = 0.0f;
 
