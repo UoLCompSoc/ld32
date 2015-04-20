@@ -5,5 +5,7 @@ public class Positron extends Enemy {
 		speed = 0.8f * multiplier;
 		health = 10f * multiplier;
 		score = (int) (10 * multiplier);
+		damage = (int) (10 * multiplier);
+
 	}
 }
