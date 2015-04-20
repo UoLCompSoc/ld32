@@ -21,6 +21,7 @@ public class Renderable extends Component {
 	public Color color = null;
 
 	public float baseScale = 1.0f;
+	public float maxScale = 1.6f;
 	public float scale = 1.0f;
 
 	public float totalScaleAnimTime = 0.25f;
@@ -105,5 +106,13 @@ public class Renderable extends Component {
 		}
 
 		throw new GdxRuntimeException("Invalid type in Renderable.getHeight()");
+	}
+
+	public float getMaximumWidth() {
+		return getWidth() * maxScale;
+	}
+
+	public float getMaximumHeight() {
+		return getHeight() * maxScale;
 	}
 }

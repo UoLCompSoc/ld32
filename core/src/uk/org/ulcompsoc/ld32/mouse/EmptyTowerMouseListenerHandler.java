@@ -48,8 +48,8 @@ public class EmptyTowerMouseListenerHandler extends ScaleEffectMouseListenerHand
 			tower.remove(Renderable.class);
 			tower.remove(MouseListener.class);
 			tower.add(towerRen);
-			tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(),
-			        towerPos.getY(), towerRen.getHeight())));
+			tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine, textureManager), new Circle(
+			        towerPos.getX(), towerPos.getY(), towerRen.getHeight())).withInitialCooldown(1.0f));
 		}
 	}
 }

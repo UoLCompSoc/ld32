@@ -84,8 +84,6 @@ public class PaddleInputSystem extends IteratingSystem {
 		}
 
 		if(firing) {
-			firing = false;
-
 			//Get the atoms
 			ImmutableArray<Entity> atoms = engine.getEntitiesFor(Family.all(Atom.class).get());
 

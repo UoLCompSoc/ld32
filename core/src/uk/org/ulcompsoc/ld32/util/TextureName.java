@@ -16,6 +16,8 @@ public enum TextureName {
 	BALL_G("upgrade_balls/green.png"), //
 	BALL_GREY("upgrade_balls/grey.png"), //
 
+	UPGRADE_BALL_GREY("upgrade_balls/upgrade_ball_grey.png"), //
+
 	ZERO("numbers/0.png"), //
 	ONE("numbers/1.png"), //
 	TWO("numbers/2.png"), //

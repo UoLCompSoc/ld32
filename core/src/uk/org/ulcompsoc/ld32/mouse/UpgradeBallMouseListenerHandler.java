@@ -1,15 +1,22 @@
 package uk.org.ulcompsoc.ld32.mouse;
 
 import uk.org.ulcompsoc.ld32.components.MouseListener.MouseButtons;
+import uk.org.ulcompsoc.ld32.util.DeathListener;
 
 import com.badlogic.ashley.core.Entity;
 
 public class UpgradeBallMouseListenerHandler extends ScaleEffectMouseListenerHandler {
-	public UpgradeBallMouseListenerHandler() {
+	private final Entity thisEntity;
+	private final DeathListener deathListener;
+
+	public UpgradeBallMouseListenerHandler(final Entity thisEntity, final DeathListener deathListener) {
+		this.thisEntity = thisEntity;
+		this.deathListener = deathListener;
 	}
 
 	@Override
 	public void handleButtonDown(Entity tower, MouseButtons button, float mouseX, float mouseY) {
+		deathListener.notifyOfDeath(thisEntity);
 	}
 
 	@Override
