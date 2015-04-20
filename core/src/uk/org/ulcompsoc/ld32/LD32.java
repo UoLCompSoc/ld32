@@ -11,6 +11,7 @@ import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
 import uk.org.ulcompsoc.ld32.components.Paddle;
+import uk.org.ulcompsoc.ld32.components.DeathAnimation;
 import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
 import uk.org.ulcompsoc.ld32.components.Position;
@@ -270,6 +271,8 @@ public class LD32 extends ApplicationAdapter {
 		e.add(new SphericalBound(r.getWidth() / 2));
 		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
+		e.add(new DeathAnimation(ballAnimation));
+		e.add(new Rotatable().animateRotation(1.0f));
 
 		return e;
 	}

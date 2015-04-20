@@ -2,10 +2,7 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.math.Vector3;
-import uk.org.ulcompsoc.ld32.components.Atom;
-import uk.org.ulcompsoc.ld32.components.Position;
-import uk.org.ulcompsoc.ld32.components.SphericalBound;
-import uk.org.ulcompsoc.ld32.components.Velocity;
+import uk.org.ulcompsoc.ld32.components.*;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 
 import com.badlogic.ashley.core.Entity;
@@ -59,7 +56,8 @@ public class AtomMovementSystem extends IteratingSystem {
 		p.setY(p.getY() + v.y);
 
 		if(p.getR() > outerBorder.radius  * BORDER_MULTIPLIER || p.getY() > outerBorder.radius * BORDER_MULTIPLIER) {
-			engine.removeEntity(entity);
+			//engine.removeEntity(entity);
+			entity.add(new Doomed());
 			System.out.println("AtomMovement: removed atom.");
 		}
 
