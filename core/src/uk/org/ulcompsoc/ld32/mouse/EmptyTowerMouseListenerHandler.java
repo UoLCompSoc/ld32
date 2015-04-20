@@ -1,5 +1,6 @@
 package uk.org.ulcompsoc.ld32.mouse;
 
+import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
 import uk.org.ulcompsoc.ld32.components.MouseListener.MouseButtons;
@@ -23,8 +24,8 @@ public class EmptyTowerMouseListenerHandler extends ScaleEffectMouseListenerHand
 	private final Engine engine;
 	private final Entity player;
 
-	public EmptyTowerMouseListenerHandler(final TextureManager textureManager, final Engine engine, final Entity player) {
-		this.textureManager = textureManager;
+	public EmptyTowerMouseListenerHandler(final Engine engine, final Entity player) {
+		this.textureManager = LD32.textureManager;
 
 		this.engine = engine;
 		this.player = player;
@@ -48,8 +49,8 @@ public class EmptyTowerMouseListenerHandler extends ScaleEffectMouseListenerHand
 			tower.remove(Renderable.class);
 			tower.remove(MouseListener.class);
 			tower.add(towerRen);
-			tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine, textureManager), new Circle(
-			        towerPos.getX(), towerPos.getY(), towerRen.getHeight())).withInitialCooldown(1.0f));
+			tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(),
+			        towerPos.getY(), towerRen.getHeight())).withInitialCooldown(1.0f));
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.CircleMap;
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
 import uk.org.ulcompsoc.ld32.components.Killable;
@@ -14,14 +15,12 @@ import uk.org.ulcompsoc.ld32.components.SphericalBound;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
-import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -43,12 +42,12 @@ public class EnemySpawningSystem extends IntervalSystem {
 	// TODO: change this after spawn rate is calculated correctly.
 	private float spawnTime = MAX_SPAWN_TIME / 4.0f;
 
-	public EnemySpawningSystem(int priority, float interval, final CircleMap map, final TextureManager textureManager) {
+	public EnemySpawningSystem(int priority, float interval, final CircleMap map) {
 		super(interval, priority);
 		this.interval = interval;
 		this.map = map;
 
-		this.greyEnemy = new TextureRegion(textureManager.nameMap.get(TextureName.ENEMY_GREY));
+		this.greyEnemy = new TextureRegion(LD32.textureManager.nameMap.get(TextureName.ENEMY_GREY));
 	}
 
 	@Override
@@ -70,7 +69,8 @@ public class EnemySpawningSystem extends IntervalSystem {
 		if (timeElapsed >= spawnTime) {
 			timeElapsed -= spawnTime;
 			spawnTime = calculateSpawnRate(interval);
-			Gdx.app.log("SPAWN_TIME", "Enemy spawn time is now: " + spawnTime);
+			// Gdx.app.log("SPAWN_TIME", "Enemy spawn time is now: " +
+			// spawnTime);
 
 			engine.addEntity(generateEnemy());
 		}

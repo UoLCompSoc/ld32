@@ -18,7 +18,7 @@ public class Renderable extends Component {
 	public TextureRegion region = null;
 
 	public float size = -1;
-	public Color color = null;
+	public Color color = Color.WHITE.cpy();
 
 	public float baseScale = 1.0f;
 	public float maxScale = 1.6f;

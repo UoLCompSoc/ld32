@@ -2,6 +2,7 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.Random;
 
+import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
 import uk.org.ulcompsoc.ld32.components.DoomNotifier;
@@ -35,11 +36,11 @@ public class DoomedSystem extends IteratingSystem {
 	private TextureRegion ballRegion;
 
 	@SuppressWarnings("unchecked")
-	public DoomedSystem(int priority, final Entity player, final TextureManager textureManager) {
+	public DoomedSystem(int priority, final Entity player) {
 		super(Family.all(Doomed.class).get(), priority);
 
 		this.player = player;
-		this.textureManager = textureManager;
+		this.textureManager = LD32.textureManager;
 		this.ballRegion = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_GREY));
 	}
 

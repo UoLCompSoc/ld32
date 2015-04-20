@@ -8,11 +8,13 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 
 public class TextureManager implements Disposable {
 	public final List<Texture> textures = new ArrayList<Texture>();
 	public final Map<TextureName, Texture> nameMap = new HashMap<TextureName, Texture>();
+	public final Map<TextureName, TextureRegion[]> animationRegionMap = new HashMap<TextureName, TextureRegion[]>();
 
 	public TextureManager() {
 	}
@@ -25,11 +27,17 @@ public class TextureManager implements Disposable {
 
 			textures.add(texture);
 			nameMap.put(texName, texture);
+
+			if (texName.isAnimated) {
+				animationRegionMap.put(texName,
+				        TextureRegion.split(texture, texName.frameWidth, texName.frameHeight)[0]);
+			}
 		}
 	}
 
 	@Override
 	public void dispose() {
+		animationRegionMap.clear();
 		nameMap.clear();
 
 		for (final Texture t : textures) {

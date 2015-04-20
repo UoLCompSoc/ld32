@@ -1,8 +1,8 @@
 package uk.org.ulcompsoc.ld32.systems;
 
+import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.util.Mappers;
-import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Entity;
@@ -34,8 +34,7 @@ public class WalletRenderSystem extends IteratingSystem {
 	 * @param x in screen coords
 	 * @param y in screen coords
 	 */
-	public WalletRenderSystem(int priority, final Batch batch, final OrthographicCamera camera,
-	        final TextureManager textureManager, float x, float y) {
+	public WalletRenderSystem(int priority, final Batch batch, final OrthographicCamera camera, float x, float y) {
 		super(Family.all(Wallet.class).get(), priority);
 		this.batch = batch;
 		this.camera = camera;
@@ -43,9 +42,9 @@ public class WalletRenderSystem extends IteratingSystem {
 		this.basePosition.x = x;
 		this.basePosition.y = y;
 
-		this.red = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
-		this.blue = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
-		this.green = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
+		this.red = new TextureRegion(LD32.textureManager.nameMap.get(TextureName.BALL_R));
+		this.blue = new TextureRegion(LD32.textureManager.nameMap.get(TextureName.BALL_B));
+		this.green = new TextureRegion(LD32.textureManager.nameMap.get(TextureName.BALL_G));
 	}
 
 	@Override
