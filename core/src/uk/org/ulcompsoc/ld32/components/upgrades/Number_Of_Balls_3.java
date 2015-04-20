@@ -1,7 +1,5 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
-
 public class Number_Of_Balls_3 extends Upgrade {
 	public Number_Of_Balls_3() {
 		dmg = 1;

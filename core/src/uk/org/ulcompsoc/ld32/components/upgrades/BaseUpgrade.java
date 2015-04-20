@@ -1,7 +1,6 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
 public class BaseUpgrade extends Upgrade {
-	
 	public BaseUpgrade() {
 		dmg = 1;
 		range = 1;

@@ -1,8 +1,7 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
 public class Ball_Effect extends Upgrade {
-
-	public Ball_Effect(){
+	public Ball_Effect() {
 		this.costs = 1.0f;
 		this.dmg = 1.3f;
 		this.drops = 1.3f;

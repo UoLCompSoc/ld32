@@ -1,8 +1,7 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-public class Quick_Tower extends Upgrade{
-	
-	public Quick_Tower(){
+public class Quick_Tower extends Upgrade {
+	public Quick_Tower() {
 		this.dmg = 1.0f;
 		this.costs = 0.8f;
 		this.drops = 1f;
@@ -12,5 +11,4 @@ public class Quick_Tower extends Upgrade{
 		this.type = UpgradeRoute.GREENBLUE;
 		name = "Quick_Tower";
 	}
-	
 }

@@ -1,8 +1,8 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-public class Ball_Give_Drops extends Upgrade{
-	
-	public Ball_Give_Drops(){
+public class Ball_Give_Drops extends Upgrade {
+
+	public Ball_Give_Drops() {
 		this.costs = 0.95f;
 		this.dmg = 1f;
 		this.drops = 1.4f;

@@ -1,9 +1,6 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
-
 public class Ball_Charge extends Upgrade {
-	
 	public Ball_Charge() {
 		dmg = 1.3f;
 		range = 1;
