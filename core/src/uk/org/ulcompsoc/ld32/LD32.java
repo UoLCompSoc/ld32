@@ -133,11 +133,13 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Tower(new Upgradable()));
 		tower.add(new Damage(Tower.DFLT_DMG));
 		tower.add(new Upgradable());
-		tower.add(new SphericalBound(towerRen.getWidth()));
 		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine, textureManager), new Circle(towerPos
 		        .getX(), towerPos.getY(), towerRen.getHeight())));
+		tower.add(new SphericalBound(towerRen.getWidth() / 2.0f));
 		engine.addEntity(tower);
 
+		engine.addEntity(makeAtom());
+		engine.addEntity(makeAtom());
 		engine.addEntity(makeAtom());
 
 		engine.addEntity(makeEmptyTower());
@@ -168,6 +170,7 @@ public class LD32 extends ApplicationAdapter {
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
 		engine.addSystem(new DoomedSystem(100000, paddle, textureManager));
+		// engine.addSystem(new BoundingDebugSystem(5000, shapeRenderer));
 
 		// engine.addSystem(new AudioIntervalSystem(1f, audioTest()));
 
@@ -255,9 +258,11 @@ public class LD32 extends ApplicationAdapter {
 
 		Entity e = new Entity();
 
+		Renderable r = new Renderable(ballAnimation).setScale(0.5f);
+
 		e.add(Position.fromEuclidean(2.0f, 2.0f));
-		e.add(new Renderable(ballAnimation).setScale(0.5f));
-		e.add(new SphericalBound(10.0f));
+		e.add(r);
+		e.add(new SphericalBound(r.getWidth() / 2));
 		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
 
@@ -271,6 +276,7 @@ public class LD32 extends ApplicationAdapter {
 		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
+		e.add(new SphericalBound(towerRen.getWidth() / 2));
 		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager, engine, paddle), new Circle(towerPos
 		        .getX(), towerPos.getY(), towerRen.getHeight())));
 		return e;
