@@ -267,14 +267,12 @@ public class LD32 extends ApplicationAdapter {
 	public Entity makeEmptyTower() {
 		final Entity e = new Entity();
 		final Position towerPos = Position.fromPolar(map.radius, 2 * LDUtil.PI * (float) Math.random());
-		final float towerScale = 0.25f;
 		final Renderable towerRen = new Renderable(new TextureRegion(
-		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(towerScale);
+		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
-		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager), new Circle(towerPos.getX(),
+		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(textureManager, paddle), new Circle(towerPos.getX(),
 		        towerPos.getY(), towerRen.getHeight())));
-
 		return e;
 	}
 
