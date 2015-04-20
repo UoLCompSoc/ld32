@@ -41,8 +41,8 @@ public class GUIRenderSystem extends IteratingSystem {
 	private final Vector3 DFLT_POSITION_OF_THE_BLUE_BALL = new Vector3(160.0f, 250.0f, 0.0f);
 	private final Vector3 DFLT_POSITION_OF_THE_GREEN_BALL = new Vector3(160.0f, 350.f, 0.0f);
 	
-	private final Vector3 DFLT_RED_1_DIGIT_POSITION = null;
-	private final Vector3 DFLT_RED_2_DIGIT_POSITION = null;
+	private final Vector3 DFLT_RED_1_DIGIT_POSITION = new Vector3(140.0f, 160.0f, 0.0f);
+	private final Vector3 DFLT_RED_2_DIGIT_POSITION = new Vector3(160.0f, 160.0f, 0.0f);
 	
 	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION= null;
 	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION= null;
@@ -109,8 +109,15 @@ public class GUIRenderSystem extends IteratingSystem {
 	}
 
 	protected void handleRedCounter(int counter, Batch batch) {
+		String toBreakDown;
 		if(counter>9){
-			String toBreakDown = counter+"";
+			if(counter>99){
+				toBreakDown = "99";
+			} else {
+				toBreakDown = counter+"";
+			}
+			temp = camera.unproject(DFLT_RED_1_DIGIT_POSITION.cpy());
+			//batch.draw
 		}
 	}
 
