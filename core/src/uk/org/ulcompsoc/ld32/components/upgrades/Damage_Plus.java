@@ -6,8 +6,8 @@ public class Damage_Plus extends Upgrade{
 	
 	
 	public Damage_Plus() {
-		dmg = 1.2f;
-		time = 1;
+		dmg = 1.3f;
+		range = 1;
 		drops = 1;
 		costs = 1;
 		simultanousFire = 0;

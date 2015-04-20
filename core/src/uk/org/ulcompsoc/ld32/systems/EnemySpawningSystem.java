@@ -78,14 +78,14 @@ public class EnemySpawningSystem extends IntervalSystem {
 		return entity;
 	}
 	
-	public float calculateSpawnRate(float deltaTime) {
+	private float calculateSpawnRate(float deltaTime) {
 		float min = 1.0f;
-		float max = 10.0f;
+		//float max = 10.0f;
 		
 		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
 		float spawnRate = (float) Math.max(min,(Math.sqrt(deltaTime) * 0.5) * (1 + (numTowers * 0.1f)));
 		
-		spawnRate = Math.min(spawnRate, max);
+//		spawnRate = Math.min(spawnRate, max);
 		return spawnRate;
 		
 	}

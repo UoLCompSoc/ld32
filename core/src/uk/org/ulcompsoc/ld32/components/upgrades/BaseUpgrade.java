@@ -4,7 +4,7 @@ public class BaseUpgrade extends Upgrade {
 	
 	public BaseUpgrade() {
 		dmg = 1;
-		time = 1;
+		range = 1;
 		drops = 1;
 		costs = 1;
 		simultanousFire = 0;
