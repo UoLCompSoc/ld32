@@ -19,7 +19,13 @@ public class GUIRenderSystem extends IteratingSystem {
 	private OrthographicCamera camera;
 
 	private TextureRegion frame = null;
+	private TextureRegion redBallIcon = null;
+	private TextureRegion blueBallIcon = null;
+	private TextureRegion greenBallIcon = null;
+	
+	//alter actual values
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
+	private final Vector3 DFLT_POSITION_OF_THE_RED_BALL = new Vector3(30.0f, 100.0f, 0.0f);
 	private Vector3 temp;
 
 	@SuppressWarnings("unchecked")
@@ -29,8 +35,11 @@ public class GUIRenderSystem extends IteratingSystem {
 		this.batch = batch;
 		this.textureManager = textureManager;
 		this.camera = cam;
+		
 		this.frame = new TextureRegion(textureManager.nameMap.get(TextureName.FRAME_1));
-		// TextureRegion(textureManager.nameMap.get(TextureName.));
+		this.redBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
+		this.blueBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
+		this.greenBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_G));
 	}
 
 	@Override
@@ -48,11 +57,17 @@ public class GUIRenderSystem extends IteratingSystem {
 		final float w = frame.getRegionWidth() * scale;
 		final float h = frame.getRegionHeight() * scale;
 
+		
 		batch.begin();
 		batch.draw(frame, temp.x, temp.y - h, w, h);
+		temp = camera.unproject(DFLT_POSITION_OF_THE_RED_BALL);
+		batch.draw(redBallIcon, temp.x, temp.y);
 		batch.end();
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
+	}
+	protected void handleRedCounter(int counter, Batch batch){
+		
 	}
 
 }
