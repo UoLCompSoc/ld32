@@ -25,21 +25,7 @@ import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
 import uk.org.ulcompsoc.ld32.mouse.EmptyTowerMouseListenerHandler;
 import uk.org.ulcompsoc.ld32.mouse.RegularTowerMouseListenerHandler;
-import uk.org.ulcompsoc.ld32.systems.AtomMovementSystem;
-import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
-import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
-import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
-import uk.org.ulcompsoc.ld32.systems.GUIRenderSystem;
-import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
-import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
-import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
-import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
-import uk.org.ulcompsoc.ld32.systems.ProjectileLifeTimeSystem;
-import uk.org.ulcompsoc.ld32.systems.ProjectileMovementSystem;
-import uk.org.ulcompsoc.ld32.systems.RenderSystem;
-import uk.org.ulcompsoc.ld32.systems.SphericalCollisionSystem;
-import uk.org.ulcompsoc.ld32.systems.TowerSystem;
-import uk.org.ulcompsoc.ld32.systems.WalletRenderSystem;
+import uk.org.ulcompsoc.ld32.systems.*;
 import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
@@ -142,7 +128,6 @@ public class LD32 extends ApplicationAdapter {
 		tower.add(new Upgradable());
 		tower.add(new MouseListener(new RegularTowerMouseListenerHandler(engine), new Circle(towerPos.getX(), towerPos
 		        .getY(), towerRen.getHeight())));
-		tower.add(new SphericalBound(towerRen.getWidth() / 2.0f));
 		engine.addEntity(tower);
 
 		engine.addEntity(makeAtom());
@@ -178,6 +163,8 @@ public class LD32 extends ApplicationAdapter {
 		        Gdx.graphics.getHeight() * 0.95f));
 
 		engine.addSystem(new DoomedSystem(100000, paddle));
+		engine.addSystem(new AtomCollisionSystem(7500));
+		engine.addSystem(new TempPositionDebugSystem(9000,shapeRenderer));
 
 		// engine.addSystem(new PositionDebugSystem(50000, shapeRenderer));
 
