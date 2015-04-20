@@ -1,10 +1,6 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
-
 public class Sniper extends Upgrade {
-
-	
 	public Sniper() {
 		dmg = 1.5f;
 		range = 1.8f;

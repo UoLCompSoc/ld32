@@ -1,10 +1,7 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
-
-public class Ascended extends Upgrade{
-	
-	public Ascended(){
+public class Ascended extends Upgrade {
+	public Ascended() {
 		this.dmg = 2.0f;
 		this.range = 2.0f;
 		this.drops = 2.0f;

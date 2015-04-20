@@ -1,10 +1,8 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
+public class Monster_Drops_1 extends Upgrade {
 
-public class Monster_Drops_1 extends Upgrade{
-	
-	public Monster_Drops_1(){
+	public Monster_Drops_1() {
 		dmg = 1.0f;
 		range = 1.0f;
 		drops = 1.3f;

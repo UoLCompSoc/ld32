@@ -101,6 +101,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 		return entity;
 	}
 
+	@SuppressWarnings("unchecked")
 	private float calculateSpawnRate(float deltaTime) {
 		final float min = MIN_SPAWN_TIME;
 

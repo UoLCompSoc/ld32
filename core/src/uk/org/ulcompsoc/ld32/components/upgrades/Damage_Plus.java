@@ -1,10 +1,6 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
-
-public class Damage_Plus extends Upgrade{
-	
-	
+public class Damage_Plus extends Upgrade {
 	public Damage_Plus() {
 		dmg = 1.3f;
 		range = 1;
@@ -13,6 +9,6 @@ public class Damage_Plus extends Upgrade{
 		simultanousFire = 0;
 		stage = 1;
 		type = UpgradeRoute.BLUE;
-		name= "Damage_Plus";
+		name = "Damage_Plus";
 	}
 }

@@ -1,10 +1,7 @@
 package uk.org.ulcompsoc.ld32.components.upgrades;
 
-import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
-
-public class Upgrade_Costs extends Upgrade{
-	
-	public Upgrade_Costs(){
+public class Upgrade_Costs extends Upgrade {
+	public Upgrade_Costs() {
 		this.dmg = 1.0f;
 		this.range = 1.0f;
 		this.drops = 1.1f;
