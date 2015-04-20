@@ -272,6 +272,7 @@ public class LD32 extends ApplicationAdapter {
 		e.add(new Velocity(0.5f, 0.5f));
 		e.add(new Atom());
 		e.add(new DeathAnimation(ballAnimation));
+		e.add(new Rotatable().animateRotation(1.0f));
 
 		return e;
 	}
