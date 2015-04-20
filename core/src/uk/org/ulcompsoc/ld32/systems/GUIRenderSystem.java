@@ -1,7 +1,7 @@
 package uk.org.ulcompsoc.ld32.systems;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+
 import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Player;
 import uk.org.ulcompsoc.ld32.components.Tower;
@@ -11,16 +11,14 @@ import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.ArrayList;
-
-public class GUIRenderSystem extends IteratingSystem {
+public class GUIRenderSystem extends EntitySystem {
 	private final Batch batch;
 	private final TextureManager textureManager;
 	private OrthographicCamera camera;
@@ -42,6 +40,7 @@ public class GUIRenderSystem extends IteratingSystem {
 	private TextureRegion eight = null;
 	private TextureRegion nine = null;
 
+	private final Entity playerEntity;
 	public static Entity selectedTowerEntity = null;
 
 	// Default coordinates for drawing elements in predefined positions
@@ -58,14 +57,19 @@ public class GUIRenderSystem extends IteratingSystem {
 
 	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION = new Vector3(120.0f, 295.0f, 0.0f);
 	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION = new Vector3(155.0f, 295.0f, 0.0f);
+
+	private final Vector3 DFLT_TOWER_STAT_RED = null;
+	private final Vector3 DFLT_TOWER_STAT_BLUE = null;
+	private final Vector3 DFLT_TOWER_STAT_GREEN = null;
 	private Vector3 temp;
 
 	@SuppressWarnings("unchecked")
-	public GUIRenderSystem(final Batch batch, final OrthographicCamera cam, int priority) {
-		super(Family.all(Wallet.class).get(), priority);
+	public GUIRenderSystem(int priority, final Batch batch, final OrthographicCamera cam, final Entity playerEntity) {
+		super(priority);
 		this.batch = batch;
 		this.textureManager = LD32.textureManager;
 		this.camera = cam;
+		this.playerEntity = playerEntity;
 
 		this.frame = new TextureRegion(textureManager.nameMap.get(TextureName.FRAME_1));
 		this.redBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
@@ -86,8 +90,8 @@ public class GUIRenderSystem extends IteratingSystem {
 	}
 
 	@Override
-	protected void processEntity(Entity entity, float deltaTime) {
-		Wallet wallet = Mappers.walletMapper.get(entity);
+	public void update(float deltaTime) {
+		Wallet wallet = Mappers.walletMapper.get(playerEntity);
 
 		// int screenWidth = Gdx.graphics.getWidth();
 		// int screenHeight = Gdx.graphics.getHeight();
@@ -125,16 +129,17 @@ public class GUIRenderSystem extends IteratingSystem {
 		// scaleX, scaleY, rotation);
 
 		if (selectedTowerEntity != null) {
-			//Tower tower = Mappers.towerMapper.get(entity);
+			Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
+			if (tower != null) {
+				handleACounter(tower.red.getStage(), batch, new Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
+				        350.0f, 0.0f));
+			}
 		}
 
 		/**
 		 * Score
 		 */
 		handleScore(batch);
-
-
-
 		batch.end();
 	}
 
@@ -169,9 +174,9 @@ public class GUIRenderSystem extends IteratingSystem {
 
 		int score = Player.score;
 
-		ArrayList<Integer> characters = new ArrayList<>();
+		ArrayList<Integer> characters = new ArrayList<Integer>();
 
-		while(score > 0) {
+		while (score > 0) {
 			characters.add(score % 10);
 			score /= 10;
 		}
@@ -181,8 +186,7 @@ public class GUIRenderSystem extends IteratingSystem {
 		float SPACER_MULTIPLIER = newWidth;
 		float space = 0.0f;
 
-
-		for(int i = characters.size() -1 ; i >= 0; i--) {
+		for (int i = characters.size() - 1; i >= 0; i--) {
 			batch.draw(this.getNumber(characters.get(i)), start.x + space, (start.y), newWidth, newHeight);
 			space += SPACER_MULTIPLIER;
 		}
