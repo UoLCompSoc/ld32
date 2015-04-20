@@ -13,7 +13,6 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 
-//TODO ACCESS COLOURED BALLS FROM WALLET/PADDLE
 public class TowerSystem extends EntitySystem {
 	private Engine engine = null;
 	
