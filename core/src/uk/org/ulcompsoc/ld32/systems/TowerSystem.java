@@ -32,15 +32,17 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class TowerSystem extends EntitySystem {
-	private static final int RED_UPGRADE_COST = 3;
-	private static final int GREEN_UPGRADE_COST = 3;
-	private static final int BLUE_UPGRADE_COST = 3;
+	private static final int RED_UPGRADE_COST = 5;
+	private static final int GREEN_UPGRADE_COST = 5;
+	private static final int BLUE_UPGRADE_COST = 5;
+	public static  int NEW_TOWER_COST = 1;
 
 	public Wallet wallet;
 
@@ -53,6 +55,11 @@ public class TowerSystem extends EntitySystem {
 	public TowerSystem(int priority, Wallet w) {
 		super(priority);
 		wallet = w;
+	}
+	
+	public static void calculateNewTowerCost(int numTowers) {
+		NEW_TOWER_COST = (int) NEW_TOWER_COST + numTowers;
+
 	}
 
 	@Override

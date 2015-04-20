@@ -9,12 +9,14 @@ import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgradable;
+import uk.org.ulcompsoc.ld32.systems.TowerSystem;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 
@@ -34,9 +36,12 @@ public class EmptyTowerMouseListenerHandler extends BaseTowerMouseListenerHandle
 	@Override
 	public void handleButtonDown(Entity tower, MouseButtons button, float mouseX, float mouseY) {
 		final Wallet wallet = Mappers.walletMapper.get(player);
-
-		if (wallet.checkBalance(1, 1, 1)) {
-			wallet.sub(1, 1, 1);
+		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
+		TowerSystem.calculateNewTowerCost(numTowers);
+		int cost = TowerSystem.NEW_TOWER_COST;
+		
+		if (wallet.checkBalance(cost, cost, cost)) {
+			wallet.sub(cost, cost, cost);
 			final float scale = Mappers.renderableMapper.get(tower).baseScale;
 			final Renderable towerRen = new Renderable(new TextureRegion(
 			        textureManager.nameMap.get(TextureName.BASIC_TOWER))).setScale(scale);
