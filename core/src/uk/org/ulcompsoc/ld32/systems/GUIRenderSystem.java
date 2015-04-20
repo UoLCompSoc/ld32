@@ -117,7 +117,25 @@ public class GUIRenderSystem extends IteratingSystem {
 				toBreakDown = counter+"";
 			}
 			temp = camera.unproject(DFLT_RED_1_DIGIT_POSITION.cpy());
-			//batch.draw
+			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(0, 1))), temp.x, temp.y);
+			temp = camera.unproject(DFLT_RED_2_DIGIT_POSITION.cpy());
+			batch.draw(this.getNumber(Integer.parseInt(toBreakDown.substring(1))), temp.x, temp.y);
+		} else {
+		}
+	}
+	private TextureRegion getNumber(int number){
+		switch(number){
+		case 0: return this.zero;
+		case 1: return this.one;
+		case 2: return this.two;
+		case 3: return this.three;
+		case 4: return this.four;
+		case 5: return this.five;
+		case 6: return this.six;
+		case 7: return this.seven;
+		case 8: return this.eight;
+		case 9: return this.nine;
+		default: return null;
 		}
 	}
 

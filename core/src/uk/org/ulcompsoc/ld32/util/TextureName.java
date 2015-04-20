@@ -50,19 +50,5 @@ public enum TextureName {
 	private TextureName(final String name) {
 		this.assetName = name;
 	}
-	public TextureName getNumber(int number){
-		switch(number){
-		case 0: return TextureName.ZERO;
-		case 1: return TextureName.ONE;
-		case 2: return TextureName.TWO;
-		case 3: return TextureName.THREE;
-		case 4: return TextureName.FOUR;
-		case 5: return TextureName.FIVE;
-		case 6: return TextureName.SIX;
-		case 7: return TextureName.SEVEN;
-		case 8: return TextureName.EIGHT;
-		case 9: return TextureName.NINE;
-		default: return null;
-		}
-	}
+	
 }
