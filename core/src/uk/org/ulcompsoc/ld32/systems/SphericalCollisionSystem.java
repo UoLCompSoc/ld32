@@ -58,7 +58,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 	@Override
 	public void update(float deltaTime) {
 		ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(Position.class, SphericalBound.class,
-		        Renderable.class).get());
+				Renderable.class).get());
 
 		final List<Circle> bounds = new ArrayList<Circle>();
 
@@ -98,16 +98,9 @@ public class SphericalCollisionSystem extends EntitySystem {
 					/**
 					 * Meta Atom collision
 					 */
-					if (atom != null) {
-						// Check if the atom has collided with a tower
-						Tower tower = Mappers.towerMapper.get(one);
 
-						// yep, it's collided with a tower.
-						if (tower != null) {
-							if (tower.canUpgrade())
-								TowerSystem.pongBonus(one);
+					if(atom != null) {
 
-						}
 
 						float distance = (float) (Math.sqrt(Math.pow(otherCircle.x - oneCircle.x, 2)
 						        + Math.pow(otherCircle.y - oneCircle.y, 2)));
