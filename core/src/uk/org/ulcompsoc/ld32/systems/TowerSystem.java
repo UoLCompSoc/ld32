@@ -167,7 +167,8 @@ public class TowerSystem extends EntitySystem {
 		}
 	}
 
-	public boolean pongBonus(Entity entity) {
+	public static boolean pongBonus(Entity entity) {
+		System.out.println("DETECTED");
 		Tower tower = Mappers.towerMapper.get(entity);
 		if(tower.pongBonusCounter >= 10) {
 			return false;
