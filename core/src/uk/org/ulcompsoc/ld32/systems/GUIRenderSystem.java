@@ -9,6 +9,7 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -58,7 +59,7 @@ public class GUIRenderSystem extends IteratingSystem {
 		this.batch = batch;
 		this.textureManager = LD32.textureManager;
 		this.camera = cam;
-
+		
 		this.frame = new TextureRegion(textureManager.nameMap.get(TextureName.FRAME_1));
 		this.redBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_R));
 		this.blueBallIcon = new TextureRegion(textureManager.nameMap.get(TextureName.BALL_B));
@@ -80,6 +81,9 @@ public class GUIRenderSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		Wallet wallet = Mappers.walletMapper.get(entity);
+		
+		int screenWidth = Gdx.graphics.getWidth();
+		int screenHeight = Gdx.graphics.getHeight();
 
 		camera.update();
 		temp = camera.unproject(DFLT_POSITION_OF_THE_FRAME.cpy());
@@ -93,7 +97,9 @@ public class GUIRenderSystem extends IteratingSystem {
 		final float h = frame.getRegionHeight() * scale;
 
 		batch.begin();
-		batch.draw(frame, temp.x, temp.y - h, w, h);
+		batch.draw(frame, temp.x, temp.y-h , screenWidth*0.10f, h);
+		
+		//batch.draw(frame, temp.x, temp.y - h, w, h);
 
 		temp = camera.unproject(DFLT_POSITION_OF_THE_RED_BALL.cpy());
 		batch.draw(redBallIcon, temp.x, temp.y);
