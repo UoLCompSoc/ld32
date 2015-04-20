@@ -9,6 +9,17 @@ public enum TextureName {
 
 	EMPTY_TOWER("towers/tower_empty.png"), //
 	BASIC_TOWER("towers/tower_0.png"), //
+	TOWER_R("towers/tower_r.png"), //
+	TOWER_G("towers/tower_g.png"), //
+	TOWER_B("towers/tower_b.png"), //
+
+	TOWER_RG("towers/tower_rg.png"), //
+	TOWER_RB("towers/tower_br.png"), //
+	TOWER_GB("towers/tower_bg.png"), //
+
+	TOWER_RGB("towers/tower_rgb.png"), //
+
+	TOWER_ASCENDED("towers/tower_ascended.png"), //
 
 	ENEMY_GREY("enemies/enemy_grey.png"), //
 	ENEMY_ANIM("enemies/enemy_anim.png", 64, 64), // 64x64 animation

@@ -2,8 +2,12 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.Random;
 
+import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Drop;
+import uk.org.ulcompsoc.ld32.components.Position;
+import uk.org.ulcompsoc.ld32.components.Renderable;
+import uk.org.ulcompsoc.ld32.components.Rotatable;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.components.upgrades.Ascended;
@@ -19,9 +23,13 @@ import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade.UpgradeRoute;
 import uk.org.ulcompsoc.ld32.components.upgrades.Upgrade_Costs;
 import uk.org.ulcompsoc.ld32.util.Mappers;
+import uk.org.ulcompsoc.ld32.util.TextureName;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class TowerSystem extends EntitySystem {
@@ -31,6 +39,8 @@ public class TowerSystem extends EntitySystem {
 
 	public Wallet wallet;
 
+	private Engine engine = null;
+
 	public TowerSystem(Wallet w) {
 		this(0, w);
 	}
@@ -38,6 +48,18 @@ public class TowerSystem extends EntitySystem {
 	public TowerSystem(int priority, Wallet w) {
 		super(priority);
 		wallet = w;
+	}
+
+	@Override
+	public void addedToEngine(Engine engine) {
+		super.addedToEngine(engine);
+		this.engine = engine;
+	}
+
+	@Override
+	public void removedFromEngine(Engine engine) {
+		super.removedFromEngine(engine);
+		this.engine = null;
 	}
 
 	public boolean handleUpgrade(Entity entity, Drop.Colour upgradeColour) {
@@ -66,6 +88,30 @@ public class TowerSystem extends EntitySystem {
 		// String.format("Upgrades (r, g, b) = (%d, %d, %d).",
 		// tower.red.getStage(),
 		// tower.green.getStage(), tower.blue.getStage()));
+
+		if (ret) {
+			final Renderable old = Mappers.renderableMapper.get(entity);
+			final float scale = old.baseScale;
+			final Color color = old.color;
+
+			final TextureName towerType = getUpgradedSprite(tower);
+			final TextureRegion region = new TextureRegion(LD32.textureManager.nameMap.get(towerType));
+			entity.add(new Renderable(region).setScale(scale).setColor(color));
+
+			if (towerType.equals(TextureName.TOWER_RGB)) {
+				final Entity asc = new Entity();
+				final Position p = Mappers.positionMapper.get(entity);
+
+				asc.add(Position.fromPolar(p.getR(), p.getPhi()));
+
+				final Renderable ascR = new Renderable(new TextureRegion(
+				        LD32.textureManager.nameMap.get(TextureName.TOWER_ASCENDED))).setScale(scale + 0.05f);
+				asc.add(ascR);
+
+				asc.add(new Rotatable().animateRotation(1.5f));
+				engine.addEntity(asc);
+			}
+		}
 
 		return ret;
 	}
@@ -204,6 +250,32 @@ public class TowerSystem extends EntitySystem {
 		}
 
 		return false;
+	}
+
+	private TextureName getUpgradedSprite(final Tower tower) {
+		// TODO: This assumes we have a max of 3 upgrades on each type
+		// TODO: Make it less gross
+		final boolean hasRed = tower.red.getStage() == 3;
+		final boolean hasGreen = tower.green.getStage() == 3;
+		final boolean hasBlue = tower.blue.getStage() == 3;
+
+		if (hasRed && hasGreen && hasBlue) {
+			return TextureName.TOWER_RGB;
+		} else if (hasRed && hasGreen && !hasBlue) {
+			return TextureName.TOWER_RG;
+		} else if (hasRed && !hasGreen && hasBlue) {
+			return TextureName.TOWER_RB;
+		} else if (!hasRed && hasGreen && hasBlue) {
+			return TextureName.TOWER_GB;
+		} else if (hasRed && !hasGreen && !hasBlue) {
+			return TextureName.TOWER_R;
+		} else if (!hasRed && hasGreen && !hasBlue) {
+			return TextureName.TOWER_G;
+		} else if (!hasRed && !hasGreen && hasBlue) {
+			return TextureName.TOWER_B;
+		} else {
+			return TextureName.BASIC_TOWER;
+		}
 	}
 
 	private void updateCombos(Entity entity) {
