@@ -306,7 +306,7 @@ public class LD32 extends ApplicationAdapter {
 		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
-		e.add(new SphericalBound(towerRen.getWidth() / 2));
+		//e.add(new SphericalBound(towerRen.getWidth() / 2));
 		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(engine, paddle), new Circle(towerPos.getX(),
 		        towerPos.getY(), towerRen.getHeight() * 0.95f)));
 		return e;
