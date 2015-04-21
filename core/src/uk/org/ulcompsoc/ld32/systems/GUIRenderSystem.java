@@ -149,8 +149,11 @@ public class GUIRenderSystem extends EntitySystem {
 		if (selectedTowerEntity != null) {
 			Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
 			if (tower != null) {
-				handleACounter(tower.red.getStage(), batch, new Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
-				        350.0f, 0.0f));
+				//String dropRate = "Drop Rate "+tower.dropRate;
+				//String r ="Attack Speed "+ tower.fireDelay+"s";
+				//handleACounter(tower.red.getStage(), batch, new Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
+				//      350.0f, 0.0f));
+				//textureManager.makeWord(this.engine, dropRate, 130, 350);
 			}
 		}
 

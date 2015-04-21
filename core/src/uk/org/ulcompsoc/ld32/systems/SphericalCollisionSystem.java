@@ -91,6 +91,14 @@ public class SphericalCollisionSystem extends EntitySystem {
 						if (killable.getHealth() <= 0) {
 							other.add(new Doomed());
 						}
+					} else if (Mappers.atomMapper.has(other) && Mappers.killableMapper.has(one)) {
+						Killable killable = Mappers.killableMapper.get(one);
+						killable.removeHealth(Atom.DAMAGE);
+						// System.out.println("HIT");
+
+						if (killable.getHealth() <= 0) {
+							other.add(new Doomed());
+						}
 					}
 
 					Atom atom = Mappers.atomMapper.get(entities.get(j));

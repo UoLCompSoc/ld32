@@ -113,7 +113,7 @@ public class TowerSystem extends EntitySystem {
 			if (towerType.equals(TextureName.TOWER_RGB)) {
 				// TODO: this probably shouldn't be here
 				// when we ascend, increase atom drop chance.
-				CanItDrop.ATOM_BOOSTER += CanItDrop.DFLT_BOOSTER_INCREASE;
+				CanItDrop.ATOM_BOOSTER += 0.01;
 
 				final Entity asc = new Entity();
 				final Position p = Mappers.positionMapper.get(entity);

@@ -43,7 +43,7 @@ public class AtomMovementSystem extends IteratingSystem {
 		p.setX(p.getX() + v.x);
 		p.setY(p.getY() + v.y);
 
-		if (p.getR() > outerBorder.radius * BORDER_MULTIPLIER || p.getY() > outerBorder.radius * BORDER_MULTIPLIER) {
+		if (p.getR() > outerBorder.radius * BORDER_MULTIPLIER) {
 			// engine.removeEntity(entity);
 			entity.add(new Doomed());
 			System.out.println("AtomMovement: removed atom.");

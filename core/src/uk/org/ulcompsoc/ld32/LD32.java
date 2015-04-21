@@ -2,6 +2,7 @@ package uk.org.ulcompsoc.ld32;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
 import uk.org.ulcompsoc.ld32.audio.AudioName;
@@ -86,7 +87,9 @@ public class LD32 extends ApplicationAdapter {
 	private ShapeRenderer shapeRenderer = null;
 	private Batch spriteBatch = null;
 
-	private Animation ballAnimation = null;
+	private Animation atomAnimation = null;
+
+	private final Random random = new Random();
 
 	public LD32() {
 		super();
@@ -168,8 +171,8 @@ public class LD32 extends ApplicationAdapter {
 		        .getY(), towerRen.getHeight())));
 		engine.addEntity(tower);
 
-		engine.addEntity(makeAtom());
-		engine.addEntity(makeAtom());
+		engine.addEntity(makeAtom(false));
+		engine.addEntity(makeAtom(false));
 		// engine.addEntity(makeAtom());
 
 		float phi = 3 * (LDUtil.PI / 2.0f);
@@ -262,22 +265,33 @@ public class LD32 extends ApplicationAdapter {
 	}
 
 	public Entity makeAtom() {
-		if (ballAnimation == null) {
-			ballAnimation = new Animation(0.15f, textureManager.animationRegionMap.get(TextureName.BALL_ANIM));
-			ballAnimation.setPlayMode(PlayMode.LOOP);
+		return makeAtom(true);
+	}
+
+	public Entity makeAtom(boolean randomDir) {
+		if (atomAnimation == null) {
+			atomAnimation = new Animation(0.15f, textureManager.animationRegionMap.get(TextureName.BALL_ANIM));
+			atomAnimation.setPlayMode(PlayMode.LOOP);
 		}
 
-		Entity e = new Entity();
+		final Entity e = new Entity();
+		final Renderable r = new Renderable(atomAnimation).setScale(0.5f);
 
-		Renderable r = new Renderable(ballAnimation).setScale(0.5f);
-
-		e.add(Position.fromEuclidean(2.0f, 2.0f));
+		e.add(Position.fromEuclidean(0.0f, 0.0f));
 		e.add(r);
-		e.add(new SphericalBound(r.getWidth() / 2));
-		e.add(new Velocity(0.5f, 0.5f));
+		e.add(new SphericalBound(r.getWidth() / 2.0f));
 		e.add(new Atom());
-		e.add(new DeathAnimation(ballAnimation));
+		e.add(new DeathAnimation(atomAnimation));
 		e.add(new Rotatable().animateRotation(1.0f));
+
+		if (randomDir) {
+			final float velocityAngle = random.nextFloat() * 2.0f * LDUtil.PI;
+			final float velocityMag = 0.4f;
+			e.add(new Velocity((float) Math.cos(velocityAngle) * velocityMag, (float) Math.sin(velocityAngle)
+			        * velocityMag));
+		} else {
+			e.add(new Velocity(0.5f, 0.0f));
+		}
 
 		return e;
 	}
