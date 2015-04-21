@@ -42,7 +42,7 @@ public class TowerSystem extends EntitySystem {
 	private static int RED_UPGRADE_COST = 3;
 	private static int GREEN_UPGRADE_COST = 3;
 	private static int BLUE_UPGRADE_COST = 3;
-	public static int NEW_TOWER_COST = 1;
+	public static int NEW_TOWER_COST = 0;
 
 	public Wallet wallet;
 
@@ -142,15 +142,15 @@ public class TowerSystem extends EntitySystem {
 	}
 
 	public boolean canAffordRed(Tower tow) {
-		return wallet.checkBalance(RED_UPGRADE_COST * tow.red.getStage(), 0, 0);
+		return wallet.checkBalance(RED_UPGRADE_COST * (tow.red.getStage()+1), 0, 0);
 	}
 
 	public boolean canAffordGreen(Tower tow) {
-		return wallet.checkBalance(0, GREEN_UPGRADE_COST * tow.green.getStage(), 0);
+		return wallet.checkBalance(0, GREEN_UPGRADE_COST * (tow.green.getStage()+1), 0);
 	}
 
 	public boolean canAffordBlue(Tower tow) {
-		return wallet.checkBalance(0, 0, BLUE_UPGRADE_COST * tow.blue.getStage());
+		return wallet.checkBalance(0, 0, BLUE_UPGRADE_COST * (tow.blue.getStage() + 1));
 	}
 
 	public boolean setRedUpgrade(Entity entity) {
@@ -184,7 +184,7 @@ public class TowerSystem extends EntitySystem {
 		}
 
 		if (didUpgrade) {
-			wallet.sub(RED_UPGRADE_COST * tower.red.getStage(), 0, 0);
+			wallet.sub(RED_UPGRADE_COST * (tower.red.getStage()+1), 0, 0);
 			updateCombos(entity);
 			updateTowerStats(entity);
 			return true;
@@ -225,8 +225,7 @@ public class TowerSystem extends EntitySystem {
 		}
 
 		if (didUpgrade) {
-			wallet.sub(0, GREEN_UPGRADE_COST * tower.green.getStage(), 0);
-			GREEN_UPGRADE_COST += 5;
+			wallet.sub(0, GREEN_UPGRADE_COST * (tower.green.getStage()+1), 0);
 			updateCombos(entity);
 			updateTowerStats(entity);
 
@@ -268,8 +267,7 @@ public class TowerSystem extends EntitySystem {
 		}
 
 		if (didUpgrade) {
-			wallet.sub(0, 0, BLUE_UPGRADE_COST * tower.blue.getStage());
-			BLUE_UPGRADE_COST += 5;
+			wallet.sub(0, 0, BLUE_UPGRADE_COST * (tower.blue.getStage()+1));
 			updateCombos(entity);
 			updateTowerStats(entity);
 			return true;
