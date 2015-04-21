@@ -97,7 +97,7 @@ public class SphericalCollisionSystem extends EntitySystem {
 						// System.out.println("HIT");
 
 						if (killable.getHealth() <= 0) {
-							other.add(new Doomed());
+							one.add(new Doomed());
 						}
 					}
 
