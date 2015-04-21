@@ -6,12 +6,11 @@ import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Music.OnCompletionListener;
 
 /**
  * Created by Samy Narrainen on 18/04/2015.
  */
-public class AudioManager implements IAudioManagement, OnCompletionListener {
+public class AudioManager implements IAudioManagement {
 	protected HashMap<AudioName, Music> loadedAudio = new HashMap<AudioName, Music>();
 	private Queue<Music> playing = new LinkedList<Music>();
 
@@ -25,7 +24,7 @@ public class AudioManager implements IAudioManagement, OnCompletionListener {
 
 			m.setVolume(audioName.volume);
 			m.setLooping(audioName.loopByDefault);
-			m.setOnCompletionListener(this);
+			// m.setOnCompletionListener(this);
 
 			loadedAudio.put(audioName, m);
 		}
@@ -116,8 +115,8 @@ public class AudioManager implements IAudioManagement, OnCompletionListener {
 		playing.clear();
 	}
 
-	@Override
-	public void onCompletion(Music music) {
-		playing.remove(music);
-	}
+	// @Override
+	// public void onCompletion(Music music) {
+	// playing.remove(music);
+	// }
 }

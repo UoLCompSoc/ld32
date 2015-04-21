@@ -4,6 +4,8 @@ public enum TextureName {
 	PADDLE("paddle.png"), //
 	BALL_ANIM("ball.png", 64, 64), // 64x64 animation
 
+	MAP("map.png"),
+
 	SPARKLE("sparkle.png", 32, 32), // 32x32 animation
 	INVALID_ACTION("invalid.png", 32, 32), // 32x32 animation
 

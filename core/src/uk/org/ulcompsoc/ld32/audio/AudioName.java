@@ -3,7 +3,8 @@ package uk.org.ulcompsoc.ld32.audio;
 public enum AudioName {
 	ABSTRACTION("data/abstraction.ogg", true, true, 0.3f), //
 	DROP("data/drop.mp3"), //
-	WOOSH("data/woosh.mp3");
+	WOOSH("data/woosh.mp3"), //
+	POPO("data/popo.mp3", false, false, 0.2f);
 
 	public static final float DEFAULT_VOLUME = 0.50f;
 

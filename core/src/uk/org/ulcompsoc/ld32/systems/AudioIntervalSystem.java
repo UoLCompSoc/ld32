@@ -1,6 +1,6 @@
 package uk.org.ulcompsoc.ld32.systems;
 
-import uk.org.ulcompsoc.ld32.audio.AudioManager;
+import uk.org.ulcompsoc.ld32.audio.IAudioManagement;
 
 import com.badlogic.ashley.systems.IntervalSystem;
 
@@ -13,9 +13,9 @@ public class AudioIntervalSystem extends IntervalSystem {
 	/**
 	 * The AudioManager that this IntervalSystem will run every interval
 	 */
-	private AudioManager audioManager;
+	private IAudioManagement audioManager;
 
-	public AudioIntervalSystem(float interval, AudioManager audioManager) {
+	public AudioIntervalSystem(float interval, IAudioManagement audioManager) {
 		super(interval);
 		this.audioManager = audioManager;
 	}
