@@ -3,7 +3,9 @@ package uk.org.ulcompsoc.ld32.systems;
 import java.util.ArrayList;
 
 import com.badlogic.ashley.core.Engine;
+
 import uk.org.ulcompsoc.ld32.LD32;
+import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Player;
 import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
@@ -149,7 +151,6 @@ public class GUIRenderSystem extends EntitySystem {
 
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
-
 		if (selectedTowerEntity != null) {
 			Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
 			if (tower != null) {
@@ -159,10 +160,11 @@ public class GUIRenderSystem extends EntitySystem {
 				//      350.0f, 0.0f));
 				temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE);
 				this.twrDropRate = textureManager.makeWord(this.engine, dropRate, (int)temp.x, (int)temp.y);
+				
 			}
 		} else {
 			if(this.twrDropRate != null){
-				engine.removeEntity(twrDropRate);
+				this.twrDropRate.add(new Doomed());
 			}
 		}
 
