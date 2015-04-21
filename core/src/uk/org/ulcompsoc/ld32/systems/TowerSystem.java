@@ -39,10 +39,10 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class TowerSystem extends EntitySystem {
-	private static int RED_UPGRADE_COST = 3;
-	private static int GREEN_UPGRADE_COST = 3;
-	private static int BLUE_UPGRADE_COST = 3;
-	public static int NEW_TOWER_COST = 0;
+	private static final int RED_UPGRADE_COST = 3;
+	private static final int GREEN_UPGRADE_COST = 3;
+	private static final int BLUE_UPGRADE_COST = 3;
+	public static int NEW_TOWER_COST = 1;
 
 	public Wallet wallet;
 
@@ -55,11 +55,6 @@ public class TowerSystem extends EntitySystem {
 	public TowerSystem(int priority, Wallet w) {
 		super(priority);
 		wallet = w;
-	}
-
-	public static void calculateNewTowerCost(int numTowers) {
-		NEW_TOWER_COST = NEW_TOWER_COST + numTowers;
-
 	}
 
 	@Override
@@ -142,15 +137,15 @@ public class TowerSystem extends EntitySystem {
 	}
 
 	public boolean canAffordRed(Tower tow) {
-		return wallet.checkBalance(RED_UPGRADE_COST * (tow.red.getStage()+1), 0, 0);
+		return wallet.checkBalance(RED_UPGRADE_COST, 0, 0);
 	}
 
 	public boolean canAffordGreen(Tower tow) {
-		return wallet.checkBalance(0, GREEN_UPGRADE_COST * (tow.green.getStage()+1), 0);
+		return wallet.checkBalance(0, GREEN_UPGRADE_COST, 0);
 	}
 
 	public boolean canAffordBlue(Tower tow) {
-		return wallet.checkBalance(0, 0, BLUE_UPGRADE_COST * (tow.blue.getStage() + 1));
+		return wallet.checkBalance(0, 0, BLUE_UPGRADE_COST);
 	}
 
 	public boolean setRedUpgrade(Entity entity) {
@@ -184,7 +179,7 @@ public class TowerSystem extends EntitySystem {
 		}
 
 		if (didUpgrade) {
-			wallet.sub(RED_UPGRADE_COST * (tower.red.getStage()+1), 0, 0);
+			wallet.sub(RED_UPGRADE_COST, 0, 0);
 			updateCombos(entity);
 			updateTowerStats(entity);
 			return true;
@@ -225,7 +220,7 @@ public class TowerSystem extends EntitySystem {
 		}
 
 		if (didUpgrade) {
-			wallet.sub(0, GREEN_UPGRADE_COST * (tower.green.getStage()+1), 0);
+			wallet.sub(0, GREEN_UPGRADE_COST, 0);
 			updateCombos(entity);
 			updateTowerStats(entity);
 
@@ -267,7 +262,7 @@ public class TowerSystem extends EntitySystem {
 		}
 
 		if (didUpgrade) {
-			wallet.sub(0, 0, BLUE_UPGRADE_COST * (tower.blue.getStage()+1));
+			wallet.sub(0, 0, BLUE_UPGRADE_COST);
 			updateCombos(entity);
 			updateTowerStats(entity);
 			return true;

@@ -11,13 +11,13 @@ import uk.org.ulcompsoc.ld32.audio.IAudioManagement;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
-import uk.org.ulcompsoc.ld32.components.MapRenderable;
 import uk.org.ulcompsoc.ld32.components.MouseListener;
 import uk.org.ulcompsoc.ld32.components.MouseListener.MouseButtons;
 import uk.org.ulcompsoc.ld32.components.MouseListener.MouseListenerHandler;
 import uk.org.ulcompsoc.ld32.components.Paddle;
 import uk.org.ulcompsoc.ld32.components.PaddleInputListener;
 import uk.org.ulcompsoc.ld32.components.PathFollower;
+import uk.org.ulcompsoc.ld32.components.Player;
 import uk.org.ulcompsoc.ld32.components.Position;
 import uk.org.ulcompsoc.ld32.components.Renderable;
 import uk.org.ulcompsoc.ld32.components.Rotatable;
@@ -34,6 +34,7 @@ import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
 import uk.org.ulcompsoc.ld32.systems.GUIRenderSystem;
+import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
 import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
@@ -181,12 +182,9 @@ public class LD32 extends ApplicationAdapter {
 			engine.addEntity(makeEmptyTower(phi + i * (LDUtil.PI / 2.0f)));
 		}
 
-		camera.update();
-		final Vector3 mapScale = camera.unproject(new Vector3(512.0f, 1.0f, 1.0f));
 		mapEntity.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.MAP))).setScale(0.60f)
-		        .withPriority(-1000));
+		        .withPriority(-500000));
 		mapEntity.add(Position.fromEuclidean(0.0f, 0.0f));
-		mapEntity.add(new MapRenderable(map));
 		engine.addEntity(mapEntity);
 
 		engine.addSystem(new EnemySpawningSystem(500, 0.5f, map));
@@ -201,10 +199,9 @@ public class LD32 extends ApplicationAdapter {
 		        .getHeight() / 2, map.radius)));
 		engine.addSystem(new ProjectileLifeTimeSystem(8000));
 		engine.addSystem(new TowerSystem(9000, paddle.getComponent(Wallet.class)));
-		// engine.addSystem(new MapRenderSystem(10000, shapeRenderer,
-		// spriteBatch, camera));
+		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, spriteBatch, camera));
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
-		engine.addSystem(new GUIRenderSystem(22500, spriteBatch, camera, paddle));
+		engine.addSystem(new GUIRenderSystem(-500, spriteBatch, camera, paddle));
 
 		engine.addSystem(new WalletRenderSystem(25000, spriteBatch, camera, Gdx.graphics.getWidth() * 0.9f,
 		        Gdx.graphics.getHeight() * 0.95f));
@@ -248,6 +245,36 @@ public class LD32 extends ApplicationAdapter {
 
 		camera.update();
 		engine.update(deltaTime);
+		handleScore(spriteBatch);
+	}
+
+	protected void handleScore(Batch batch) {
+		final float scalefactor = 0.1f;
+		final float newWidth = textureManager.mapOfChars.get('0').getRegionWidth() * scalefactor;
+		final float newHeight = textureManager.mapOfChars.get('0').getRegionHeight() * scalefactor;
+
+		int score = Player.score;
+
+		ArrayList<Integer> characters = new ArrayList<Integer>();
+
+		while (score > 0) {
+			characters.add(score % 10);
+			score /= 10;
+		}
+
+		Vector3 start = camera.unproject(new Vector3(Gdx.graphics.getWidth() / 2 - newWidth * characters.size(),
+		        Gdx.graphics.getHeight() / 10, 0.0f));
+
+		float SPACER_MULTIPLIER = newWidth;
+		float space = 0.0f;
+
+		batch.begin();
+		for (int i = characters.size() - 1; i >= 0; i--) {
+			batch.draw(textureManager.mapOfChars.get(("" + i).charAt(0)), start.x + space, (start.y), newWidth,
+			        newHeight);
+			space += SPACER_MULTIPLIER;
+		}
+		batch.end();
 	}
 
 	@Override

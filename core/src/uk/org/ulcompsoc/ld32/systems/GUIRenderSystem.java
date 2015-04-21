@@ -1,11 +1,6 @@
 package uk.org.ulcompsoc.ld32.systems;
 
-import java.util.ArrayList;
-
 import uk.org.ulcompsoc.ld32.LD32;
-import uk.org.ulcompsoc.ld32.components.Doomed;
-import uk.org.ulcompsoc.ld32.components.Player;
-import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -14,7 +9,6 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -148,31 +142,31 @@ public class GUIRenderSystem extends EntitySystem {
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
 
-		if (selectedTowerEntity != null) {
-			Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
-			if (tower != null) {
-				// String r ="Attack Speed "+ tower.fireDelay+"s";
-				// handleACounter(tower.red.getStage(), batch, new
-				// Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
-				// 350.0f, 0.0f));
-
-				if (twrDropRate == null) {
-					temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE.cpy());
-					String dropRate = "Drop Rate " + tower.dropRate;
-					this.twrDropRate = textureManager.makeWord(this.engine, dropRate, (int) temp.x, (int) temp.y);
-				}
-			}
-		} else {
-			if (this.twrDropRate != null) {
-				this.twrDropRate.add(new Doomed());
-			}
-			this.twrDropRate = null;
-		}
+		// if (selectedTowerEntity != null) {
+		// Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
+		// if (tower != null) {
+		// // String r ="Attack Speed "+ tower.fireDelay+"s";
+		// // handleACounter(tower.red.getStage(), batch, new
+		// // Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
+		// // 350.0f, 0.0f));
+		//
+		// if (twrDropRate == null) {
+		// temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE.cpy());
+		// String dropRate = "Drop Rate " + tower.dropRate;
+		// this.twrDropRate = textureManager.makeWord(this.engine, dropRate,
+		// (int) temp.x, (int) temp.y);
+		// }
+		// }
+		// } else {
+		// if (this.twrDropRate != null) {
+		// this.twrDropRate.add(new Doomed());
+		// }
+		// this.twrDropRate = null;
+		// }
 
 		/**
 		 * Score
 		 */
-		handleScore(batch);
 		batch.end();
 	}
 
@@ -199,33 +193,6 @@ public class GUIRenderSystem extends EntitySystem {
 			temp = camera.unproject(vector2);
 			batch.draw(this.getNumber(counter), temp.x, (temp.y - newWidth), newWidth, newHeight);
 		}
-	}
-
-	protected void handleScore(Batch batch) {
-		float scalefactor = 0.1f;
-		float newWidth = zero.getRegionWidth() * scalefactor;
-		float newHeight = zero.getRegionHeight() * scalefactor;
-
-		int score = Player.score;
-
-		ArrayList<Integer> characters = new ArrayList<Integer>();
-
-		while (score > 0) {
-			characters.add(score % 10);
-			score /= 10;
-		}
-
-		Vector3 start = camera.unproject(new Vector3(Gdx.graphics.getWidth() / 2 - newWidth * characters.size(),
-		        Gdx.graphics.getHeight() / 10, 0.0f));
-
-		float SPACER_MULTIPLIER = newWidth;
-		float space = 0.0f;
-
-		for (int i = characters.size() - 1; i >= 0; i--) {
-			batch.draw(this.getNumber(characters.get(i)), start.x + space, (start.y), newWidth, newHeight);
-			space += SPACER_MULTIPLIER;
-		}
-
 	}
 
 	private TextureRegion getNumber(int number) {
