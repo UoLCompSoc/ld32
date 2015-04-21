@@ -157,7 +157,7 @@ public class GUIRenderSystem extends EntitySystem {
 				// 350.0f, 0.0f));
 
 				if (twrDropRate == null) {
-					temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE);
+					temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE.cpy());
 					String dropRate = "Drop Rate " + tower.dropRate;
 					this.twrDropRate = textureManager.makeWord(this.engine, dropRate, (int) temp.x, (int) temp.y);
 				}
