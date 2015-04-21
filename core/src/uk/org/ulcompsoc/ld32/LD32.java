@@ -34,7 +34,6 @@ import uk.org.ulcompsoc.ld32.systems.BasicFiringSystem;
 import uk.org.ulcompsoc.ld32.systems.DoomedSystem;
 import uk.org.ulcompsoc.ld32.systems.EnemySpawningSystem;
 import uk.org.ulcompsoc.ld32.systems.GUIRenderSystem;
-import uk.org.ulcompsoc.ld32.systems.MapRenderSystem;
 import uk.org.ulcompsoc.ld32.systems.MouseListenerSystem;
 import uk.org.ulcompsoc.ld32.systems.PaddleInputSystem;
 import uk.org.ulcompsoc.ld32.systems.PathFollowingSystem;
@@ -64,6 +63,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Vector3;
 
 public class LD32 extends ApplicationAdapter {
 	private final Engine engine;
@@ -89,8 +89,6 @@ public class LD32 extends ApplicationAdapter {
 	private Batch spriteBatch = null;
 
 	private Animation atomAnimation = null;
-
-	private Renderable mapRenderable = null;
 
 	private final Random random = new Random();
 
@@ -183,11 +181,14 @@ public class LD32 extends ApplicationAdapter {
 			engine.addEntity(makeEmptyTower(phi + i * (LDUtil.PI / 2.0f)));
 		}
 
+		camera.update();
+		final Vector3 mapScale = camera.unproject(new Vector3(512.0f, 1.0f, 1.0f));
+		mapEntity.add(new Renderable(new TextureRegion(textureManager.nameMap.get(TextureName.MAP))).setScale(0.60f)
+		        .withPriority(-1000));
 		mapEntity.add(Position.fromEuclidean(0.0f, 0.0f));
 		mapEntity.add(new MapRenderable(map));
 		engine.addEntity(mapEntity);
 
-		engine.addSystem(new GUIRenderSystem(-100, spriteBatch, camera, paddle));
 		engine.addSystem(new EnemySpawningSystem(500, 0.5f, map));
 		engine.addSystem(new PaddleInputSystem(1000));
 		engine.addSystem(new MouseListenerSystem(2000, camera));
@@ -200,8 +201,10 @@ public class LD32 extends ApplicationAdapter {
 		        .getHeight() / 2, map.radius)));
 		engine.addSystem(new ProjectileLifeTimeSystem(8000));
 		engine.addSystem(new TowerSystem(9000, paddle.getComponent(Wallet.class)));
-		engine.addSystem(new MapRenderSystem(10000, shapeRenderer, camera));
+		// engine.addSystem(new MapRenderSystem(10000, shapeRenderer,
+		// spriteBatch, camera));
 		engine.addSystem(new RenderSystem(20000, spriteBatch, shapeRenderer, camera));
+		engine.addSystem(new GUIRenderSystem(22500, spriteBatch, camera, paddle));
 
 		engine.addSystem(new WalletRenderSystem(25000, spriteBatch, camera, Gdx.graphics.getWidth() * 0.9f,
 		        Gdx.graphics.getHeight() * 0.95f));
@@ -306,7 +309,7 @@ public class LD32 extends ApplicationAdapter {
 		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
-		//e.add(new SphericalBound(towerRen.getWidth() / 2));
+		// e.add(new SphericalBound(towerRen.getWidth() / 2));
 		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(engine, paddle), new Circle(towerPos.getX(),
 		        towerPos.getY(), towerRen.getHeight() * 0.95f)));
 		return e;
