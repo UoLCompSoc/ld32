@@ -39,9 +39,9 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class TowerSystem extends EntitySystem {
-	private static final int RED_UPGRADE_COST = 5;
-	private static final int GREEN_UPGRADE_COST = 5;
-	private static final int BLUE_UPGRADE_COST = 5;
+	private static int RED_UPGRADE_COST = 5;
+	private static int GREEN_UPGRADE_COST = 5;
+	private static int BLUE_UPGRADE_COST = 5;
 	public static int NEW_TOWER_COST = 1;
 
 	public Wallet wallet;
