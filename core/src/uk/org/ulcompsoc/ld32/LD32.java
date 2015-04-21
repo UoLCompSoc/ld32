@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.CircleMap.RingSegment;
+import uk.org.ulcompsoc.ld32.audio.AudioManager;
 import uk.org.ulcompsoc.ld32.audio.AudioName;
 import uk.org.ulcompsoc.ld32.audio.IAudioManagement;
-import uk.org.ulcompsoc.ld32.audio.SilentAudioManager;
 import uk.org.ulcompsoc.ld32.components.Atom;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.DeathAnimation;
@@ -71,8 +71,9 @@ public class LD32 extends ApplicationAdapter {
 
 	public static final TextureManager textureManager = new TextureManager();
 
-	// public static final IAudioManagement audioManager = new AudioManager();
-	public static final IAudioManagement audioManager = new SilentAudioManager(false);
+	public static final IAudioManagement audioManager = new AudioManager();
+	// public static final IAudioManagement audioManager = new
+	// SilentAudioManager(false);
 
 	private final Entity paddle = new Entity();
 	private TextureRegion paddleSprite = null;
@@ -88,6 +89,8 @@ public class LD32 extends ApplicationAdapter {
 	private Batch spriteBatch = null;
 
 	private Animation atomAnimation = null;
+
+	private Renderable mapRenderable = null;
 
 	private final Random random = new Random();
 
@@ -303,7 +306,7 @@ public class LD32 extends ApplicationAdapter {
 		        textureManager.nameMap.get(TextureName.EMPTY_TOWER))).setScale(0.25f);
 		e.add(towerPos);
 		e.add(towerRen);
-		e.add(new SphericalBound(towerRen.getWidth() / 2));
+		//e.add(new SphericalBound(towerRen.getWidth() / 2));
 		e.add(new MouseListener(new EmptyTowerMouseListenerHandler(engine, paddle), new Circle(towerPos.getX(),
 		        towerPos.getY(), towerRen.getHeight() * 0.95f)));
 		return e;

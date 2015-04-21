@@ -3,6 +3,7 @@ package uk.org.ulcompsoc.ld32.systems;
 import java.util.Random;
 
 import uk.org.ulcompsoc.ld32.LD32;
+import uk.org.ulcompsoc.ld32.audio.AudioName;
 import uk.org.ulcompsoc.ld32.components.CanItDrop;
 import uk.org.ulcompsoc.ld32.components.Damage;
 import uk.org.ulcompsoc.ld32.components.Drop;
@@ -32,7 +33,6 @@ import uk.org.ulcompsoc.ld32.util.TextureName;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
@@ -42,7 +42,7 @@ public class TowerSystem extends EntitySystem {
 	private static int RED_UPGRADE_COST = 3;
 	private static int GREEN_UPGRADE_COST = 3;
 	private static int BLUE_UPGRADE_COST = 3;
-	public static  int NEW_TOWER_COST = 0;
+	public static int NEW_TOWER_COST = 1;
 
 	public Wallet wallet;
 
@@ -56,9 +56,9 @@ public class TowerSystem extends EntitySystem {
 		super(priority);
 		wallet = w;
 	}
-	
+
 	public static void calculateNewTowerCost(int numTowers) {
-		NEW_TOWER_COST = (int) NEW_TOWER_COST + numTowers;
+		NEW_TOWER_COST = NEW_TOWER_COST + numTowers;
 
 	}
 
@@ -114,6 +114,8 @@ public class TowerSystem extends EntitySystem {
 				// TODO: this probably shouldn't be here
 				// when we ascend, increase atom drop chance.
 				CanItDrop.ATOM_BOOSTER += 0.01;
+
+				LD32.audioManager.play(AudioName.POPO);
 
 				final Entity asc = new Entity();
 				final Position p = Mappers.positionMapper.get(entity);
@@ -223,7 +225,11 @@ public class TowerSystem extends EntitySystem {
 		}
 
 		if (didUpgrade) {
+<<<<<<< HEAD
 			wallet.sub(0, GREEN_UPGRADE_COST * (tower.green.getStage()+1), 0);
+=======
+			wallet.sub(0, GREEN_UPGRADE_COST * tower.green.getStage(), 0);
+>>>>>>> 558ca9d66bfeead38d00a9b302ee17b215ae3630
 			GREEN_UPGRADE_COST += 5;
 			updateCombos(entity);
 			updateTowerStats(entity);

@@ -48,4 +48,6 @@ public interface IAudioManagement extends Disposable {
 
 	@Override
 	public void dispose();
+
+	public void run();
 }
