@@ -2,11 +2,7 @@ package uk.org.ulcompsoc.ld32.systems;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
-import com.badlogic.ashley.core.Engine;
 
-=======
->>>>>>> branch 'master' of https://github.com/UoLCompSoc/ld32
 import uk.org.ulcompsoc.ld32.LD32;
 import uk.org.ulcompsoc.ld32.components.Doomed;
 import uk.org.ulcompsoc.ld32.components.Player;
@@ -72,9 +68,9 @@ public class GUIRenderSystem extends EntitySystem {
 	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION = new Vector3(120.0f, 295.0f, 0.0f);
 	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION = new Vector3(155.0f, 295.0f, 0.0f);
 
-	private final Vector3 DFLT_TOWER_STAT_FIRE_RATE = new Vector3(130.0f, 350.0f, 0.0f);
-	private final Vector3 DFLT_TOWER_STAT_BLUE = null;
-	private final Vector3 DFLT_TOWER_STAT_GREEN = null;
+	private final Vector3 DFLT_TOWER_STAT_FIRE_RATE = new Vector3(90.0f, 370.0f, 0.0f);
+	private final Vector3 DFLT_TOWER_STAT_RANGE = new Vector3(90.0f, 410.0f, 0.0f);
+	private final Vector3 DFLT_TOWER_STAT_DROP_RATE = new Vector3(90.0f, 390.0f, 0.0f);
 	private Vector3 temp;
 
 	public GUIRenderSystem(int priority, final Batch batch, final OrthographicCamera cam, final Entity playerEntity) {
@@ -155,31 +151,36 @@ public class GUIRenderSystem extends EntitySystem {
 		if (selectedTowerEntity != null) {
 			Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
 			if (tower != null) {
-				//String dropRate = "Drop Rate "+tower.dropRate;
-				//String r ="Attack Speed "+ tower.fireDelay+"s";
-				//handleACounter(tower.red.getStage(), batch, new Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
-				//      350.0f, 0.0f));
-				//temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE.cpy());
-				//this.twrDropRate = textureManager.makeWord(this.engine, dropRate, (int)temp.x, (int)temp.y);
-				
-
-				// String r ="Attack Speed "+ tower.fireDelay+"s";
-				// handleACounter(tower.red.getStage(), batch, new
-				// Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
-				// 350.0f, 0.0f));
-
 				if (twrDropRate == null) {
-					temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE.cpy());
-					String dropRate = "Drop Rate " + tower.dropRate;
+					temp = camera.unproject(DFLT_TOWER_STAT_DROP_RATE.cpy());
+					String dropRate = "Drop Rate" + tower.dropRate;
 					this.twrDropRate = textureManager.makeWord(this.engine, dropRate, (int) temp.x, (int) temp.y);
 				}
+				if(this.twrFireSpeed == null){
+					temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE.cpy());
+					String fireRate = "Fire Rate"+tower.fireDelay;		
+					this.twrFireSpeed = textureManager.makeWord(this.engine, fireRate, (int) temp.x, (int) temp.y);
+				}
+				if(this.twrRange == null){
+					temp = camera.unproject(DFLT_TOWER_STAT_RANGE.cpy());
+					String range = "Range"+tower.range;
+					this.twrRange = textureManager.makeWord(this.engine, range, (int) temp.x, (int) temp.y); 
+				}
+				
 			}
 		} else {
 			if (this.twrDropRate != null) {
-
 				this.twrDropRate.add(new Doomed());
 			}
 			this.twrDropRate = null;
+			if(this.twrFireSpeed != null) {
+				this.twrFireSpeed.add(new Doomed());
+			}
+			twrFireSpeed = null;
+			if(this.twrRange != null) {
+				this.twrRange.add(new Doomed());
+			}
+			twrRange = null;
 		}
 
 		/**
