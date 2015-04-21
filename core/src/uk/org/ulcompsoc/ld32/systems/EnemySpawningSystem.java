@@ -129,8 +129,13 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 	@SuppressWarnings("unchecked")
 	private float calculateSpawnRate(float elapsedTime) {
-		// System.out.println("ElapsedTime: " + elapsedTime);
-		final float factor = Math.max(0.15f, LDUtil.smoothStep(0f, 180.0f, elapsedTime));
+		 System.out.println("ElapsedTime: " + elapsedTime);
+		//final float factor = Math.max(0.15f, LDUtil.smoothStep(0f, 180.0f, elapsedTime));
+		 
+		 float factor = 0.1f;
+		 if(elapsedTime > 90) {
+			 factor = 0.5f;
+		 }
 
 		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
 		// System.out.println("Num towers: " + numTowers);
@@ -151,6 +156,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 		spawnRate = Math.min(spawnRate, MAX_SPAWN_TIME);
 
 		// System.out.println("SpawnRate2: " + spawnRate);
+		System.out.println("SPAWN_RATE: " + spawnRate);
 		return spawnRate;
 	}
 
