@@ -230,7 +230,7 @@ public class LD32 extends ApplicationAdapter {
 		final float deltaTime = Gdx.graphics.getDeltaTime();
 		frameCounts.add(Gdx.graphics.getFramesPerSecond());
 
-		if (frameCounts.size() > 100) {
+		if (frameCounts.size() > 250) {
 			int total = 0;
 
 			for (int i : frameCounts) {
@@ -240,7 +240,7 @@ public class LD32 extends ApplicationAdapter {
 			final float fps = (float) total / (float) frameCounts.size();
 
 			frameCounts.clear();
-			Gdx.app.log("FPS", "Average FPS: " + fps);
+			Gdx.app.log("AVERAGE_FPS", "" + fps);
 		}
 
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);

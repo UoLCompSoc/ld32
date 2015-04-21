@@ -18,7 +18,6 @@ import uk.org.ulcompsoc.ld32.components.enemies.Antineutron;
 import uk.org.ulcompsoc.ld32.components.enemies.Antiproton;
 import uk.org.ulcompsoc.ld32.components.enemies.Enemy;
 import uk.org.ulcompsoc.ld32.components.enemies.Positron;
-import uk.org.ulcompsoc.ld32.util.LDUtil;
 import uk.org.ulcompsoc.ld32.util.TextureName;
 
 import com.badlogic.ashley.core.Engine;
@@ -83,13 +82,13 @@ public class EnemySpawningSystem extends IntervalSystem {
 	}
 
 	private Entity generateEnemy() {
-		if(totalTimeElapsed > 60) {
-			Enemy.setMultiplier(1 + (totalTimeElapsed/200));
+		if (totalTimeElapsed > 60) {
+			Enemy.setMultiplier(1 + (totalTimeElapsed / 200));
 		} else if (totalTimeElapsed > 150) {
-			Enemy.setMultiplier(1+ (totalTimeElapsed/100));
+			Enemy.setMultiplier(1 + (totalTimeElapsed / 100));
 		}
-		
-		System.out.println("EnemyMultiplier: " + Enemy.getMultiplier());
+
+		// System.out.println("EnemyMultiplier: " + Enemy.getMultiplier());
 		final Entity entity = new Entity();
 		final RingSegment firstSegment = map.getFirstSegment();
 		final EnemyType type = EnemyType.getRandomType(random);
@@ -129,13 +128,14 @@ public class EnemySpawningSystem extends IntervalSystem {
 
 	@SuppressWarnings("unchecked")
 	private float calculateSpawnRate(float elapsedTime) {
-		 System.out.println("ElapsedTime: " + elapsedTime);
-		//final float factor = Math.max(0.15f, LDUtil.smoothStep(0f, 180.0f, elapsedTime));
-		 
-		 float factor = 0.1f;
-		 if(elapsedTime > 90) {
-			 factor = 0.5f;
-		 }
+		System.out.println("ElapsedTime: " + elapsedTime);
+		// final float factor = Math.max(0.15f, LDUtil.smoothStep(0f, 180.0f,
+		// elapsedTime));
+
+		float factor = 0.1f;
+		if (elapsedTime > 90) {
+			factor = 0.5f;
+		}
 
 		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
 		// System.out.println("Num towers: " + numTowers);
@@ -156,7 +156,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 		spawnRate = Math.min(spawnRate, MAX_SPAWN_TIME);
 
 		// System.out.println("SpawnRate2: " + spawnRate);
-		System.out.println("SPAWN_RATE: " + spawnRate);
+		// System.out.println("SPAWN_RATE: " + spawnRate);
 		return spawnRate;
 	}
 
