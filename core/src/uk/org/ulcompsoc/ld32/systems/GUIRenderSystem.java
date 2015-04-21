@@ -46,6 +46,10 @@ public class GUIRenderSystem extends EntitySystem {
 
 	private final Entity playerEntity;
 	public static Entity selectedTowerEntity = null;
+	
+	private Entity twrFireSpeed = null;
+	private Entity twrDropRate = null;
+	private Entity twrRange = null;
 
 	// Default coordinates for drawing elements in predefined positions
 	private final Vector3 DFLT_POSITION_OF_THE_FRAME = new Vector3(0.0f, 0.0f, 0.0f);
@@ -62,7 +66,7 @@ public class GUIRenderSystem extends EntitySystem {
 	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION = new Vector3(120.0f, 295.0f, 0.0f);
 	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION = new Vector3(155.0f, 295.0f, 0.0f);
 
-	private final Vector3 DFLT_TOWER_STAT_RED = null;
+	private final Vector3 DFLT_TOWER_STAT_FIRE_RATE = new Vector3(130.0f, 350.0f, 0.0f);
 	private final Vector3 DFLT_TOWER_STAT_BLUE = null;
 	private final Vector3 DFLT_TOWER_STAT_GREEN = null;
 	private Vector3 temp;
@@ -149,11 +153,16 @@ public class GUIRenderSystem extends EntitySystem {
 		if (selectedTowerEntity != null) {
 			Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
 			if (tower != null) {
-				//String dropRate = "Drop Rate "+tower.dropRate;
+				String dropRate = "Drop Rate "+tower.dropRate;
 				//String r ="Attack Speed "+ tower.fireDelay+"s";
 				//handleACounter(tower.red.getStage(), batch, new Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
 				//      350.0f, 0.0f));
-				//textureManager.makeWord(this.engine, dropRate, 130, 350);
+				temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE);
+				this.twrDropRate = textureManager.makeWord(this.engine, dropRate, (int)temp.x, (int)temp.y);
+			}
+		} else {
+			if(this.twrDropRate != null){
+				engine.removeEntity(twrDropRate);
 			}
 		}
 
