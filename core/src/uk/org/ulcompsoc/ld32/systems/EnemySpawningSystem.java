@@ -134,7 +134,7 @@ public class EnemySpawningSystem extends IntervalSystem {
 		 
 		 float factor = 0.1f;
 		 if(elapsedTime > 90) {
-			 factor = 0.5f;
+			 factor = 0.2f;
 		 }
 
 		int numTowers = engine.getEntitiesFor(Family.all(Tower.class).get()).size();
