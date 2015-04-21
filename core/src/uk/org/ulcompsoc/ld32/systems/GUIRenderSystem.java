@@ -1,6 +1,8 @@
 package uk.org.ulcompsoc.ld32.systems;
 
 import uk.org.ulcompsoc.ld32.LD32;
+import uk.org.ulcompsoc.ld32.components.Doomed;
+import uk.org.ulcompsoc.ld32.components.Tower;
 import uk.org.ulcompsoc.ld32.components.Wallet;
 import uk.org.ulcompsoc.ld32.util.Mappers;
 import uk.org.ulcompsoc.ld32.util.TextureManager;
@@ -20,7 +22,6 @@ public class GUIRenderSystem extends EntitySystem {
 	private OrthographicCamera camera;
 
 	private Engine engine = null;
-	private boolean processing = false;
 
 	// different textures
 	private TextureRegion frame = null;
@@ -61,9 +62,9 @@ public class GUIRenderSystem extends EntitySystem {
 	private final Vector3 DFLT_BLUE_1_DIGIT_POSITION = new Vector3(120.0f, 295.0f, 0.0f);
 	private final Vector3 DFLT_BLUE_2_DIGIT_POSITION = new Vector3(155.0f, 295.0f, 0.0f);
 
-	private final Vector3 DFLT_TOWER_STAT_FIRE_RATE = new Vector3(130.0f, 350.0f, 0.0f);
-	private final Vector3 DFLT_TOWER_STAT_BLUE = null;
-	private final Vector3 DFLT_TOWER_STAT_GREEN = null;
+	private final Vector3 DFLT_TOWER_STAT_FIRE_RATE = new Vector3(80.0f, 370.0f, 0.0f);
+	private final Vector3 DFLT_TOWER_STAT_RANGE = new Vector3(80.0f, 430.0f, 0.0f);
+	private final Vector3 DFLT_TOWER_STAT_DROP_RATE = new Vector3(80.0f, 400.0f, 0.0f);
 	private Vector3 temp;
 
 	public GUIRenderSystem(int priority, final Batch batch, final OrthographicCamera cam, final Entity playerEntity) {
@@ -93,14 +94,14 @@ public class GUIRenderSystem extends EntitySystem {
 
 	@Override
 	public void addedToEngine(Engine engine) {
+		super.addedToEngine(engine);
 		this.engine = engine;
-		processing = true;
 	}
 
 	@Override
 	public void removedFromEngine(Engine engine) {
+		super.removedFromEngine(engine);
 		this.engine = null;
-		processing = false;
 	}
 
 	@Override
@@ -141,32 +142,53 @@ public class GUIRenderSystem extends EntitySystem {
 
 		// batch.draw(textureManager., x, y, originX, originY, width, height,
 		// scaleX, scaleY, rotation);
+		if (selectedTowerEntity != null) {
+			Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
+			if (tower != null) {
+				if (twrDropRate == null) {
+					temp = camera.unproject(DFLT_TOWER_STAT_DROP_RATE.cpy());
+					String dropStr = "" + tower.dropRate;
+					if (dropStr.length() > 6) {
+						dropStr = dropStr.substring(0, 5);
+					}
+					String dropRate = "Drop " + dropStr;
+					this.twrDropRate = textureManager.makeWord(this.engine, dropRate, (int) temp.x, (int) temp.y);
+				}
+				if (this.twrFireSpeed == null) {
+					temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE.cpy());
+					String delayStr = "" + tower.fireDelay;
+					if (delayStr.length() > 6) {
+						delayStr = delayStr.substring(0, 5);
+					}
+					String fireRate = "Fire " + delayStr;
+					this.twrFireSpeed = textureManager.makeWord(this.engine, fireRate, (int) temp.x, (int) temp.y);
+				}
+				if (this.twrRange == null) {
+					temp = camera.unproject(DFLT_TOWER_STAT_RANGE.cpy());
+					String rangeStr = "" + tower.range;
+					if (rangeStr.length() > 6) {
+						rangeStr = rangeStr.substring(0, 5);
+					}
+					String range = "Range " + rangeStr;
+					this.twrRange = textureManager.makeWord(this.engine, range, (int) temp.x, (int) temp.y);
+				}
 
-		// if (selectedTowerEntity != null) {
-		// Tower tower = Mappers.towerMapper.get(selectedTowerEntity);
-		// if (tower != null) {
-		// // String r ="Attack Speed "+ tower.fireDelay+"s";
-		// // handleACounter(tower.red.getStage(), batch, new
-		// // Vector3(110.0f, 350.0f, 0.0f), new Vector3(130.0f,
-		// // 350.0f, 0.0f));
-		//
-		// if (twrDropRate == null) {
-		// temp = camera.unproject(DFLT_TOWER_STAT_FIRE_RATE.cpy());
-		// String dropRate = "Drop Rate " + tower.dropRate;
-		// this.twrDropRate = textureManager.makeWord(this.engine, dropRate,
-		// (int) temp.x, (int) temp.y);
-		// }
-		// }
-		// } else {
-		// if (this.twrDropRate != null) {
-		// this.twrDropRate.add(new Doomed());
-		// }
-		// this.twrDropRate = null;
-		// }
+			}
+		} else {
+			if (this.twrDropRate != null) {
+				this.twrDropRate.add(new Doomed());
+			}
+			this.twrDropRate = null;
+			if (this.twrFireSpeed != null) {
+				this.twrFireSpeed.add(new Doomed());
+			}
+			twrFireSpeed = null;
+			if (this.twrRange != null) {
+				this.twrRange.add(new Doomed());
+			}
+			twrRange = null;
+		}
 
-		/**
-		 * Score
-		 */
 		batch.end();
 	}
 
